@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import Home from "./page";
 
 describe("Home", () => {
-  it("renders a heading", () => {
+  it("renders content", () => {
     render(<Home />);
 
     const test = screen.getByText("GraphiQL App");
