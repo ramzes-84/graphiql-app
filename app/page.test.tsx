@@ -6,9 +6,7 @@ describe("Home", () => {
   it("renders a heading", () => {
     render(<Home />);
 
-    const test = screen.getByText(
-      "Instantly deploy your Next.js site to a shareable URL with Vercel."
-    );
+    const test = screen.getByText("GraphiQL App");
 
     expect(test).toBeInTheDocument();
   });
