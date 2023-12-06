@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="">
+    <main className="h-screen">
       <div>GraphiQL App</div>
     </main>
   );
