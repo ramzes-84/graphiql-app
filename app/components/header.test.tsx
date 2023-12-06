@@ -8,9 +8,11 @@ describe("Header", () => {
 
     const mainIcon = screen.getByTitle("welcome page");
     const exitIcon = screen.getByTitle("sign out");
+    const signInIcon = screen.getByTitle("sign in");
 
     expect(mainIcon).toBeInTheDocument();
     expect(exitIcon).toBeInTheDocument();
+    expect(signInIcon).toBeInTheDocument();
   });
   it("changes styles if to have scroll", async () => {
     render(<Header />);

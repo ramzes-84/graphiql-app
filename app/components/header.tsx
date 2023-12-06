@@ -1,6 +1,6 @@
 "use client";
 import { GrGraphQl } from "react-icons/gr";
-import { LiaSignOutAltSolid } from "react-icons/lia";
+import { LiaSignOutAltSolid, LiaSignInAltSolid } from "react-icons/lia";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -37,7 +37,12 @@ export const Header = () => {
               />
             </Link>
           </div>
-          <div className="flex">
+          <div className="flex gap-2">
+            <Link href="/main" className="w-10 h-10" title="sign in">
+              <LiaSignInAltSolid
+                style={{ color: "#f6009c", width: "100%", height: "100%" }}
+              />
+            </Link>
             <Link href="/" className="w-10 h-10" title="sign out">
               <LiaSignOutAltSolid
                 style={{ color: "#f6009c", width: "100%", height: "100%" }}
