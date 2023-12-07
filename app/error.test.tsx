@@ -19,7 +19,7 @@ describe("Error page", () => {
     );
 
     const errorHeader = screen.getByText("It looks like the app is broken...");
-    const toMainBtn = screen.getByText("Main Page");
+    const toMainBtn = screen.getByText("Welcome Page");
     const againBtn = screen.getByText("Try again");
     const notFoundImg = screen.getByAltText("error");
 
@@ -36,7 +36,7 @@ describe("Error page", () => {
         reset={function (): void {}}
       />
     );
-    const toMainBtn = screen.getByText("Main Page");
+    const toMainBtn = screen.getByText("Welcome Page");
 
     expect(toMainBtn.closest("a")).toHaveAttribute("href", "/");
   });

@@ -11,7 +11,7 @@ export default function NotFound() {
       <p>
         Go to
         <Link href="/">
-          <button className={USUAL_BTN}>Main Page</button>
+          <button className={USUAL_BTN}>Welcome Page</button>
         </Link>
       </p>
     </div>
