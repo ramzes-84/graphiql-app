@@ -8,7 +8,7 @@ describe("404 page", () => {
 
     const notFoundHeader = screen.getByText("Not Found");
     const notFoundDesc = screen.getByText("Could not find requested resource");
-    const toMainBtn = screen.getByText("Main Page");
+    const toMainBtn = screen.getByText("Welcome Page");
     const notFoundImg = screen.getByAltText("error");
 
     expect(notFoundHeader).toBeInTheDocument();
