@@ -6,7 +6,7 @@ describe("Home", () => {
   it("renders content", () => {
     render(<Home />);
 
-    const test = screen.getByText("GraphiQL App");
+    const test = screen.getByText("Welcome page");
 
     expect(test).toBeInTheDocument();
   });
