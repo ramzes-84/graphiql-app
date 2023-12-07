@@ -6,7 +6,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "format:fix": "prettier --write --ignore-path .gitignore .",
-    "test online": "jest --watch",
+    "test watch": "jest --watch",
     "test": "jest --coverage",
     "build": "next build",
     "start": "next start",
