@@ -29,7 +29,7 @@ describe("Error page", () => {
     expect(notFoundImg).toBeInTheDocument();
   });
 
-  it("Go-To-Main button should links to main", async () => {
+  it("Go-To-Main button should links to main", () => {
     render(
       <Error
         error={{ digest: "string", name: "name", message: "message" }}
