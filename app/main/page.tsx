@@ -1,7 +1,11 @@
-import React from "react";
+"use client";
+
+import { useDict } from "../utils/useDictHook";
 
 function Page() {
-  return <div>Main page</div>;
+  const dict = useDict();
+
+  return <div>{dict.mainPage}</div>;
 }
 
 export default Page;

@@ -26,19 +26,21 @@ describe("Header", () => {
     );
   });
   it("should take the default lang from Context", () => {
-    const enBtn = screen.getByText("En");
-    const ruBtn = screen.getByText("Ru");
+    const enBtn = screen.getByText("EN");
+    const ruBtn = screen.getByText("RU");
 
     expect((enBtn as HTMLButtonElement).disabled).toEqual(true);
     expect((ruBtn as HTMLButtonElement).disabled).toEqual(false);
   });
 
   it("should change lang on btns click", () => {
-    const ruBtn = screen.getByText("Ru");
+    const ruBtn = screen.getByText("RU");
     act(() => {
       fireEvent.click(ruBtn);
     });
-    expect((ruBtn as HTMLButtonElement).disabled).toEqual(true);
+    const translatedRuBtn = screen.getByText("РУС");
+
+    expect((translatedRuBtn as HTMLButtonElement).disabled).toEqual(true);
   });
 });
 
@@ -48,8 +50,8 @@ describe("Header", () => {
   });
 
   it("renders content", () => {
-    const langEn = screen.getByText("En");
-    const langRu = screen.getByText("Ru");
+    const langEn = screen.getByText("EN");
+    const langRu = screen.getByText("RU");
     const mainIcon = screen.getByTitle("welcome page");
     const exitIcon = screen.getByTitle("sign out");
     const signInIcon = screen.getByTitle("sign in");
@@ -62,6 +64,7 @@ describe("Header", () => {
   });
   it("changes styles if to have scroll", async () => {
     const scrollEvent = new Event("scroll");
+    // TODO: replace test id with something that not leaves the footprints in production build
     const header = screen.getByTestId("header-test");
 
     await waitFor(() => {

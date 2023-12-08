@@ -1,3 +1,7 @@
+"use client";
+import { useDict } from "../utils/useDictHook";
+
 export const Footer = () => {
-  return <div>Footer</div>;
+  const dict = useDict();
+  return <div>{dict.footer}</div>;
 };

@@ -1,0 +1,31 @@
+export const EN = {
+  mainPage: "Main Page",
+  footer: "Footer",
+  en: "EN",
+  ru: "RU",
+  appBroken: "It looks like the app is broken...",
+  errDesc: "Error description: ",
+  youCan: "You can",
+  again: "Try again",
+  orGoTo: "or go to",
+  welcomePage: "Welcome Page",
+  notFound: "Not Found",
+  notFoundDesc: "Could not find requested resource",
+  goTo: "Go to",
+};
+
+export const RU: typeof EN = {
+  mainPage: "Главная страница",
+  footer: "Подвал",
+  en: "АНГ",
+  ru: "РУС",
+  appBroken: "Похоже, приложение сломано...",
+  errDesc: "Описание ошибки: ",
+  youCan: "Вы можете",
+  again: "Попытаться снова",
+  orGoTo: "или перейти к",
+  welcomePage: "О нас",
+  notFound: "Не найдено",
+  notFoundDesc: "Не можем найти запрашиваемый ресурс",
+  goTo: "Перейти на",
+};

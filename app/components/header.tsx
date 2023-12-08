@@ -4,8 +4,10 @@ import { LiaSignOutAltSolid, LiaSignInAltSolid } from "react-icons/lia";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { LangContext, Languages } from "../context/contexts";
+import { useDict } from "../utils/useDictHook";
 
 export const Header = () => {
+  const dict = useDict();
   const [isSticky, setIsSticky] = useState(false);
   const { lang, setLang } = useContext(LangContext);
 
@@ -44,14 +46,14 @@ export const Header = () => {
             onClick={() => setLang(Languages.En)}
             disabled={lang === Languages.En}
           >
-            En
+            {dict.en}
           </button>
           <button
             className="text-[#f6009c]"
             onClick={() => setLang(Languages.Ru)}
             disabled={lang === Languages.Ru}
           >
-            Ru
+            {dict.ru}
           </button>
           <Link href="/main" className="w-10 h-10" title="sign in">
             <LiaSignInAltSolid
