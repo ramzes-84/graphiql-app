@@ -64,8 +64,7 @@ describe("Header", () => {
   });
   it("changes styles if to have scroll", async () => {
     const scrollEvent = new Event("scroll");
-    // TODO: replace test id with something that not leaves the footprints in production build
-    const header = screen.getByTestId("header-test");
+    const header = screen.getByRole("banner");
 
     await waitFor(() => {
       window.scrollY = 10;

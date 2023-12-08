@@ -25,10 +25,7 @@ export const Header = () => {
     : "bg-header py-5";
 
   return (
-    <header
-      className={`${scrollStyle} transition-colors`}
-      data-testid="header-test"
-    >
+    <header className={`${scrollStyle} transition-colors`}>
       <nav
         className="mx-auto flex items-center justify-between px-6 lg:px-8"
         aria-label="Global"
