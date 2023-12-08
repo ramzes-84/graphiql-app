@@ -6,7 +6,7 @@ describe("Footer", () => {
   it("renders content", () => {
     render(<Footer />);
 
-    const footerText = screen.getByText("Footer");
+    const footerText = screen.getByText("@2023");
 
     expect(footerText).toBeInTheDocument();
   });
