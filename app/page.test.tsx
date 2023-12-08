@@ -6,7 +6,7 @@ describe("Home", () => {
   it("renders content", () => {
     render(<Home />);
 
-    const test = screen.getByText("Welcome page");
+    const test = screen.getByText("Welcome Page");
 
     expect(test).toBeInTheDocument();
   });
