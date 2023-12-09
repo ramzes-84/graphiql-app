@@ -52,7 +52,7 @@ export const Header = () => {
           >
             {dict.ru}
           </button>
-          <Link href="/main" className="w-10 h-10" title="sign in">
+          <Link href="/login" className="w-10 h-10" title="sign in">
             <LiaSignInAltSolid
               style={{ color: "#f6009c", width: "100%", height: "100%" }}
             />
