@@ -7,19 +7,20 @@ import { redirect } from "next/navigation";
 
 function Page() {
   const dict = useDict();
-  const session = useSession();
-  if (!session?.data?.user?.name) redirect("/");
+  const { data: session, status } = useSession();
+
+  if (status !== "authenticated") redirect("/");
   return (
     <>
       <div>{dict.mainPage}</div>
-      <div>{session?.data?.user?.name}</div>
+      <div>{session?.user?.name}</div>
       <button
         className={USUAL_BTN}
         onClick={() => {
-          signOut();
+          signOut({ callbackUrl: "/" });
         }}
       >
-        Logout
+        {dict.logout}
       </button>
     </>
   );

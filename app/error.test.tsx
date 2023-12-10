@@ -10,6 +10,8 @@ describe("Error page", () => {
         children
   );
 
+  jest.mock("next-auth");
+
   it("renders content", () => {
     render(
       <Error

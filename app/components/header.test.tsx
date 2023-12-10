@@ -7,22 +7,15 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Header } from "./header";
-import RootLayout from "../layout";
+import { GlobalProvider } from "../context/context-provider";
 
 describe("Header", () => {
-  jest.mock("./footer", () => {
-    return {
-      Footer: jest.fn().mockReturnValue(<div>Test Footer</div>),
-    };
-  });
-  // eslint-disable-next-line no-console
-  console.error = jest.fn();
-
   beforeEach(() => {
     render(
-      <RootLayout>
+      <GlobalProvider>
+        <Header />
         <div>Children</div>
-      </RootLayout>
+      </GlobalProvider>
     );
   });
   it("should take the default lang from Context", () => {

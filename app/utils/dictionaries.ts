@@ -12,6 +12,9 @@ export const EN = {
   notFound: "Not Found",
   notFoundDesc: "Could not find requested resource",
   goTo: "Go to",
+  login: "Sign In",
+  logout: "Sign Out",
+  register: "Sign Up",
 };
 
 export const RU: typeof EN = {
@@ -28,4 +31,7 @@ export const RU: typeof EN = {
   notFound: "Не найдено",
   notFoundDesc: "Не можем найти запрашиваемый ресурс",
   goTo: "Перейти на",
+  login: "Войти",
+  logout: "Выйти",
+  register: "Зарегистрироваться",
 };

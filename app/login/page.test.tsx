@@ -7,23 +7,30 @@ import fetchMock from "jest-fetch-mock";
 const mockRedirect = jest.fn();
 jest.mock("next/navigation", () => ({
   redirect: () => mockRedirect,
+  navigation: jest.fn(),
 }));
+
+export const mockSession = {
+  data: {
+    user: {
+      name: "John Doe",
+    },
+  },
+  expires: new Date(Date.now() + 2 * 86400).toISOString(),
+  status: "authenticated",
+};
+
+beforeEach(() => {
+  fetchMock.mockResponse(JSON.stringify(mockSession));
+
+  jest.mock("next-auth/react", () => ({
+    useSession: () => jest.fn().mockReturnValueOnce(mockSession),
+    signIn: jest.fn(),
+  }));
+});
 
 describe("Page", () => {
   it("renders content", async () => {
-    const mockSession = {
-      user: {
-        name: "John Doe",
-      },
-      expires: new Date(Date.now() + 2 * 86400).toISOString(),
-    };
-    fetchMock.mockResponse(JSON.stringify(mockSession));
-    jest.mock("next-auth/react", () => ({
-      useSession: jest
-        .fn()
-        .mockReturnValueOnce({ data: mockSession, status: "authenticated" }),
-      signOut: jest.fn(),
-    }));
     render(
       <SessionProvider session={mockSession}>
         <Page />
@@ -31,11 +38,9 @@ describe("Page", () => {
     );
 
     await waitFor(() => {
-      const text = screen.getByText("Main Page");
-      const name = screen.getByText("John Doe");
+      const text = screen.getByText("Sign In");
 
       expect(text).toBeInTheDocument();
-      expect(name).toBeInTheDocument();
     });
   });
 });
