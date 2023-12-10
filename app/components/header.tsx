@@ -1,11 +1,15 @@
 "use client";
 import { GrGraphQl } from "react-icons/gr";
 import { LiaSignOutAltSolid, LiaSignInAltSolid } from "react-icons/lia";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import { LangContext, Languages } from "../context/contexts";
+import { useDict } from "../utils/useDictHook";
 
 export const Header = () => {
+  const dict = useDict();
   const [isSticky, setIsSticky] = useState(false);
+  const { lang, setLang } = useContext(LangContext);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -23,7 +27,6 @@ export const Header = () => {
   return (
     <header
       className={`${scrollStyle} transition-colors z-50 shadow-[0_6px_9px_0px_rgba(0,0,0,0.25)]`}
-      data-testid="header-test"
     >
       <nav
         className="mx-auto flex items-center justify-between px-6 lg:px-8"
@@ -37,6 +40,20 @@ export const Header = () => {
           </Link>
         </div>
         <div className="flex gap-2">
+          <button
+            className="text-[#f6009c]"
+            onClick={() => setLang(Languages.En)}
+            disabled={lang === Languages.En}
+          >
+            {dict.en}
+          </button>
+          <button
+            className="text-[#f6009c]"
+            onClick={() => setLang(Languages.Ru)}
+            disabled={lang === Languages.Ru}
+          >
+            {dict.ru}
+          </button>
           <Link href="/main" className="w-10 h-10" title="sign in">
             <LiaSignInAltSolid
               style={{ color: "#f6009c", width: "100%", height: "100%" }}

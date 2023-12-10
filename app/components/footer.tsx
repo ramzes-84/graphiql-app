@@ -1,3 +1,26 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export const Footer = () => {
-  return <div>Footer</div>;
+  return (
+    <footer className="bg-header text-white flex justify-around items-center py-2">
+      <div className="flex gap-2">
+        <Image src={"/github.png"} width={80} height={80} alt={"RS School"} />
+        <div className="flex flex-col">
+          <Link href={"https://github.com/lu7623"}>lu7623</Link>
+          <Link href={"https://github.com/mksenni"}>mksenni</Link>
+          <Link href={"https://github.com/ramzes-84"}>ramzes-84</Link>
+        </div>
+      </div>
+      <div className="text-2xl">@2023</div>
+      <Link href={"https://rs.school/react/"}>
+        <Image
+          src={"https://rs.school/images/rs_school_js.svg"}
+          width={120}
+          height={60}
+          alt={"RS School"}
+        />
+      </Link>
+    </footer>
+  );
 };
