@@ -28,26 +28,25 @@ const Editor = () => {
         backgroundColor: "rgb(240 231 250)",
       },
     });
-    if (editorRef.current && !editorRef.current.firstChild) {
-      const state = EditorState.create({
-        doc: `${dict.defaultTextEditor}`,
-        extensions: [
-          myTheme,
-          bracketMatching(),
-          closeBrackets(),
-          history(),
-          autocompletion(),
-          lineNumbers(),
-          oneDark,
-          syntaxHighlighting(oneDarkHighlightStyle),
-          graphql(),
-        ],
-      });
-      new EditorView({
-        state,
-        parent: editorRef.current!,
-      });
-    }
+    const state = EditorState.create({
+      doc: `${dict.defaultTextEditor}`,
+      extensions: [
+        myTheme,
+        bracketMatching(),
+        closeBrackets(),
+        history(),
+        autocompletion(),
+        lineNumbers(),
+        oneDark,
+        syntaxHighlighting(oneDarkHighlightStyle),
+        graphql(),
+      ],
+    });
+    const myEditor = new EditorView({
+      state,
+      parent: editorRef.current!,
+    });
+    return () => myEditor.destroy();
   }, [dict.defaultTextEditor]);
 
   return <div ref={editorRef} className="h-full w-1/2 flex shadow-xl" />;
