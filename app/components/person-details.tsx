@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useDict } from "../utils/useDictHook";
 
 export type PersonDetailesProps = {
   name: string;
@@ -17,6 +18,8 @@ export default function PersonDetailes({
   description,
   contributions,
 }: PersonDetailesProps) {
+  const dict = useDict();
+
   return (
     <>
       <div className="my-12 mx-8 text-center text-lg">
@@ -27,18 +30,16 @@ export default function PersonDetailes({
         </div>
         <div className="font-serif bg-green-50 -mt-16 p-[70px_30px_30px] rounded-md">
           <h2 className="uppercase">{name}</h2>
-          <span className=" font-bold  text-emerald-900">{role}</span>
+          <span className="font-bold">{role}</span>
           <p className="text-left">{description}</p>
-          <p className="text-left font-bold text-emerald-900">
-            Contributions to eCommerce Application project:
-          </p>
+          <p className="text-left font-bold">{dict.contributionsTitle}</p>
           <ul className="list-disc ml-4 text-left">
             {contributions.map((c) => {
               return <li key={c}>{c}</li>;
             })}
           </ul>
           <div className="flex flex-wrap items-center justify-center gap-1">
-            <span>My GitHub</span>
+            <span>{dict.myGit}</span>
             <a href={githubUrl} target="_blank" rel="noreferrer">
               <Image
                 width={45}

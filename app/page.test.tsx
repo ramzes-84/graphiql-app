@@ -27,7 +27,7 @@ describe("Home component:", () => {
     const person = screen.getByAltText("Lyubov Agulova");
     fireEvent.click(person);
     const text = screen.getByText(
-      "Contributions to eCommerce Application project:"
+      "Contributions to GraphiQL Application project:"
     );
 
     expect(text).toBeInTheDocument();
