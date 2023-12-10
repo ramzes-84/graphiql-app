@@ -1,7 +1,6 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
-import { USUAL_BTN } from "../styles/uni-classes";
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useDict } from "../utils/useDictHook";
 import { useState } from "react";
@@ -17,14 +16,6 @@ function Page() {
     <>
       <div className="flex flex-col items-center">
         {isRegistrated ? <Signin /> : <Signup />}
-        <button
-          className={USUAL_BTN}
-          onClick={() => {
-            signIn("google", { callbackUrl: "/main" });
-          }}
-        >
-          {dict.loginWithGoogle}
-        </button>
         <div>{isRegistrated ? dict.notHaveAnAccount : dict.haveAnAccount}</div>
         <button
           className=" font-bold text-blue-500 ml-3"
