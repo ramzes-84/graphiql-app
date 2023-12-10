@@ -28,7 +28,11 @@ const config: Config = {
     "!**/jest.setup.ts",
     "!**/tailwind.config.ts",
   ],
-  transformIgnorePatterns: ["node_modules/(?!vscode-languageserver-types)"],
+  transformIgnorePatterns: [
+    "node_modules/(?!@codemirror)",
+    "node_modules/(?!@cm6-graphql)",
+    "node_modules/(?!codemirror)",
+  ],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
