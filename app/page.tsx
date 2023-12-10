@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
-import { USUAL_BTN } from "./styles/uni-classes";
+import Image from "next/image";
+
+import { H1, USUAL_BTN } from "./styles/uni-classes";
 import { useDict } from "./utils/useDictHook";
 import { useState } from "react";
 import PersonCard from "./components/person-card";
@@ -16,11 +18,9 @@ export default function Home() {
   };
 
   return (
-    <main className="sm:mx-10">
-      <h1 className="text-center uppercase text-2xl my-5 font-bold ">
-        {dict.welcomePage}
-      </h1>
-      <div className="flex flex-col justify-evenly xl:flex-row items-center xl:columns-3 py-3">
+    <main className="flex flex-col items-center sm:mx-10">
+      <h1 className={H1}>{dict.welcomePage}</h1>
+      <div className="flex flex-col xl:flex-row xl:columns-3 gap-x-4 py-3">
         {dict.persons.map((person, index) => (
           <PersonCard
             key={index}
@@ -62,6 +62,18 @@ export default function Home() {
           />
         </BigPopup>
       )}
+
+      <p className="flex gap-x-4 items-center">
+        <Link href={"https://rs.school/react/"} className="inline-block">
+          <Image
+            src={"https://rs.school/images/rs_school_js.svg"}
+            width={120}
+            height={60}
+            alt={"RS School"}
+          />
+        </Link>
+        <span className={H1}>React Course</span>
+      </p>
 
       <Link href="/main" className={USUAL_BTN}>
         {dict.mainPage}
