@@ -22,7 +22,7 @@ export const Header = () => {
 
   return (
     <header
-      className={`${scrollStyle} transition-colors`}
+      className={`${scrollStyle} transition-colors z-50 shadow-[0_6px_9px_0px_rgba(0,0,0,0.25)]`}
       data-testid="header-test"
     >
       <nav
