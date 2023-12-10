@@ -5,8 +5,8 @@ import { USUAL_BTN } from "../styles/uni-classes";
 import { redirect } from "next/navigation";
 import { useDict } from "../utils/useDictHook";
 import { useState } from "react";
-import Signin from "../components/signin";
-import Signup from "../components/signup";
+import { Signin } from "../components/signin";
+import { Signup } from "../components/signup";
 
 function Page() {
   const { status } = useSession();
@@ -25,12 +25,12 @@ function Page() {
         >
           {dict.loginWithGoogle}
         </button>
-        <div>{dict.haveAnAccount}</div>
+        <div>{isRegistrated ? dict.notHaveAnAccount : dict.haveAnAccount}</div>
         <button
           className=" font-bold text-blue-500 ml-3"
-          onClick={() => setIsRegistrated(false)}
+          onClick={() => setIsRegistrated(!isRegistrated)}
         >
-          {dict.register}
+          {isRegistrated ? dict.register : dict.login}
         </button>
       </div>
     </>

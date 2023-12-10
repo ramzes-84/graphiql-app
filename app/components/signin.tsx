@@ -2,15 +2,17 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { USUAL_BTN } from "../styles/uni-classes";
+import { useDict } from "../utils/useDictHook";
 
-export default function Signin() {
+export const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dict = useDict();
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 w-1/4">
+      <div className="flex min-h-full flex-1 flex-col gap-5 justify-center px-6 py-12 lg:px-8 w-1/4">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
-          Sign in to your account
+          {dict.loginTitle}
         </h2>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -20,7 +22,7 @@ export default function Signin() {
                 htmlFor="email"
                 className="block text-sm font-medium leading-6 "
               >
-                Email address
+                {dict.emailField}
               </label>
               <div className="mt-2">
                 <input
@@ -41,7 +43,7 @@ export default function Signin() {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 "
                 >
-                  Password
+                  {dict.passwordField}
                 </label>
               </div>
               <div className="mt-2">
@@ -70,7 +72,7 @@ export default function Signin() {
                 disabled={!email || !password}
                 className={USUAL_BTN}
               >
-                Sign in
+                {dict.login}
               </button>
             </div>
           </div>
@@ -78,4 +80,4 @@ export default function Signin() {
       </div>
     </>
   );
-}
+};

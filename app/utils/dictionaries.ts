@@ -17,7 +17,11 @@ export const EN = {
   register: "Sign Up",
   loginWithGoogle: "Sign In With Google",
   registerWithGoogle: "Sign Up With Google",
-  haveAnAccount: "Do not have an account?",
+  notHaveAnAccount: "Do not have an account?",
+  haveAnAccount: "Already have an account?",
+  loginTitle: "Sign in to your account",
+  emailField: "Email address",
+  passwordField: "Password",
 };
 
 export const RU: typeof EN = {
@@ -39,5 +43,9 @@ export const RU: typeof EN = {
   register: "Регистрация",
   loginWithGoogle: "Войти с Google",
   registerWithGoogle: "Регистрация с Google",
-  haveAnAccount: "Еще нет аккаунта?",
+  notHaveAnAccount: "Еще нет аккаунта?",
+  loginTitle: "Войти в аккаунт",
+  passwordField: "Пароль",
+  emailField: "Емайл адрес",
+  haveAnAccount: "Уже зарегистрированы?",
 };

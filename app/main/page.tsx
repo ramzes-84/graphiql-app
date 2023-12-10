@@ -3,22 +3,21 @@
 import { USUAL_BTN } from "../styles/uni-classes";
 import { useDict } from "../utils/useDictHook";
 import { signOut, useSession } from "next-auth/react";
-import { db } from "../firebase";
-import { collection, query } from "firebase/firestore";
-import { useCollection } from "react-firebase-hooks/firestore";
+import { redirect } from "next/navigation";
 
-export const Page = () => {
+const Page = () => {
   const dict = useDict();
-  const { data: session, status } = useSession();
-  const [users] = useCollection(query(collection(db, "users")));
+  const session = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/login");
+    },
+  });
   return (
     <>
       <div>{dict.mainPage}</div>
-      <ul>
-        {users &&
-          users.docs.map((x) => <li key={x.data().name}>{x.data().email}</li>)}
-      </ul>
-      <div>{status + session?.user?.email}</div>
+
+      <div>{session?.data?.user?.email}</div>
       <button
         className={USUAL_BTN}
         onClick={() => {
