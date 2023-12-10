@@ -15,6 +15,9 @@ export const EN = {
   login: "Sign In",
   logout: "Sign Out",
   register: "Sign Up",
+  loginWithGoogle: "Sign In With Google",
+  registerWithGoogle: "Sign Up With Google",
+  haveAnAccount: "Do not have an account?",
 };
 
 export const RU: typeof EN = {
@@ -33,5 +36,8 @@ export const RU: typeof EN = {
   goTo: "Перейти на",
   login: "Войти",
   logout: "Выйти",
-  register: "Зарегистрироваться",
+  register: "Регистрация",
+  loginWithGoogle: "Войти с Google",
+  registerWithGoogle: "Регистрация с Google",
+  haveAnAccount: "Еще нет аккаунта?",
 };
