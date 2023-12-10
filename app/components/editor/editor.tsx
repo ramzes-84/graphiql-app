@@ -8,10 +8,11 @@ import { bracketMatching, syntaxHighlighting } from "@codemirror/language";
 import { oneDarkHighlightStyle, oneDark } from "@codemirror/theme-one-dark";
 import { EditorState } from "@codemirror/state";
 import { graphql } from "cm6-graphql";
-import { defaultTextEditor } from "@/app/constants/constants";
+import { useDict } from "@/app/utils/useDictHook";
 
 const Editor = () => {
   const editorRef = useRef<HTMLDivElement>(null);
+  const dict = useDict();
 
   useEffect(() => {
     const myTheme = EditorView.theme({
@@ -29,7 +30,7 @@ const Editor = () => {
     });
     if (editorRef.current && !editorRef.current.firstChild) {
       const state = EditorState.create({
-        doc: defaultTextEditor,
+        doc: `${dict.defaultTextEditor}`,
         extensions: [
           myTheme,
           bracketMatching(),
@@ -47,7 +48,7 @@ const Editor = () => {
         parent: editorRef.current!,
       });
     }
-  }, []);
+  }, [dict.defaultTextEditor]);
 
   return <div ref={editorRef} className="h-full w-1/2 flex shadow-xl" />;
 };
