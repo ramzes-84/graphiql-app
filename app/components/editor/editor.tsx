@@ -17,7 +17,6 @@ const Editor = () => {
   useEffect(() => {
     const myTheme = EditorView.theme({
       "&": {
-        height: "100%",
         width: "100%",
         backgroundColor: "rgb(245 239 251)",
         display: "flex",
