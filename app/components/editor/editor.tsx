@@ -18,6 +18,7 @@ const Editor = () => {
     const myTheme = EditorView.theme({
       "&": {
         width: "100%",
+        height: "100%",
         backgroundColor: "rgb(245 239 251)",
         display: "flex",
       },
