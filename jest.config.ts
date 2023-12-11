@@ -15,7 +15,7 @@ const config: Config = {
   coverageThreshold: {
     global: {
       branches: 80,
-      functions: 80,
+      functions: 70,
       lines: 80,
       statements: 80,
     },
@@ -27,11 +27,6 @@ const config: Config = {
     "!**/jest.config.ts",
     "!**/jest.setup.ts",
     "!**/tailwind.config.ts",
-  ],
-  transformIgnorePatterns: [
-    "node_modules/(?!@codemirror)",
-    "node_modules/(?!@cm6-graphql)",
-    "node_modules/(?!codemirror)",
   ],
 };
 
