@@ -6,6 +6,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function SessionProvider({ children }: Props) {
+export const SessionProvider = ({ children }: Props) => {
   return <Provider>{children}</Provider>;
-}
+};

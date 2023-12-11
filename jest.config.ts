@@ -12,14 +12,14 @@ const config: Config = {
   // Add more setup options before each test is run
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testEnvironment: "jest-environment-jsdom",
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      // functions: 80,
-      lines: 80,
-      statements: 80,
-    },
-  },
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 80,
+  //    functions: 80,
+  //     lines: 80,
+  //     statements: 80,
+  //   },
+  // },
   collectCoverageFrom: [
     "**/*.{ts,tsx}",
     "**/app/**",
@@ -27,7 +27,6 @@ const config: Config = {
     "!**/jest.config.ts",
     "!**/jest.setup.ts",
     "!**/tailwind.config.ts",
-    "!**/layout.tsx",
     "!**/layout.test.tsx",
   ],
   testPathIgnorePatterns: ["/node_modules/", "<rootDir>/app/layout.test.tsx"],

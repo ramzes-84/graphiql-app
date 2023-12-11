@@ -1,22 +1,28 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { GlobalProvider } from "../context/context-provider";
-import { Signin } from "./signin";
+import { Form } from "./form";
 
 describe("Sign in form", () => {
   beforeEach(() => {
     render(
       <GlobalProvider>
-        <Signin />
+        <Form
+          name="Sign in"
+          callback={() => {}}
+          title="Sign in to your account"
+        />
       </GlobalProvider>
     );
   });
-  it("should trender component", () => {
-    const btn = screen.getByText("Sign In");
+  it("should render component", () => {
+    const btn = screen.getByRole("button");
     const email = screen.getByText("Email address");
+    const password = screen.getByText("Password");
 
     expect(btn).toBeInTheDocument();
     expect(btn).toBeDisabled();
     expect(email).toBeInTheDocument();
+    expect(password).toBeInTheDocument();
   });
 });

@@ -4,7 +4,7 @@ import "./globals.css";
 import { Header } from "./components/header";
 import { Footer } from "./components/footer";
 import { GlobalProvider } from "./context/context-provider";
-import SessionProvider from "./SessionProvider";
+import { SessionProvider } from "./SessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,17 +18,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  //const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GlobalProvider>
-          <SessionProvider>
+        <SessionProvider>
+          <GlobalProvider>
             <Header />
             {children}
             <Footer />
-          </SessionProvider>
-        </GlobalProvider>
+          </GlobalProvider>
+        </SessionProvider>
       </body>
     </html>
   );

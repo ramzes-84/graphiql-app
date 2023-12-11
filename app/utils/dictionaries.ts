@@ -20,8 +20,16 @@ export const EN = {
   notHaveAnAccount: "Do not have an account?",
   haveAnAccount: "Already have an account?",
   loginTitle: "Sign in to your account",
+  signupTitle: "Registration",
   emailField: "Email address",
   passwordField: "Password",
+  emailWrong: "Incorrect email address",
+  emailRequired: "Please enter email address",
+  passwordRequired: "Please enter your password",
+  passwordWrong: "Your password must have at least 1 ",
+  letter: "letter",
+  specialCharacter: "special character",
+  digit: "digit",
 };
 
 export const RU: typeof EN = {
@@ -40,7 +48,7 @@ export const RU: typeof EN = {
   goTo: "Перейти на",
   login: "Войти",
   logout: "Выйти",
-  register: "Регистрация",
+  register: "Зарегистрироваться",
   loginWithGoogle: "Войти с Google",
   registerWithGoogle: "Регистрация с Google",
   notHaveAnAccount: "Еще нет аккаунта?",
@@ -48,4 +56,12 @@ export const RU: typeof EN = {
   passwordField: "Пароль",
   emailField: "Емайл адрес",
   haveAnAccount: "Уже зарегистрированы?",
+  emailWrong: "Неверный емайл",
+  emailRequired: "Пожалуйста, введите емайл",
+  passwordRequired: "Пожалуйста, введите пароль",
+  passwordWrong: "Ваш пароль должен содержать как минимум 1 ",
+  letter: "букву",
+  specialCharacter: "специальный символ",
+  digit: "цифру",
+  signupTitle: "Регистрация",
 };

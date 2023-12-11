@@ -7,17 +7,13 @@ import { redirect } from "next/navigation";
 
 const Page = () => {
   const dict = useDict();
-  const session = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect("/login");
-    },
-  });
+  const { data, status } = useSession();
+  if (status === "unauthenticated") redirect("/");
   return (
     <>
       <div>{dict.mainPage}</div>
 
-      <div>{session?.data?.user?.email}</div>
+      <div>{data?.user?.email}</div>
       <button
         className={USUAL_BTN}
         onClick={() => {
