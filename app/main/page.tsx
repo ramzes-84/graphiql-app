@@ -1,6 +1,5 @@
 "use client";
 import Editor from "../components/editor/editor";
-
 import { H1 } from "../styles/uni-classes";
 import { useDict } from "../utils/useDictHook";
 

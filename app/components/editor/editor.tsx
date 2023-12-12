@@ -1,55 +1,46 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { EditorView, lineNumbers } from "@codemirror/view";
-import { history } from "@codemirror/commands";
-import { autocompletion, closeBrackets } from "@codemirror/autocomplete";
-import { bracketMatching, syntaxHighlighting } from "@codemirror/language";
-import { oneDarkHighlightStyle, oneDark } from "@codemirror/theme-one-dark";
-import { EditorState } from "@codemirror/state";
-import { graphql } from "cm6-graphql";
+import React, { useCallback, useEffect, useState } from "react";
+import { GiComb } from "react-icons/gi";
 import { useDict } from "@/app/utils/useDictHook";
+import dynamic from "next/dynamic";
+import { formatCode } from "@/app/utils/formateCode";
+const Codemirror = dynamic(() => import("./Codemirror"), { ssr: false });
 
 const Editor = () => {
-  const editorRef = useRef<HTMLDivElement>(null);
   const dict = useDict();
+  const [text, setText] = useState(dict.defaultTextEditor);
 
   useEffect(() => {
-    const myTheme = EditorView.theme({
-      "&": {
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgb(245 239 251)",
-        display: "flex",
-      },
-      ".cm-scroller": { overflow: "auto" },
-      ".cm-content, .cm-gutter": { minHeight: "200px", width: "100%" },
-      ".cm-gutters": {
-        backgroundColor: "rgb(240 231 250)",
-      },
-    });
-    const state = EditorState.create({
-      doc: `${dict.defaultTextEditor}`,
-      extensions: [
-        myTheme,
-        bracketMatching(),
-        closeBrackets(),
-        history(),
-        autocompletion(),
-        lineNumbers(),
-        oneDark,
-        syntaxHighlighting(oneDarkHighlightStyle),
-        graphql(),
-      ],
-    });
-    const myEditor = new EditorView({
-      state,
-      parent: editorRef.current!,
-    });
-    return () => myEditor.destroy();
+    setText(dict.defaultTextEditor);
   }, [dict.defaultTextEditor]);
 
-  return <div ref={editorRef} className="h-full w-1/2 flex shadow-xl" />;
+  const handleChange = useCallback((newText: string) => {
+    setText(newText);
+  }, []);
+
+  const handleCorrectBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (event && text) {
+      const correctQuery = formatCode(text);
+      setText(correctQuery);
+    }
+  };
+
+  return (
+    <>
+      <Codemirror value={text} onChange={handleChange} />
+      <div className="w-10 h-10">
+        <button
+          type="button"
+          className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
+          onClick={handleCorrectBtn}
+          title="formate code"
+        >
+          <GiComb style={{ color: "#f6009c", width: "100%", height: "100%" }} />
+        </button>
+      </div>
+    </>
+  );
 };
 
 export default Editor;
