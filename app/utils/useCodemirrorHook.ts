@@ -35,7 +35,6 @@ export const useCodemirrorHook = <ElementType extends Element>(
       oneDarkHighlightStyle,
       oneDark,
     } = require("@codemirror/theme-one-dark");
-    const { graphql } = require("cm6-graphql");
 
     const myTheme = EditorView.theme({
       "&": {
@@ -57,7 +56,6 @@ export const useCodemirrorHook = <ElementType extends Element>(
         syntaxHighlighting(oneDarkHighlightStyle),
         history(),
         lineNumbers(),
-        graphql(),
         bracketMatching(),
         autocompletion(),
         closeBrackets(),
