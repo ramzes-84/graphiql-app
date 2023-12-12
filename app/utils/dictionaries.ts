@@ -30,6 +30,10 @@ export const EN = {
   letter: "letter",
   specialCharacter: "special character",
   digit: "digit",
+  userNotFound: "Invalid e-mail address or password ",
+  alreadyExist: "User with this email already exists",
+  minLength: "Your password must be 8 or more characters",
+  networkFailed: "Network failed",
 };
 
 export const RU: typeof EN = {
@@ -64,4 +68,8 @@ export const RU: typeof EN = {
   specialCharacter: "специальный символ",
   digit: "цифру",
   signupTitle: "Регистрация",
+  userNotFound: "Неверно указан адрес эл. почты или пароль. ",
+  alreadyExist: "Пользователь с такими данными уже существует",
+  minLength: "Пароль должен быть минимум 8 символов",
+  networkFailed: "Ошибка сети",
 };

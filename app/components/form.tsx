@@ -25,7 +25,10 @@ export const Form = ({
     return `${dict.passwordWrong} ${str}`;
   };
   const schema = yup.object().shape({
-    email: yup.string().email(dict.emailWrong).required(dict.emailRequired),
+    email: yup
+      .string()
+      .required(dict.emailRequired)
+      .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, dict.emailWrong),
     password: yup
       .string()
       .required(dict.passwordRequired)
@@ -34,7 +37,8 @@ export const Form = ({
         /[A-Za-z\^\u0000-\u007F]/,
         getCharacterValidationError(dict.letter)
       )
-      .matches(/[\W|_/g]/, getCharacterValidationError(dict.specialCharacter)),
+      .matches(/[\W|_/g]/, getCharacterValidationError(dict.specialCharacter))
+      .min(8, dict.minLength),
   });
   const {
     register,
@@ -64,16 +68,19 @@ export const Form = ({
               <div className="mt-2">
                 <input
                   id="email"
+                  defaultValue=""
                   {...register("email")}
                   type="text"
                   autoComplete="email"
                   className="block w-full rounded-md border-0  py-1.5  shadow-sm  sm:text-sm sm:leading-6"
                 />
-                {errors.email && (
-                  <p className=" text-red-700 text-xs">
-                    {errors.email.message}
-                  </p>
-                )}
+                <div className=" h-5">
+                  {errors.email && (
+                    <p className=" text-xs text-[#f6009c]">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -89,15 +96,18 @@ export const Form = ({
               <div className="mt-2">
                 <input
                   id="password"
+                  defaultValue=""
                   {...register("password")}
                   type="text"
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm  sm:text-sm sm:leading-6"
                 />
-                {errors.password && (
-                  <p className=" text-red-700 text-xs">
-                    {errors.password.message}
-                  </p>
-                )}
+                <div className=" h-5">
+                  {errors.password && (
+                    <p className=" text-xs text-[#f6009c]">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
