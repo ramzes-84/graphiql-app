@@ -28,6 +28,7 @@ const config: Config = {
     "!**/jest.setup.ts",
     "!**/tailwind.config.ts",
     "!**/api/**",
+    "!**/firebase.ts",
   ],
   testPathIgnorePatterns: ["/node_modules/"],
 };

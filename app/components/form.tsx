@@ -51,7 +51,7 @@ export const Form = ({
   });
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col gap-5 justify-center px-6 py-12 lg:px-8 w-1/4">
+      <div className="flex flex-col gap-5 justify-center px-6 py-5 lg:px-8 w-1/4">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
           {title}
         </h2>

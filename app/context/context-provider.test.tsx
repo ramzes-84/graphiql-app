@@ -2,6 +2,28 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { GlobalProvider } from "./context-provider";
 import Home from "../page";
 import { Header } from "../components/header";
+import { SessionProvider } from "next-auth/react";
+
+const mockRedirect = jest.fn();
+jest.mock("next/navigation", () => ({
+  redirect: () => mockRedirect,
+  navigation: jest.fn(),
+}));
+
+export const mockSession = {
+  data: null,
+  expires: new Date(Date.now() + 2 * 86400).toISOString(),
+  status: "authenticated",
+};
+
+beforeEach(() => {
+  fetchMock.mockResponse(JSON.stringify(mockSession));
+
+  jest.mock("next-auth/react", () => ({
+    useSession: () => jest.fn().mockReturnValueOnce(mockSession),
+    signIn: jest.fn(),
+  }));
+});
 
 export class LocalStorageMock {
   store: { [key: string]: string };
@@ -38,9 +60,11 @@ describe("Provide lang from local storage", () => {
   it("should render ru", () => {
     localStorage.setItem("language", "ru");
     render(
-      <GlobalProvider>
-        <Home />
-      </GlobalProvider>
+      <SessionProvider>
+        <GlobalProvider>
+          <Home />
+        </GlobalProvider>
+      </SessionProvider>
     );
 
     const title = screen.getByText("Главная страница");
@@ -50,9 +74,11 @@ describe("Provide lang from local storage", () => {
   it("should save lang to localstorage ", async () => {
     localStorage.setItem("language", "en");
     render(
-      <GlobalProvider>
-        <Header />
-      </GlobalProvider>
+      <SessionProvider>
+        <GlobalProvider>
+          <Header />
+        </GlobalProvider>
+      </SessionProvider>
     );
 
     const btn = screen.getByText("RU");
@@ -64,9 +90,11 @@ describe("Provide lang from local storage", () => {
   it("should save lang to localstorage ", async () => {
     localStorage.setItem("language", "ru");
     render(
-      <GlobalProvider>
-        <Header />
-      </GlobalProvider>
+      <SessionProvider>
+        <GlobalProvider>
+          <Header />
+        </GlobalProvider>
+      </SessionProvider>
     );
 
     const btn = screen.getByText("АНГ");

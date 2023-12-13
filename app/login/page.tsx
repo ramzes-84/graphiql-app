@@ -8,8 +8,9 @@ import { Form, IFormInput } from "../components/form";
 import { SubmitHandler } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+
 import { MdErrorOutline } from "react-icons/md";
+import { auth } from "@/firebase";
 
 const Page = () => {
   const { status } = useSession();
@@ -58,7 +59,7 @@ const Page = () => {
   };
   return (
     <>
-      <div className="flex flex-col items-center min-h-screen">
+      <div className="flex flex-col items-center min-h-screen justify-start">
         {error.length > 0 && (
           <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
             <MdErrorOutline /> <span>{error}</span> <MdErrorOutline />

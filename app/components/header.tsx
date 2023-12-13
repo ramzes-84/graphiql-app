@@ -5,12 +5,13 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { LangContext, Languages } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export const Header = () => {
   const dict = useDict();
   const [isSticky, setIsSticky] = useState(false);
   const { lang, setLang } = useContext(LangContext);
+  const { status } = useSession();
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -67,10 +68,11 @@ export const Header = () => {
             />
           </Link>
           <button
+            disabled={status === "unauthenticated"}
             onClick={() => {
               signOut({ callbackUrl: "/" });
             }}
-            className="w-10 h-10"
+            className="w-10 h-10 disabled:opacity-40"
             title="sign out"
           >
             <LiaSignOutAltSolid
