@@ -106,6 +106,7 @@ describe("Page", () => {
       await userEvent.type(email, "111@test.com");
       await userEvent.type(password, "Pass111)");
       expect(submit).not.toBeDisabled();
+      fireEvent.click(submit);
     });
   });
 });

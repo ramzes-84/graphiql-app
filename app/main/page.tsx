@@ -9,6 +9,7 @@ const Page = () => {
   const dict = useDict();
   const { data, status } = useSession();
   if (status === "unauthenticated") redirect("/");
+
   return (
     <>
       <div>{dict.mainPage}</div>

@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { LangContext, Languages } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
+import { signOut } from "next-auth/react";
 
 export const Header = () => {
   const dict = useDict();
@@ -40,14 +41,20 @@ export const Header = () => {
         <div className="flex gap-2">
           <button
             className="text-[#f6009c]"
-            onClick={() => setLang(Languages.En)}
+            onClick={() => {
+              setLang(Languages.En);
+              localStorage.setItem("language", Languages.En);
+            }}
             disabled={lang === Languages.En}
           >
             {dict.en}
           </button>
           <button
             className="text-[#f6009c]"
-            onClick={() => setLang(Languages.Ru)}
+            onClick={() => {
+              setLang(Languages.Ru);
+              localStorage.setItem("language", Languages.Ru);
+            }}
             disabled={lang === Languages.Ru}
           >
             {dict.ru}
@@ -57,11 +64,17 @@ export const Header = () => {
               style={{ color: "#f6009c", width: "100%", height: "100%" }}
             />
           </Link>
-          <Link href="/" className="w-10 h-10" title="sign out">
+          <button
+            onClick={() => {
+              signOut({ callbackUrl: "/" });
+            }}
+            className="w-10 h-10"
+            title="sign out"
+          >
             <LiaSignOutAltSolid
               style={{ color: "#f6009c", width: "100%", height: "100%" }}
             />
-          </Link>
+          </button>
         </div>
       </nav>
     </header>
