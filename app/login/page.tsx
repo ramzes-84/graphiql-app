@@ -58,7 +58,7 @@ const Page = () => {
   };
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center min-h-screen">
         {error.length > 0 && (
           <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
             <MdErrorOutline /> <span>{error}</span> <MdErrorOutline />
@@ -75,7 +75,7 @@ const Page = () => {
         )}
         <div>{isRegistrated ? dict.notHaveAnAccount : dict.haveAnAccount}</div>
         <button
-          className=" font-bold text-blue-500 ml-3"
+          className=" font-bold text-blue-500 ml-3 mb-10"
           onClick={() => {
             setIsRegistrated(!isRegistrated);
             setError("");

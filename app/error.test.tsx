@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Error from "./error";
 
@@ -41,5 +41,18 @@ describe("Error page", () => {
     const toMainBtn = screen.getByText("Welcome Page");
 
     expect(toMainBtn.closest("a")).toHaveAttribute("href", "/");
+  });
+  it("Reset on click Again", () => {
+    const mockreset = jest.fn();
+    render(
+      <Error
+        error={{ digest: "string", name: "name", message: "message" }}
+        reset={mockreset}
+      />
+    );
+    const again = screen.getByText("Try again");
+    fireEvent.click(again);
+
+    expect(mockreset).toHaveBeenCalled();
   });
 });

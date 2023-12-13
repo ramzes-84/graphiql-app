@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Loading() {
   return (
-    <main className="w-full flex justify-center">
+    <main className="w-full flex justify-center min-h-screen">
       <Image
         src="/spinner.gif"
         width={200}

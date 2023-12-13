@@ -3,7 +3,6 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
 import { SessionProvider } from "../SessionProvider";
 import fetchMock from "jest-fetch-mock";
-import userEvent from "@testing-library/user-event";
 
 const mockResponse = jest.fn();
 Object.defineProperty(window, "location", {
@@ -24,13 +23,9 @@ jest.mock("next/navigation", () => ({
 }));
 
 export const mockSession = {
-  data: {
-    user: {
-      name: "John Doe",
-    },
-  },
+  data: null,
   expires: new Date(Date.now() + 2 * 86400).toISOString(),
-  status: "authenticated",
+  status: "unauthenticated",
 };
 
 beforeEach(() => {
@@ -83,8 +78,8 @@ describe("Page", () => {
     const email = screen.getByRole("textbox", { name: /email/i });
     const password = screen.getByRole("textbox", { name: /password/i });
     const btn = screen.getByText("Sign In");
-    await userEvent.type(email, "111@test.com");
-    await userEvent.type(password, "Pass111)");
+    fireEvent.change(email, { target: { value: "111@test.com" } });
+    fireEvent.change(password, { target: { value: "Pass111)" } });
     await waitFor(() => {
       expect(btn).not.toBeDisabled();
       fireEvent.click(btn);
@@ -103,10 +98,10 @@ describe("Page", () => {
       const email = screen.getByRole("textbox", { name: /email/i });
       const password = screen.getByRole("textbox", { name: /password/i });
       const submit = screen.getByText("Sign Up");
-      await userEvent.type(email, "111@test.com");
-      await userEvent.type(password, "Pass111)");
-      expect(submit).not.toBeDisabled();
-      fireEvent.click(submit);
+      fireEvent.change(email, { target: { value: "fail" } });
+      fireEvent.change(password, { target: { value: "Pass111)" } });
+      expect(submit).toBeDisabled();
+      expect(screen.getByText("Incorrect email address")).toBeInTheDocument();
     });
   });
 });
