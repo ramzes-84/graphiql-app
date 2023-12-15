@@ -7,25 +7,39 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Header } from "./header";
-import RootLayout from "../layout";
+import { GlobalProvider } from "../context/context-provider";
+import { SessionProvider } from "../SessionProvider";
 
+const mockRedirect = jest.fn();
+jest.mock("next/navigation", () => ({
+  redirect: () => mockRedirect,
+  navigation: jest.fn(),
+}));
+
+export const mockSession = {
+  data: null,
+  expires: new Date(Date.now() + 2 * 86400).toISOString(),
+  status: "authenticated",
+};
+
+beforeEach(() => {
+  fetchMock.mockResponse(JSON.stringify(mockSession));
+
+  jest.mock("next-auth/react", () => ({
+    useSession: () => jest.fn().mockReturnValueOnce(mockSession),
+    signIn: jest.fn(),
+  }));
+});
 describe("Header", () => {
-  jest.mock("./footer", () => {
-    return {
-      Footer: jest.fn().mockReturnValue(<div>Test Footer</div>),
-    };
-  });
-  // eslint-disable-next-line no-console
-  console.error = jest.fn();
-
-  beforeEach(() => {
-    render(
-      <RootLayout>
-        <div>Children</div>
-      </RootLayout>
-    );
-  });
   it("should take the default lang from Context", () => {
+    render(
+      <SessionProvider>
+        <GlobalProvider>
+          <Header />
+          <div>Children</div>
+        </GlobalProvider>
+      </SessionProvider>
+    );
     const enBtn = screen.getByText("EN");
     const ruBtn = screen.getByText("RU");
 
@@ -34,6 +48,14 @@ describe("Header", () => {
   });
 
   it("should change lang on btns click", () => {
+    render(
+      <SessionProvider>
+        <GlobalProvider>
+          <Header />
+          <div>Children</div>
+        </GlobalProvider>
+      </SessionProvider>
+    );
     const ruBtn = screen.getByText("RU");
     act(() => {
       fireEvent.click(ruBtn);
@@ -46,7 +68,11 @@ describe("Header", () => {
 
 describe("Header", () => {
   beforeEach(() => {
-    render(<Header />);
+    render(
+      <SessionProvider>
+        <Header />
+      </SessionProvider>
+    );
   });
 
   it("renders content", () => {
