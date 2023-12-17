@@ -1,11 +1,37 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { type DefaultSession } from "next-auth";
 
-export const authOptions = {
+type UserWithTokenExpiry = {
+  token_expiry?: string;
+} & DefaultSession["user"];
+
+declare module "next-auth" {
+  interface Session {
+    user: UserWithTokenExpiry;
+  }
+}
+export const authOptions: AuthOptions = {
   pages: {
     signIn: "/login",
+  },
+  session: {
+    maxAge: 60,
+  },
+  callbacks: {
+    async session({ session, token }) {
+      session.user = token;
+      if (!session.user.token_expiry) {
+        // set custom expiration time in ms
+        const exp = new Date(
+          new Date().getTime() + 30 * 60 * 1000
+        ).toISOString();
+        session.user.token_expiry = exp;
+      }
+      return session;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
