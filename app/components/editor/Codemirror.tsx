@@ -19,7 +19,13 @@ const Codemirror = (props: CodemirrorProps) => {
     onChange: !!onChange ? handleChange : undefined,
   });
 
-  return <div className="h-full w-1/2 flex shadow-xl" ref={ref}></div>;
+  return (
+    <div
+      className="h-full w-1/2 flex shadow-xl"
+      ref={ref}
+      data-testid="codemirror"
+    ></div>
+  );
 };
 
 export default Codemirror;
