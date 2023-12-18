@@ -52,23 +52,7 @@ describe("Page", () => {
       expect(title).toBeInTheDocument();
     });
   });
-  it("switches from signin to signup form", async () => {
-    render(
-      <SessionProvider>
-        <Page />
-      </SessionProvider>
-    );
-    const title = screen.getByText("Sign in to your account");
-    const btn = screen.getByText("Sign Up");
-    fireEvent.click(btn);
 
-    await waitFor(() => {
-      const text2 = screen.getByText("Already have an account?");
-
-      expect(text2).toBeInTheDocument();
-      expect(title).toHaveTextContent("Registration");
-    });
-  });
   it("Validate sign in form", async () => {
     render(
       <SessionProvider>
@@ -83,25 +67,6 @@ describe("Page", () => {
     await waitFor(() => {
       expect(btn).not.toBeDisabled();
       fireEvent.click(btn);
-    });
-  });
-  it("Validate sign up form", async () => {
-    render(
-      <SessionProvider>
-        <Page />
-      </SessionProvider>
-    );
-    const btn = screen.getByText("Sign Up");
-    fireEvent.click(btn);
-
-    await waitFor(async () => {
-      const email = screen.getByRole("textbox", { name: /email/i });
-      const password = screen.getByRole("textbox", { name: /password/i });
-      const submit = screen.getByText("Sign Up");
-      fireEvent.change(email, { target: { value: "fail" } });
-      fireEvent.change(password, { target: { value: "Pass111)" } });
-      expect(submit).toBeDisabled();
-      expect(screen.getByText("Incorrect email address")).toBeInTheDocument();
     });
   });
 });

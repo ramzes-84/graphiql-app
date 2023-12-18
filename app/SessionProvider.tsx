@@ -8,7 +8,7 @@ type Props = {
 
 export const SessionProvider = ({ children }: Props) => {
   return (
-    <Provider refetchInterval={5} refetchOnWindowFocus={true}>
+    <Provider refetchInterval={30} refetchOnWindowFocus={true}>
       {children}
     </Provider>
   );

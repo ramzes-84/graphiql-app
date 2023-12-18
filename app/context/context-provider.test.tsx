@@ -67,7 +67,7 @@ describe("Provide lang from local storage", () => {
       </SessionProvider>
     );
 
-    const title = screen.getByText("Главная страница");
+    const title = screen.getByText("О нас");
 
     expect(title).toBeInTheDocument();
   });

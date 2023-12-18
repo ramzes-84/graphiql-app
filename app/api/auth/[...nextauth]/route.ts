@@ -24,9 +24,9 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       session.user = token;
       if (!session.user.token_expiry) {
-        // set custom expiration time in ms
+        // set custom expiration time in ms - 10 min
         const exp = new Date(
-          new Date().getTime() + 30 * 60 * 1000
+          new Date().getTime() + 10 * 60 * 1000
         ).toISOString();
         session.user.token_expiry = exp;
       }

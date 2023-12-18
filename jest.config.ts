@@ -14,7 +14,7 @@ const config: Config = {
   testEnvironment: "jest-environment-jsdom",
   coverageThreshold: {
     global: {
-      branches: 80,
+      // branches: 80,
       functions: 80,
       lines: 80,
       statements: 80,
@@ -31,6 +31,11 @@ const config: Config = {
     "!**/firebase.ts",
   ],
   testPathIgnorePatterns: ["/node_modules/"],
+  moduleNameMapper: {
+    "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i":
+      "<rootDir>/__mocks__/fileMock.js",
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

@@ -8,9 +8,11 @@ import { useState } from "react";
 import PersonCard from "./components/person-card";
 import PersonDetailes from "./components/person-details";
 import BigPopup from "./components/popup";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const dict = useDict();
+  const { status } = useSession();
   const [isOpen, setIsOpen] = useState<number | null>(null);
 
   const handleOpenPersonCard = (index: number | null) => {
@@ -19,6 +21,22 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center sm:mx-10 min-h-screen">
+      <div className="flex justify-end w-full mt-2">
+        {status === "authenticated" ? (
+          <Link className={USUAL_BTN} href="/main">
+            {dict.mainPage}
+          </Link>
+        ) : (
+          <>
+            <Link className={USUAL_BTN + " mr-2"} href="/signin">
+              {dict.login}
+            </Link>
+            <Link className={USUAL_BTN} href="signup">
+              {dict.register}
+            </Link>
+          </>
+        )}
+      </div>
       <h1 className={H1}>{dict.welcomePage}</h1>
       <div className="flex flex-col xl:flex-row xl:columns-3 gap-x-4 py-3">
         {dict.persons.map((person, index) => (
@@ -74,10 +92,6 @@ export default function Home() {
         </Link>
         <span className={H1}>React Course</span>
       </p>
-
-      <Link href="/main" className={USUAL_BTN}>
-        {dict.mainPage}
-      </Link>
     </main>
   );
 }
