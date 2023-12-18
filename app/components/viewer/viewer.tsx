@@ -1,11 +1,18 @@
+import { IRequest } from "@/app/utils/request";
+import dynamic from "next/dynamic";
 import React from "react";
 
-// type ViewerProps = {
-//   response: string;
-// }
+type ViewerProps = {
+  response: IRequest;
+};
 
-const Viewer = () => {
-  return <div>Viewer</div>;
+const Codemirror = dynamic(() => import("../editor/Codemirror"), {
+  ssr: false,
+});
+
+const Viewer = ({ response }: ViewerProps) => {
+  const responseJSON = JSON.stringify(response, null, 2);
+  return <Codemirror value={responseJSON} />;
 };
 
 export default Viewer;

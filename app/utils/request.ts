@@ -1,4 +1,11 @@
-export const sentRequest = async (query: string, url: string) => {
+export interface IRequest {
+  [key: string]: string | IRequest[] | IRequest;
+}
+
+export const sendRequest = async (
+  query: string,
+  url: string
+): Promise<IRequest> => {
   const res = await fetch(url, {
     method: "POST",
     headers: {
@@ -6,5 +13,5 @@ export const sentRequest = async (query: string, url: string) => {
     },
     body: JSON.stringify({ query }),
   });
-  return await res.json();
+  return res.json().then(({ data }) => data);
 };
