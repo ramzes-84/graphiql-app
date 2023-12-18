@@ -6,7 +6,7 @@ import { EditorView } from "@codemirror/view";
 
 type Props = {
   value: string;
-  onChange?: (state: EditorState) => void;
+  onChange?: (state: EditorState) => void | false;
 };
 
 export const useCodemirrorHook = <ElementType extends Element>(
@@ -61,11 +61,13 @@ export const useCodemirrorHook = <ElementType extends Element>(
         closeBrackets(),
         myTheme,
         oneDark,
-        EditorView.updateListener.of((update: ViewUpdate) => {
-          if (update.changes) {
-            onChange && onChange(update.state);
-          }
-        }),
+        !!onChange
+          ? EditorView.updateListener.of((update: ViewUpdate) => {
+              if (update.changes) {
+                onChange && onChange(update.state);
+              }
+            })
+          : EditorView.editable.of(false),
       ],
     });
 
