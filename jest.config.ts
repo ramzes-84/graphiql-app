@@ -27,7 +27,10 @@ const config: Config = {
     "!**/jest.config.ts",
     "!**/jest.setup.ts",
     "!**/tailwind.config.ts",
+    "!**/api/**",
+    "!**/firebase.ts",
   ],
+  testPathIgnorePatterns: ["/node_modules/"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

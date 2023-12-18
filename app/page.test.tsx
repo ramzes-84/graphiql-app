@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Home from "./page";
 
@@ -31,5 +31,16 @@ describe("Home component:", () => {
     );
 
     expect(text).toBeInTheDocument();
+  });
+  it("should close popup", async () => {
+    render(<Home />);
+
+    const person = screen.getByAltText("Lyubov Agulova");
+    fireEvent.click(person);
+    const exit = screen.getByTitle("Exit");
+    await waitFor(() => {
+      fireEvent.click(exit);
+      expect(exit).not.toBeInTheDocument();
+    });
   });
 });

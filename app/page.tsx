@@ -18,7 +18,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center sm:mx-10">
+    <main className="flex flex-col items-center sm:mx-10 min-h-screen">
       <h1 className={H1}>{dict.welcomePage}</h1>
       <div className="flex flex-col xl:flex-row xl:columns-3 gap-x-4 py-3">
         {dict.persons.map((person, index) => (
