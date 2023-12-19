@@ -11,11 +11,7 @@ import BigPopup from "./components/popup";
 
 export default function Home() {
   const dict = useDict();
-  const [isOpen, setIsOpen] = useState<number | null>(null);
-
-  const handleOpenPersonCard = (index: number | null) => {
-    index === isOpen ? setIsOpen(null) : setIsOpen(index);
-  };
+  const [isOpen, setIsOpen] = useState<number | false>(false);
 
   return (
     <main className="flex flex-col items-center sm:mx-10 min-h-screen">
@@ -23,13 +19,13 @@ export default function Home() {
       <div className="flex flex-col xl:flex-row xl:columns-3 gap-x-4 py-3">
         {dict.persons.map((person, index) => (
           <PersonCard
-            key={index}
+            key={person.name}
             name={person.name}
             role={person.role}
             photoUrl={person.photoUrl}
             githubUrl={person.githubUrl}
             onClick={() => {
-              handleOpenPersonCard(index);
+              setIsOpen(index);
             }}
           />
         ))}
@@ -45,11 +41,11 @@ export default function Home() {
           <p>{dict.qualityDesc} </p>
         </div>
       </div>
-      {isOpen !== null && (
+      {typeof isOpen === "number" && (
         <BigPopup
           onClose={(event) => {
             event.preventDefault();
-            setIsOpen(null);
+            setIsOpen(false);
           }}
         >
           <PersonDetailes
