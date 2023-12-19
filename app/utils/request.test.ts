@@ -1,10 +1,10 @@
-import { sendRequest, IRequest } from "./request";
+import { sendRequest, IResponse } from "./request";
 
 describe("sendRequest", () => {
   it("should send a request and return the response data", async () => {
     const query = "query";
     const url = "url";
-    const mockData: IRequest = {
+    const mockData: IResponse = {
       countries: { country: [{ name: "Andorra" }] },
     };
     const mockResponse = {

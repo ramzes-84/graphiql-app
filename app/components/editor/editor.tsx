@@ -6,14 +6,14 @@ import { BsPlayCircle } from "react-icons/bs";
 import { useDict } from "@/app/utils/useDictHook";
 import dynamic from "next/dynamic";
 import { formatCode } from "@/app/utils/formateCode";
-import { IRequest, sendRequest } from "@/app/utils/request";
+import { IResponse, sendRequest } from "@/app/utils/request";
 
 const exampleUrl = "https://countries.trevorblades.com";
 
 const Codemirror = dynamic(() => import("./Codemirror"), { ssr: false });
 
 type EditorProps = {
-  callback: (response: IRequest) => void;
+  callback: (response: IResponse) => void;
 };
 
 const Editor = ({ callback }: EditorProps) => {

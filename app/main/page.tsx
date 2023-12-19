@@ -4,13 +4,13 @@ import Editor from "../components/editor/editor";
 import Viewer from "../components/viewer/viewer";
 import { H1 } from "../styles/uni-classes";
 import { useDict } from "../utils/useDictHook";
-import { IRequest } from "../utils/request";
+import { IResponse } from "../utils/request";
 
 const Page = () => {
   const dict = useDict();
 
-  const [response, setResponse] = useState<IRequest>({});
-  const getResponse = (response: IRequest) => {
+  const [response, setResponse] = useState<IResponse>({});
+  const getResponse = (response: IResponse) => {
     setResponse(response);
   };
   return (

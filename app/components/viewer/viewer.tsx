@@ -1,9 +1,9 @@
-import { IRequest } from "@/app/utils/request";
+import { IResponse } from "@/app/utils/request";
 import dynamic from "next/dynamic";
 import React from "react";
 
 type ViewerProps = {
-  response: IRequest;
+  response: IResponse;
 };
 
 const Codemirror = dynamic(() => import("../editor/Codemirror"), {

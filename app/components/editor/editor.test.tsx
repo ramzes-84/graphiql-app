@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom";
 import { render, fireEvent, screen } from "@testing-library/react";
 import Editor from "./editor";
-
-jest.mock("../../utils/formateCode");
-jest.mock("../../utils/request.ts");
-const mockCallback = jest.fn();
 import { formatCode } from "../../utils/formateCode";
 import { sendRequest } from "@/app/utils/request";
+
+jest.mock("../../utils/formateCode");
+jest.mock("../../utils/request");
+const mockCallback = jest.fn();
 
 describe("Editor", () => {
   it("should format code on correct button click", () => {

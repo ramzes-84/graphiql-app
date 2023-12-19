@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import Codemirror from "./Codemirror";
 
-jest.mock("../../utils/useCodemirrorHook.ts");
+jest.mock("../../utils/useCodemirrorHook");
 import { useCodemirrorHook } from "@/app/utils/useCodemirrorHook";
 
 describe("Codemirror", () => {
