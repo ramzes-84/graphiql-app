@@ -2,6 +2,15 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Home from "./page";
 
+jest.mock("next-auth/react", () => ({
+  useSession: () =>
+    jest
+      .fn()
+      .mockReturnValueOnce({ status: "unauthenticated" })
+      .mockReturnValue({ status: "authenticated" }),
+  signIn: jest.fn(),
+}));
+
 describe("Home component:", () => {
   beforeEach(() => {
     render(<Home />);

@@ -111,6 +111,10 @@ export const EN = {
   alreadyExist: "User with this email already exists",
   minLength: "Your password must be 8 or more characters",
   networkFailed: "Network failed",
+  youAreAuth1: "You are authenticated. The",
+  youAreAuth2: "is available for you.",
+  youAreNotAuth1: "You are not authenticated. Please",
+  youAreNotAuth2: "to get access to the editor",
 };
 
 export const RU: typeof EN = {
@@ -227,4 +231,8 @@ export const RU: typeof EN = {
   alreadyExist: "Пользователь с такими данными уже существует",
   minLength: "Пароль должен быть минимум 8 символов",
   networkFailed: "Ошибка сети",
+  youAreAuth1: "Вы авторизованы. ",
+  youAreAuth2: "доступна.",
+  youAreNotAuth1: "Вы не авторизованы.",
+  youAreNotAuth2: "для доступа к редактору.",
 };
