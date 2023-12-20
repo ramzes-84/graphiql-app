@@ -3,12 +3,7 @@ import "@testing-library/jest-dom";
 import Home from "./page";
 
 jest.mock("next-auth/react", () => ({
-  useSession: () =>
-    jest
-      .fn()
-      .mockReturnValueOnce({ status: "unauthenticated" })
-      .mockReturnValue({ status: "authenticated" }),
-  signIn: jest.fn(),
+  useSession: () => jest.fn(),
 }));
 
 describe("Home component:", () => {
@@ -17,15 +12,13 @@ describe("Home component:", () => {
   });
 
   it("renders content", () => {
-    const test = screen.getByText("Welcome Page");
+    const header = screen.getByText("Welcome Page");
+    const editorNotAvailMsg = screen.getByText("You are not authenticated", {
+      exact: false,
+    });
 
-    expect(test).toBeInTheDocument();
-  });
-
-  it("should render with correct props", () => {
-    const welcomeMessage = screen.getByText("Welcome Page");
-
-    expect(welcomeMessage).toBeInTheDocument();
+    expect(header).toBeInTheDocument();
+    expect(editorNotAvailMsg).toBeInTheDocument();
   });
 
   it("should open popup", () => {
