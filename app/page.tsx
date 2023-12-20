@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center sm:mx-10 py-3">
-      {!isAuthenticated && (
+      {!isAuthenticated ? (
         <div className="flex items-center justify-end w-full">
           {dict.youAreNotAuth1}
           <Link href="/signin" className={USUAL_BTN + " mx-2"}>
@@ -29,6 +29,14 @@ export default function Home() {
             {dict.register}
           </Link>
           {dict.youAreNotAuth2}
+        </div>
+      ) : (
+        <div className="flex items-center justify-end w-full">
+          {dict.youAreAuth1}
+          <Link href="/main" className={USUAL_BTN + " mx-2"}>
+            {dict.mainPage}
+          </Link>
+          {dict.youAreAuth2}
         </div>
       )}
       <h1 className={H1}>{dict.welcomePage}</h1>
@@ -86,16 +94,6 @@ export default function Home() {
         </Link>
         <span className={H1}>React Course</span>
       </p>
-
-      {isAuthenticated && (
-        <div>
-          {dict.youAreAuth1}
-          <Link href="/main" className={USUAL_BTN}>
-            {dict.mainPage}
-          </Link>
-          {dict.youAreAuth2}
-        </div>
-      )}
     </main>
   );
 }
