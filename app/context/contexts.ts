@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import { Server } from "../components/server-chooser";
 
 export enum Languages {
   En = "en",
@@ -13,4 +14,14 @@ export type LangContext = {
 export const LangContext = createContext<LangContext>({
   lang: Languages.En,
   setLang() {},
+});
+
+export type ServerContext = {
+  endpoint: string;
+  setEndpoint: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export const ServerContext = createContext<ServerContext>({
+  endpoint: Server.Countries,
+  setEndpoint() {},
 });
