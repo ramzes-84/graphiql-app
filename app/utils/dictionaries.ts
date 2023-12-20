@@ -115,6 +115,7 @@ export const EN = {
   youAreAuth2: "is available for you.",
   youAreNotAuth1: "You are not authenticated. Please",
   youAreNotAuth2: "to get access to the editor",
+  or: "or",
 };
 
 export const RU: typeof EN = {
@@ -235,4 +236,5 @@ export const RU: typeof EN = {
   youAreAuth2: "доступна.",
   youAreNotAuth1: "Вы не авторизованы.",
   youAreNotAuth2: "для доступа к редактору.",
+  or: "или",
 };

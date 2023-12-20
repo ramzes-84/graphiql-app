@@ -1,37 +1,30 @@
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
-import { SessionProvider } from "../SessionProvider";
 
 jest.mock("../components/editor/editor", () => {
   return jest.fn().mockReturnValue(<div>Test Editor</div>);
 });
 
+const mockSignOut = jest.fn();
+
 export const mockSession = {
   user: {
-    token_expiry: "",
+    token_expiry: "2022-12-20T16:33:26.618Z",
   },
   expires: new Date(Date.now() + 2 * 86400).toISOString(),
 };
 
-beforeEach(() => {
-  fetchMock.mockResponse(JSON.stringify(mockSession));
-
-  jest.mock("next-auth/react", () => ({
-    useSession: () =>
-      jest.fn().mockReturnValueOnce({ mockSession, status: "authenticated" }),
-    signIn: jest.fn(),
-    signOut: jest.fn(),
-  }));
-});
+jest.mock("next-auth/react", () => ({
+  useSession: jest.fn(() => {
+    return { data: mockSession, status: "authenticated" };
+  }),
+  signOut: () => mockSignOut,
+}));
 
 describe("Page", () => {
   it("renders content", async () => {
-    render(
-      <SessionProvider>
-        <Page />
-      </SessionProvider>
-    );
+    render(<Page />);
     await waitFor(() => {
       const text = screen.getByText("Main Page");
       const editorComponent = screen.getByText("Test Editor");

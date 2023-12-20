@@ -18,6 +18,19 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center sm:mx-10 py-3">
+      {!isAuthenticated && (
+        <div className="flex items-center justify-end w-full">
+          {dict.youAreNotAuth1}
+          <Link href="/signin" className={USUAL_BTN + " mx-2"}>
+            {dict.login}
+          </Link>{" "}
+          {dict.or}{" "}
+          <Link href="/signup" className={USUAL_BTN + " mx-2"}>
+            {dict.register}
+          </Link>
+          {dict.youAreNotAuth2}
+        </div>
+      )}
       <h1 className={H1}>{dict.welcomePage}</h1>
       <div className="flex flex-col xl:flex-row xl:columns-3 gap-x-4 py-3">
         {dict.persons.map((person, index) => (
@@ -81,16 +94,6 @@ export default function Home() {
             {dict.mainPage}
           </Link>
           {dict.youAreAuth2}
-        </div>
-      )}
-
-      {!isAuthenticated && (
-        <div>
-          {dict.youAreNotAuth1}
-          <Link href="/login" className={USUAL_BTN}>
-            {dict.login}
-          </Link>
-          {dict.youAreNotAuth2}
         </div>
       )}
     </main>
