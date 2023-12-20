@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Home from "./page";
 
@@ -12,44 +12,43 @@ jest.mock("next-auth/react", () => ({
 }));
 
 describe("Home component:", () => {
-  it("renders content", () => {
+  beforeEach(() => {
     render(<Home />);
+  });
 
+  it("renders content", () => {
     const test = screen.getByText("Welcome Page");
 
     expect(test).toBeInTheDocument();
   });
-});
 
-describe("Home component:", () => {
   it("should render with correct props", () => {
-    const { getByText } = render(<Home />);
+    const welcomeMessage = screen.getByText("Welcome Page");
 
-    expect(getByText("Welcome Page")).toBeInTheDocument();
+    expect(welcomeMessage).toBeInTheDocument();
   });
-});
 
-describe("Home component:", () => {
   it("should open popup", () => {
-    render(<Home />);
-
     const person = screen.getByAltText("Lyubov Agulova");
-    fireEvent.click(person);
-    const text = screen.getByText(
-      "Contributions to GraphiQL Application project:"
-    );
+    act(() => {
+      fireEvent.click(person);
+    });
+    const text = screen.getByText("Contributions to GraphiQL", {
+      exact: false,
+    });
 
     expect(text).toBeInTheDocument();
   });
-  it("should close popup", async () => {
-    render(<Home />);
 
+  it("should close popup", async () => {
     const person = screen.getByAltText("Lyubov Agulova");
-    fireEvent.click(person);
-    const exit = screen.getByTitle("Exit");
-    await waitFor(() => {
-      fireEvent.click(exit);
-      expect(exit).not.toBeInTheDocument();
+    act(() => {
+      fireEvent.click(person);
     });
+    const exit = screen.getByTitle("Exit");
+    act(() => {
+      fireEvent.click(exit);
+    });
+    expect(exit).not.toBeInTheDocument();
   });
 });

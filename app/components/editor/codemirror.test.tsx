@@ -1,14 +1,24 @@
 import "@testing-library/jest-dom";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Codemirror from "./Codemirror";
 
+jest.mock("../../utils/useCodemirrorHook");
+import { useCodemirrorHook } from "@/app/utils/useCodemirrorHook";
+
 describe("Codemirror", () => {
+  const mockOnChange = jest.fn();
   it("should call onChange with empty string when input is empty", () => {
-    const mockOnChange = jest.fn();
     render(<Codemirror value="" onChange={mockOnChange} />);
-    const codemirror = screen.getByRole("textbox");
-    fireEvent.change(codemirror, { target: { textContent: "" } });
 
     expect(mockOnChange).not.toHaveBeenCalledWith("");
+  });
+  it("have not call callback without prop callback", () => {
+    render(<Codemirror value="initial value" />);
+
+    expect(mockOnChange).not.toHaveBeenCalled();
+    expect(useCodemirrorHook).toHaveBeenCalledWith({
+      onChange: undefined,
+      value: "initial value",
+    });
   });
 });

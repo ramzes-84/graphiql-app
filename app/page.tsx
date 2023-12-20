@@ -12,13 +12,9 @@ import { useSession } from "next-auth/react";
 
 export default function Home() {
   const dict = useDict();
-  const [isOpen, setIsOpen] = useState<number | null>(null);
+  const [isOpen, setIsOpen] = useState<number | false>(false);
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
-
-  const handleOpenPersonCard = (index: number | null) => {
-    index === isOpen ? setIsOpen(null) : setIsOpen(index);
-  };
 
   return (
     <main className="flex flex-col items-center sm:mx-10 py-3">
@@ -26,13 +22,13 @@ export default function Home() {
       <div className="flex flex-col xl:flex-row xl:columns-3 gap-x-4 py-3">
         {dict.persons.map((person, index) => (
           <PersonCard
-            key={index}
+            key={person.name}
             name={person.name}
             role={person.role}
             photoUrl={person.photoUrl}
             githubUrl={person.githubUrl}
             onClick={() => {
-              handleOpenPersonCard(index);
+              setIsOpen(index);
             }}
           />
         ))}
@@ -48,11 +44,11 @@ export default function Home() {
           <p>{dict.qualityDesc} </p>
         </div>
       </div>
-      {isOpen !== null && (
+      {typeof isOpen === "number" && (
         <BigPopup
           onClose={(event) => {
             event.preventDefault();
-            setIsOpen(null);
+            setIsOpen(false);
           }}
         >
           <PersonDetailes
