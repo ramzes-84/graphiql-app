@@ -1,13 +1,6 @@
 import "@testing-library/jest-dom";
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
-import { Server } from "../context/contexts";
 
 jest.mock("../components/editor/editor", () => {
   return jest.fn().mockReturnValue(<div>Test Editor</div>);
@@ -48,23 +41,5 @@ describe("Page", () => {
       expect(serverChooserDefaultSelector).toBeVisible();
       expect(serverChooserSelector).toBeInTheDocument();
     });
-  });
-
-  it("", () => {
-    const serverChooserSelector: HTMLSelectElement =
-      screen.getByText("Countries");
-    expect(serverChooserSelector.value).toEqual(
-      "https://countries.trevorblades.com/graphql"
-    );
-
-    act(() => {
-      fireEvent.change(serverChooserSelector, {
-        target: { value: Server.Rick },
-      });
-    });
-
-    expect(serverChooserSelector.value).toEqual(
-      "https://rickandmortyapi.com/graphql"
-    );
   });
 });

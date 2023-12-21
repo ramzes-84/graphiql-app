@@ -7,16 +7,14 @@ export const ServerChooser = () => {
   const dict = useDict();
   const { endpoint, setEndpoint } = useContext(ServerContext);
   const input = useRef<HTMLInputElement | null>(null);
-  const handleServerChange = (
-    event: ChangeEvent<HTMLSelectElement> | FormEvent<HTMLFormElement>
-  ) => {
+  const handleServerChange = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    let newEndpoint: string;
-    if (event.target instanceof HTMLSelectElement) {
-      newEndpoint = event.target.value;
-    } else {
-      newEndpoint = input.current!.value;
-    }
+    const newEndpoint = event.target.value;
+    setEndpoint(newEndpoint);
+  };
+  const handleServerSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const newEndpoint = input.current!.value;
     setEndpoint(newEndpoint);
   };
 
@@ -34,7 +32,7 @@ export const ServerChooser = () => {
           <option value={Server.Rick}>{dict.rickAndMorty}</option>
         </select>
       </label>
-      <form onSubmit={handleServerChange}>
+      <form onSubmit={handleServerSubmit}>
         <label>
           or use custom
           <input ref={input} type="url" name="serverInput" className={INPUT} />
