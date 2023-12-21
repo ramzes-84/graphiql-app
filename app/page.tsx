@@ -18,6 +18,27 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center sm:mx-10 py-3">
+      {!isAuthenticated ? (
+        <div className="flex items-center justify-end w-full">
+          {dict.youAreNotAuth1}
+          <Link href="/signin" className={USUAL_BTN + " mx-2"}>
+            {dict.login}
+          </Link>{" "}
+          {dict.or}{" "}
+          <Link href="/signup" className={USUAL_BTN + " mx-2"}>
+            {dict.register}
+          </Link>
+          {dict.youAreNotAuth2}
+        </div>
+      ) : (
+        <div className="flex items-center justify-end w-full">
+          {dict.youAreAuth1}
+          <Link href="/main" className={USUAL_BTN + " mx-2"}>
+            {dict.mainPage}
+          </Link>
+          {dict.youAreAuth2}
+        </div>
+      )}
       <h1 className={H1}>{dict.welcomePage}</h1>
       <div className="flex flex-col xl:flex-row xl:columns-3 gap-x-4 py-3">
         {dict.persons.map((person, index) => (
@@ -73,26 +94,6 @@ export default function Home() {
         </Link>
         <span className={H1}>React Course</span>
       </p>
-
-      {isAuthenticated && (
-        <div>
-          {dict.youAreAuth1}
-          <Link href="/main" className={USUAL_BTN}>
-            {dict.mainPage}
-          </Link>
-          {dict.youAreAuth2}
-        </div>
-      )}
-
-      {!isAuthenticated && (
-        <div>
-          {dict.youAreNotAuth1}
-          <Link href="/login" className={USUAL_BTN}>
-            {dict.login}
-          </Link>
-          {dict.youAreNotAuth2}
-        </div>
-      )}
     </main>
   );
 }

@@ -9,6 +9,7 @@ import "@testing-library/jest-dom";
 import { Header } from "./header";
 import { GlobalProvider } from "../context/context-provider";
 import { SessionProvider } from "../SessionProvider";
+import fetchMock from "jest-fetch-mock";
 
 const mockRedirect = jest.fn();
 jest.mock("next/navigation", () => ({
@@ -19,7 +20,7 @@ jest.mock("next/navigation", () => ({
 export const mockSession = {
   data: null,
   expires: new Date(Date.now() + 2 * 86400).toISOString(),
-  status: "authenticated",
+  status: "unauthenticated",
 };
 
 beforeEach(() => {

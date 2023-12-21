@@ -43,7 +43,7 @@ export const Header = () => {
         </div>
         <div className="flex gap-2">
           <button
-            className="text-[#f6009c]"
+            className="text-[#f6009c]  disabled:shadow-slate-900 disabled:shadow-sm shadow-none px-2 rounded-md"
             onClick={() => {
               setLang(Languages.En);
               localStorage.setItem("language", Languages.En);
@@ -53,7 +53,7 @@ export const Header = () => {
             {dict.en}
           </button>
           <button
-            className="text-[#f6009c]"
+            className="text-[#f6009c]  disabled:shadow-slate-900 disabled:shadow-sm shadow-none px-2 rounded-md"
             onClick={() => {
               setLang(Languages.Ru);
               localStorage.setItem("language", Languages.Ru);
@@ -62,7 +62,15 @@ export const Header = () => {
           >
             {dict.ru}
           </button>
-          <Link href="/login" className="w-10 h-10" title="sign in">
+          <Link
+            href="/signin"
+            className={
+              status === "unauthenticated"
+                ? "w-10 h-10"
+                : "opacity-40 w-10 h-10 cursor-default"
+            }
+            title="sign in"
+          >
             <LiaSignInAltSolid
               style={{ color: "#f6009c", width: "100%", height: "100%" }}
             />
@@ -70,7 +78,7 @@ export const Header = () => {
           <button
             disabled={status === "unauthenticated"}
             onClick={() => {
-              signOut({ callbackUrl: "/" });
+              signOut({ callbackUrl: "/", redirect: true });
             }}
             className="w-10 h-10 disabled:opacity-40"
             title="sign out"
