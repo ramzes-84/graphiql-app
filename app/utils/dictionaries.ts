@@ -119,6 +119,7 @@ export const EN = {
   serverChooserLabel: "Please choose the server:",
   countries: "Countries",
   rickAndMorty: "Rick And Morty",
+  orUseCustom: "or use custom:",
 };
 
 export const RU: typeof EN = {
@@ -243,4 +244,5 @@ export const RU: typeof EN = {
   serverChooserLabel: "Пожалуйста, выберите сервер:",
   countries: "Страны",
   rickAndMorty: "Рик и Морти",
+  orUseCustom: "или используйте свой:",
 };

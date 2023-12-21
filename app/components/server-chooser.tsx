@@ -34,7 +34,7 @@ export const ServerChooser = () => {
       </label>
       <form onSubmit={handleServerSubmit}>
         <label>
-          or use custom
+          {dict.orUseCustom}
           <input ref={input} type="url" name="serverInput" className={INPUT} />
           <input className={USUAL_BTN} type="submit" value="Send" />
         </label>
