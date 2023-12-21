@@ -7,6 +7,7 @@ import { useDict } from "../utils/useDictHook";
 import { IResponse } from "../utils/request";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { ServerChooser } from "../components/server-chooser";
 
 const Page = () => {
   const { status, data: sessionData } = useSession();
@@ -25,6 +26,7 @@ const Page = () => {
   return (
     <>
       <div className={H1}>{dict.mainPage}</div>
+      <ServerChooser />
       <p>
         {sessionData?.user.token_expiry &&
           `Token expiration time: ${new Date(

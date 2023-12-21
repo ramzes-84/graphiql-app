@@ -1,6 +1,13 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import Page from "./page";
+import { Server } from "../context/contexts";
 
 jest.mock("../components/editor/editor", () => {
   return jest.fn().mockReturnValue(<div>Test Editor</div>);
@@ -23,14 +30,41 @@ jest.mock("next-auth/react", () => ({
 }));
 
 describe("Page", () => {
-  it("renders content", async () => {
+  beforeEach(() => {
     render(<Page />);
+  });
+
+  it("renders content", async () => {
     await waitFor(() => {
       const text = screen.getByText("Main Page");
       const editorComponent = screen.getByText("Test Editor");
+      const serverChooserLabel = screen.getByText("Please choose the server:");
+      const serverChooserDefaultSelector = screen.getByText("Countries");
+      const serverChooserSelector = screen.getByText("Rick And Morty");
 
       expect(text).toBeInTheDocument();
       expect(editorComponent).toBeInTheDocument();
+      expect(serverChooserLabel).toBeInTheDocument();
+      expect(serverChooserDefaultSelector).toBeVisible();
+      expect(serverChooserSelector).toBeInTheDocument();
     });
+  });
+
+  it("", () => {
+    const serverChooserSelector: HTMLSelectElement =
+      screen.getByText("Countries");
+    expect(serverChooserSelector.value).toEqual(
+      "https://countries.trevorblades.com/graphql"
+    );
+
+    act(() => {
+      fireEvent.change(serverChooserSelector, {
+        target: { value: Server.Rick },
+      });
+    });
+
+    expect(serverChooserSelector.value).toEqual(
+      "https://rickandmortyapi.com/graphql"
+    );
   });
 });
