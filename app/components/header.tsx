@@ -53,7 +53,7 @@ export const Header = () => {
             {dict.en}
           </button>
           <button
-            className="text-[#f6009c]  disabled:shadow-slate-900 disabled:shadow-sm shadow-none px-2"
+            className="text-[#f6009c]  disabled:shadow-slate-900 disabled:shadow-sm shadow-none px-2 rounded-md"
             onClick={() => {
               setLang(Languages.Ru);
               localStorage.setItem("language", Languages.Ru);

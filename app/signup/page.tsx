@@ -14,9 +14,9 @@ import Link from "next/link";
 
 const Page = () => {
   const { status } = useSession();
+  if (status === "authenticated") redirect("/main");
   const [error, setError] = useState("");
   const dict = useDict();
-  if (status === "authenticated") redirect("/main");
   const signup: SubmitHandler<IFormInput> = async (data: {
     email: string;
     password: string;

@@ -6,9 +6,11 @@ import { H1 } from "../styles/uni-classes";
 import { useDict } from "../utils/useDictHook";
 import { IResponse } from "../utils/request";
 import { signOut, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const Page = () => {
   const { status, data: sessionData } = useSession();
+  if (status === "unauthenticated") redirect("/");
   const tokenExpiry = sessionData?.user.token_expiry;
   useEffect(() => {
     const isTokenExpired = tokenExpiry && new Date(tokenExpiry) < new Date();
