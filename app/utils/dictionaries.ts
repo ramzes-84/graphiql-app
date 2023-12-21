@@ -115,6 +115,9 @@ export const EN = {
   youAreAuth2: "is available for you.",
   youAreNotAuth1: "You are not authenticated. Please",
   youAreNotAuth2: "to get access to the editor",
+  serverChooserLabel: "Please choose the server:",
+  countries: "Countries",
+  rickAndMorty: "Rick And Morty",
 };
 
 export const RU: typeof EN = {
@@ -235,4 +238,7 @@ export const RU: typeof EN = {
   youAreAuth2: "доступна.",
   youAreNotAuth1: "Вы не авторизованы.",
   youAreNotAuth2: "для доступа к редактору.",
+  serverChooserLabel: "Пожалуйста, выберите сервер:",
+  countries: "Страны",
+  rickAndMorty: "Рик и Морти",
 };
