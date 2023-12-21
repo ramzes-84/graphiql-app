@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import Codemirror from "./Codemirror";
+import { useCodemirrorHook } from "@/app/utils/useCodemirrorHook";
 
 jest.mock("../../utils/useCodemirrorHook");
-import { useCodemirrorHook } from "@/app/utils/useCodemirrorHook";
 
 describe("Codemirror", () => {
   const mockOnChange = jest.fn();

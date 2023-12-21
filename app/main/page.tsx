@@ -11,15 +11,12 @@ const Page = () => {
   const dict = useDict();
 
   const [response, setResponse] = useState<IResponse>({});
-  const getResponse = (response: IResponse) => {
-    setResponse(response);
-  };
   return (
     <>
       <div className={H1}>{dict.mainPage}</div>
       <ServerChooser />
       <div className="flex m-3 p-3 gap-5 h-screen bg-fuchsia-50 rounded">
-        <Editor callback={getResponse} />
+        <Editor callback={(resp) => setResponse(resp)} />
         <Viewer response={response} />
       </div>
     </>
