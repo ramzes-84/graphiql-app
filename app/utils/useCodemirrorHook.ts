@@ -36,6 +36,8 @@ export const useCodemirrorHook = <ElementType extends Element>(
       oneDark,
     } = require("@codemirror/theme-one-dark");
 
+    const { graphql } = require("cm6-graphql");
+
     const myTheme = EditorView.theme({
       "&": {
         width: "100%",
@@ -61,6 +63,7 @@ export const useCodemirrorHook = <ElementType extends Element>(
         closeBrackets(),
         myTheme,
         oneDark,
+        graphql(),
         !!onChange
           ? EditorView.updateListener.of((update: ViewUpdate) => {
               if (update.changes) {
