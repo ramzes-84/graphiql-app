@@ -36,20 +36,17 @@ export const ServerChooser = () => {
             <option value={Server.Custom}>{dict.customServer}</option>
           </select>
         </label>
-        <label>
-          {dict.orUseCustom}
-          <input
-            ref={input}
-            type="url"
-            name="serverInput"
-            className={INPUT}
-            defaultValue={endpoint}
-            required
-          />
-          <input className={USUAL_BTN} type="submit" value={dict.setServer} />
-        </label>
+        <input
+          ref={input}
+          type="url"
+          name="serverInput"
+          className={INPUT}
+          defaultValue={endpoint}
+          required
+        />
+        <input className={USUAL_BTN} type="submit" value={dict.setServer} />
       </form>
-      <div className="flex md:flex-row flex-col">
+      <div className="flex md:flex-row flex-col items-baseline">
         <div className={USUAL_BTN}>{dict.actualServer}</div>
         <div className="px-2">{endpoint}</div>
       </div>
