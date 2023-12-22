@@ -7,10 +7,9 @@ export const ServerChooser = () => {
   const dict = useDict();
   const { endpoint, setEndpoint } = useContext(ServerContext);
   const input = useRef<HTMLInputElement | null>(null);
-  const handleServerChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const fillInputIn = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    const newEndpoint = event.target.value;
-    setEndpoint(newEndpoint);
+    input.current!.value = event.target.value;
   };
   const handleServerSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,36 +19,40 @@ export const ServerChooser = () => {
 
   return (
     <section className="flex flex-col items-center">
-      <div className="flex flex-row justify-center items-center gap-2">
+      <form
+        onSubmit={handleServerSubmit}
+        className="flex flex-col md:flex-row justify-center items-center gap-2"
+      >
         <label>
           {dict.serverChooserLabel}
           <select
             className={INPUT}
             name="serverSelector"
-            value={endpoint}
-            onChange={handleServerChange}
+            defaultValue={endpoint}
+            onChange={fillInputIn}
           >
             <option value={Server.Countries}>{dict.countries}</option>
             <option value={Server.Rick}>{dict.rickAndMorty}</option>
+            <option value={Server.Custom}>{dict.customServer}</option>
           </select>
         </label>
-        <form onSubmit={handleServerSubmit}>
-          <label>
-            {dict.orUseCustom}
-            <input
-              ref={input}
-              type="url"
-              name="serverInput"
-              className={INPUT}
-            />
-            <input className={USUAL_BTN} type="submit" value={dict.setServer} />
-          </label>
-        </form>
+        <label>
+          {dict.orUseCustom}
+          <input
+            ref={input}
+            type="url"
+            name="serverInput"
+            className={INPUT}
+            defaultValue={endpoint}
+            required
+          />
+          <input className={USUAL_BTN} type="submit" value={dict.setServer} />
+        </label>
+      </form>
+      <div className="flex md:flex-row flex-col">
+        <div className={USUAL_BTN}>{dict.actualServer}</div>
+        <div className="px-2">{endpoint}</div>
       </div>
-      <p>
-        {dict.actualServer}
-        {endpoint}
-      </p>
     </section>
   );
 };

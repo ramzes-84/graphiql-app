@@ -3,7 +3,7 @@ import { createContext } from "react";
 export enum Server {
   Countries = "https://countries.trevorblades.com/graphql",
   Rick = "https://rickandmortyapi.com/graphql",
-  Custom = "custom",
+  Custom = "",
 }
 
 export enum Languages {

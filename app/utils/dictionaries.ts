@@ -121,7 +121,8 @@ export const EN = {
   rickAndMorty: "Rick And Morty",
   orUseCustom: "or use custom:",
   setServer: "Set",
-  actualServer: "Your endpoint:  ",
+  actualServer: "Your endpoint:",
+  customServer: "Custom",
 };
 
 export const RU: typeof EN = {
@@ -248,5 +249,6 @@ export const RU: typeof EN = {
   rickAndMorty: "Рик и Морти",
   orUseCustom: "или используйте свой:",
   setServer: "Задать",
-  actualServer: "Сейчас работаем с:  ",
+  actualServer: "Сейчас работаем с:",
+  customServer: "Задать свой",
 };
