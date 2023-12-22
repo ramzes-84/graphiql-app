@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { GiComb } from "react-icons/gi";
 import { BsPlayCircle } from "react-icons/bs";
 import { useDict } from "@/app/utils/useDictHook";
 import dynamic from "next/dynamic";
 import { formatCode } from "@/app/utils/formateCode";
 import { IResponse, sendRequest } from "@/app/utils/request";
-
-const exampleUrl = "https://countries.trevorblades.com";
+import { ServerContext } from "@/app/context/contexts";
 
 const Codemirror = dynamic(() => import("./Codemirror"), { ssr: false });
 
@@ -17,6 +16,7 @@ type EditorProps = {
 };
 
 const Editor = ({ callback }: EditorProps) => {
+  const { endpoint } = useContext(ServerContext);
   const dict = useDict();
   const [text, setText] = useState(dict.defaultTextEditor);
 
@@ -37,7 +37,7 @@ const Editor = ({ callback }: EditorProps) => {
 
   const handleRequest = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
-      const response = await sendRequest(text, exampleUrl);
+      const response = await sendRequest(text, endpoint);
       callback(response);
       // console.log(response);
     }
