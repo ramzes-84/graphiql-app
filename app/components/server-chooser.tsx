@@ -19,26 +19,37 @@ export const ServerChooser = () => {
   };
 
   return (
-    <section className="flex flex-row justify-center items-center gap-2">
-      <label>
-        {dict.serverChooserLabel}
-        <select
-          className={INPUT}
-          name="serverSelector"
-          value={endpoint}
-          onChange={handleServerChange}
-        >
-          <option value={Server.Countries}>{dict.countries}</option>
-          <option value={Server.Rick}>{dict.rickAndMorty}</option>
-        </select>
-      </label>
-      <form onSubmit={handleServerSubmit}>
+    <section className="flex flex-col items-center">
+      <div className="flex flex-row justify-center items-center gap-2">
         <label>
-          {dict.orUseCustom}
-          <input ref={input} type="url" name="serverInput" className={INPUT} />
-          <input className={USUAL_BTN} type="submit" value="Send" />
+          {dict.serverChooserLabel}
+          <select
+            className={INPUT}
+            name="serverSelector"
+            value={endpoint}
+            onChange={handleServerChange}
+          >
+            <option value={Server.Countries}>{dict.countries}</option>
+            <option value={Server.Rick}>{dict.rickAndMorty}</option>
+          </select>
         </label>
-      </form>
+        <form onSubmit={handleServerSubmit}>
+          <label>
+            {dict.orUseCustom}
+            <input
+              ref={input}
+              type="url"
+              name="serverInput"
+              className={INPUT}
+            />
+            <input className={USUAL_BTN} type="submit" value={dict.setServer} />
+          </label>
+        </form>
+      </div>
+      <p>
+        {dict.actualServer}
+        {endpoint}
+      </p>
     </section>
   );
 };
