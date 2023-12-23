@@ -1,6 +1,6 @@
 "use client";
 
-import { USUAL_BTN } from "../styles/uni-classes";
+import { H1, USUAL_BTN } from "../styles/uni-classes";
 import { useDict } from "../utils/useDictHook";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -51,17 +51,15 @@ export const Form = ({
   });
   return (
     <>
-      <div className="flex flex-col gap-5 justify-center px-6 py-5 lg:px-8 w-1/4">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
-          {title}
-        </h2>
+      <div className="flex flex-col gap-5 justify-center px-6 py-5 w-80 md:w-96">
+        <h2 className={H1}>{title}</h2>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleSubmit(callback)} className="space-y-6">
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium leading-6 "
+                className="block md:text-sm font-medium leading-6 "
               >
                 {dict.emailField}
               </label>
@@ -72,7 +70,11 @@ export const Form = ({
                   {...register("email")}
                   type="text"
                   autoComplete="email"
-                  className="block w-full rounded-md border-0  py-1.5  shadow-sm  sm:text-sm sm:leading-6"
+                  className={
+                    errors.email
+                      ? "block w-full border-purple-400 mx-0 leading-6 border-2 px-1 rounded focus:outline-none  focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                      : " block w-full border-purple-400 mx-0 leading-6 border-2 px-1 rounded  focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
+                  }
                 />
                 <div className=" h-5">
                   {errors.email && (
@@ -88,7 +90,7 @@ export const Form = ({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 "
+                  className="block font-medium leading-6 md:text-sm"
                 >
                   {dict.passwordField}
                 </label>
@@ -99,7 +101,11 @@ export const Form = ({
                   defaultValue=""
                   {...register("password")}
                   type="text"
-                  className="block w-full rounded-md border-0 py-1.5 shadow-sm  sm:text-sm sm:leading-6"
+                  className={
+                    errors.password
+                      ? "block w-full border-purple-400 mx-0 leading-6 border-2 px-1 rounded focus:outline-none  focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                      : " block w-full border-purple-400 mx-0 leading-6 border-2 px-1 rounded  focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
+                  }
                 />
                 <div className=" h-5">
                   {errors.password && (

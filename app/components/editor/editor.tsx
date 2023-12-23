@@ -39,7 +39,6 @@ const Editor = ({ callback }: EditorProps) => {
     if (event) {
       const response = await sendRequest(text, endpoint);
       callback(response);
-      // console.log(response);
     }
   };
 
