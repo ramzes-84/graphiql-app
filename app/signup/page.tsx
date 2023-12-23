@@ -36,7 +36,6 @@ const Page = () => {
           setError(dict.networkFailed);
       });
   };
-  throw new Error();
   return (
     <>
       <div className="flex flex-col items-center min-h-screen justify-start">
