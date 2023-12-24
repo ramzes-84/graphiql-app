@@ -22,13 +22,13 @@ export default function PersonDetailes({
 
   return (
     <>
-      <div className="my-12 mx-8 text-center text-lg">
+      <div className="my-12 mx-4 md:mx-8 text-center md:text-lg">
         <div className="inline-block w-36 h-36 rounded-[50%] p-3 bg-green-50">
           <div className="overflow-hidden w-[100%] h-[100%] rounded-[50%]">
             <Image width={144} height={144} src={photoUrl} alt="photo" />
           </div>
         </div>
-        <div className="font-serif bg-green-50 -mt-16 p-[70px_30px_30px] rounded-md">
+        <div className=" bg-green-50 -mt-16 md:p-[70px_30px_30px] p-[70px_10px_10px] rounded-md">
           <h2 className="uppercase">{name}</h2>
           <span className="font-bold">{role}</span>
           <p className="text-left">{description}</p>

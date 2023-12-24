@@ -17,15 +17,18 @@ export default function Home() {
   const isAuthenticated = status === "authenticated";
 
   return (
-    <main className="flex flex-col items-center sm:mx-10 py-3">
+    <main className="flex flex-col items-center sm:mx-10 py-3 mx-5">
       {!isAuthenticated ? (
-        <div className="flex items-center justify-end w-full">
+        <div className="md:flex md:items-center md:justify-end w-full leading-6 text-right">
           {dict.youAreNotAuth1}
-          <Link href="/signin" className={USUAL_BTN + " mx-2"}>
+          <Link href="/signin" className={USUAL_BTN + " mx-1 md:mx-2"}>
             {dict.login}
           </Link>{" "}
           {dict.or}{" "}
-          <Link href="/signup" className={USUAL_BTN + " mx-2"}>
+          <Link
+            href="/signup"
+            className={USUAL_BTN + " whitespace-nowrap mx-2"}
+          >
             {dict.register}
           </Link>
           {dict.youAreNotAuth2}

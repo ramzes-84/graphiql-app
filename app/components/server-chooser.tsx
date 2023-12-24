@@ -47,8 +47,10 @@ export const ServerChooser = () => {
         <input className={USUAL_BTN} type="submit" value={dict.setServer} />
       </form>
       <div className="flex md:flex-row flex-col items-baseline">
-        <div className={USUAL_BTN}>{dict.actualServer}</div>
-        <div className="px-2">{endpoint}</div>
+        <span className="text-[#f6009c] font-bold my-2">
+          {dict.actualServer}
+        </span>
+        <p className="px-0 md:px-2 mb-2 font-">{endpoint}</p>
       </div>
     </section>
   );
