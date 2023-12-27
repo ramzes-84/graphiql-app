@@ -23,14 +23,23 @@ jest.mock("next-auth/react", () => ({
 }));
 
 describe("Page", () => {
-  it("renders content", async () => {
+  beforeEach(() => {
     render(<Page />);
+  });
+
+  it("renders content", async () => {
     await waitFor(() => {
       const text = screen.getByText("Main Page");
       const editorComponent = screen.getByText("Test Editor");
+      const serverChooserLabel = screen.getByText("Please choose the server:");
+      const serverChooserDefaultSelector = screen.getByText("Countries");
+      const serverChooserSelector = screen.getByText("Rick And Morty");
 
       expect(text).toBeInTheDocument();
       expect(editorComponent).toBeInTheDocument();
+      expect(serverChooserLabel).toBeInTheDocument();
+      expect(serverChooserDefaultSelector).toBeVisible();
+      expect(serverChooserSelector).toBeInTheDocument();
     });
   });
 });

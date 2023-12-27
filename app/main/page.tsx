@@ -7,6 +7,7 @@ import { useDict } from "../utils/useDictHook";
 import { IResponse } from "../utils/request";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { ServerChooser } from "../components/server-chooser";
 
 const Page = () => {
   const { status, data: sessionData } = useSession();
@@ -24,15 +25,16 @@ const Page = () => {
   const [response, setResponse] = useState<IResponse>({});
   return (
     <>
-      <div className={H1}>{dict.mainPage}</div>
-      <p>
+      <div className="text-[#f6009c] flex justify-end mt-2 mr-2">
         {sessionData?.user.token_expiry &&
-          `Token expiration time: ${new Date(
-            sessionData?.user.token_expiry
-          ).toLocaleTimeString()}`}
-      </p>
-      {/* ^^^  this is just for checking the functionality, should be removed later. The action will not occur exactly that time, since the session update period is 30s  */}
-      <div className="flex m-3 p-3 gap-5 h-screen bg-fuchsia-50 rounded">
+          `Access open until: ${new Date(sessionData?.user.token_expiry)
+            .toLocaleTimeString()
+            .slice(0, -3)}`}
+      </div>
+      <div className={H1}>{dict.mainPage}</div>
+      <ServerChooser />
+
+      <div className="flex m-3 p-3 gap-5 min-h-screen bg-fuchsia-50 rounded md:flex-row flex-col">
         <Editor callback={(resp) => setResponse(resp)} />
         <Viewer response={response} />
       </div>

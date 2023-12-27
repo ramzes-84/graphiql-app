@@ -21,7 +21,7 @@ const Codemirror = (props: CodemirrorProps) => {
 
   return (
     <div
-      className="h-full w-1/2 flex shadow-xl"
+      className="h-screen md:w-1/2 w-full flex shadow-xl text-xs md:text-sm"
       ref={ref}
       data-testid="codemirror"
     ></div>
