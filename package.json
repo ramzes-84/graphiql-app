@@ -7,7 +7,7 @@
     "lint": "next lint",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "test watch": "jest --watch",
-    "test": "NODE_ENV=test jest --coverage",
+    "test": "jest --coverage",
     "build": "next build",
     "start": "next start",
     "prepare": "husky install"
