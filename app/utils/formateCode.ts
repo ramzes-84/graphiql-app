@@ -1,41 +1,47 @@
-export const formatCode = (text: string) => {
-  const arrStrings = text.split("\n");
+export const formatCode = (text: string, indent = 0): string | undefined => {
+  if (!text || text.trim() === "") return;
 
-  if (arrStrings.length === 0) return;
+  const lines = text.split("\n");
 
-  const newArr: string[] = [];
-  arrStrings.forEach((item) => {
-    if (item === "" || item.trim().startsWith("#")) {
-      newArr.push(item);
+  let result = "";
+  let openBracketsCount = 0;
+
+  for (const line of lines) {
+    if (line.trim() === "" || line.trim().startsWith("#")) {
+      result += line + "\n";
     } else {
-      let result = item.trim();
-      result = result.replace(/\{/g, " {\n");
-      result = result.replace(/,\s*/g, ", ");
-      result = result.replace(/:\s*/g, ": ");
-      result = result.replace(/\s*\)\s*/g, ") ");
-      result = result.replace(/\s*}\s*/g, "\n}");
-      newArr.push(result);
-    }
-  });
+      const trimmedLine = line.replace(/\s+/g, " ");
+      for (let i = 0; i < trimmedLine.length; i += 1) {
+        const char = trimmedLine[i];
+        if (char === "{") {
+          result += " {\n" + " ".repeat(indent + 1);
+          indent += 1;
+          openBracketsCount += 1;
+        } else if (char === "}") {
+          indent -= 1;
+          openBracketsCount -= 1;
+          result += "\n" + " ".repeat(indent) + "}";
 
-  let stringLevel = 0;
-  let formattedCode = "";
-
-  for (let i = 0; i < newArr.length; i += 1) {
-    if (newArr[i] === "" || newArr[i].trim().startsWith("#")) {
-      formattedCode += newArr[i] + "\n";
-    } else {
-      if (newArr[i].includes("{")) {
-        stringLevel += 1;
-      }
-      for (let j = 0; j < stringLevel; j += 1) {
-        formattedCode += " ";
-      }
-      formattedCode += newArr[i] + "\n";
-      if (newArr[i].includes("}")) {
-        stringLevel -= 1;
+          if (
+            i < trimmedLine.length - 1 &&
+            trimmedLine[i + 1].match(/[a-zA-Z]/)
+          ) {
+            result += "\n" + " ".repeat(indent);
+          }
+        } else if (char === ":") {
+          result += ": ";
+        } else if (char === " ") {
+          result += "\n" + " ".repeat(indent);
+        } else {
+          result += char;
+        }
       }
     }
   }
-  return formattedCode;
+
+  if (openBracketsCount > 0) {
+    result += "\n" + " ".repeat(indent - 1) + "}".repeat(openBracketsCount);
+  }
+
+  return result;
 };
