@@ -8,6 +8,7 @@ import { IResponse } from "../utils/request";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { ServerChooser } from "../components/server-chooser";
+import { HelpSection } from "../components/help-section";
 
 const Page = () => {
   const { status, data: sessionData } = useSession();
@@ -24,9 +25,10 @@ const Page = () => {
 
   const [response, setResponse] = useState<IResponse>({});
   return (
-    <>
+    <main className="p-3">
       <div className={H1}>{dict.mainPage}</div>
       <ServerChooser />
+      <HelpSection />
       <p>
         {sessionData?.user.token_expiry &&
           `Token expiration time: ${new Date(
@@ -34,11 +36,11 @@ const Page = () => {
           ).toLocaleTimeString()}`}
       </p>
       {/* ^^^  this is just for checking the functionality, should be removed later. The action will not occur exactly that time, since the session update period is 30s  */}
-      <div className="flex m-3 p-3 gap-5 h-screen bg-fuchsia-50 rounded">
+      <div className="flex p-3 gap-5 h-screen bg-fuchsia-50 rounded">
         <Editor callback={(resp) => setResponse(resp)} />
         <Viewer response={response} />
       </div>
-    </>
+    </main>
   );
 };
 

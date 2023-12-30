@@ -1,33 +1,32 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { ServerChooser } from "./server-chooser";
 import { Server } from "../context/contexts";
+import { GlobalProvider } from "../context/context-provider";
 
-// jest.mock("../utils/useDictHook", () => {
-//   return {
-//     useDict: jest.fn().mockReturnValue({ lang: "en" }),
-//   };
-// });
-
-// jest.mock("react", () => ({
-//   ...jest.requireActual("react"),
-//   useContext: jest
-//     .fn()
-// }));
+beforeEach(() => {
+  render(
+    <GlobalProvider>
+      <ServerChooser />
+    </GlobalProvider>
+  );
+});
 
 describe("Server chooser component", () => {
   it("should render inputs", () => {
-    const { getByText, getByRole } = render(<ServerChooser />);
-    expect(getByText("Please choose the server:")).toBeInTheDocument();
-    expect(getByRole("combobox")).toBeInTheDocument();
-    expect(getByRole("textbox")).toBeInTheDocument();
+    expect(screen.getByText("Please choose the server:")).toBeInTheDocument();
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 
-  it("", () => {
-    render(<ServerChooser />);
-
+  it("should change server endpoint in input", () => {
     const serverChooserSelector: HTMLSelectElement =
       screen.getByText("Countries");
+    const serverChooserInput: HTMLInputElement = screen.getByRole("textbox");
+
     expect(serverChooserSelector.value).toEqual(
+      "https://countries.trevorblades.com/graphql"
+    );
+    expect(serverChooserInput.value).toEqual(
       "https://countries.trevorblades.com/graphql"
     );
 
@@ -36,7 +35,6 @@ describe("Server chooser component", () => {
         target: { value: Server.Rick },
       });
     });
-
     expect(serverChooserSelector.value).toEqual(
       "https://rickandmortyapi.com/graphql"
     );

@@ -120,8 +120,14 @@ export const EN = {
   countries: "Countries",
   rickAndMorty: "Rick And Morty",
   setServer: "Set",
-  actualServer: "Your endpoint:",
+  actualServer: "Current endpoint:",
   customServer: "Custom",
+  docHeader: "Server's Documentation",
+  swapi: "Star Wars",
+  rootTypes: "Root Types",
+  description: "Description",
+  back: "< Back",
+  notProvided: "Not provided",
 };
 
 export const RU: typeof EN = {
@@ -247,6 +253,12 @@ export const RU: typeof EN = {
   countries: "Страны",
   rickAndMorty: "Рик и Морти",
   setServer: "Задать",
-  actualServer: "Сейчас работаем с:",
+  actualServer: "Текущий сервер:",
   customServer: "Задать свой",
+  docHeader: "Документация по серверу",
+  swapi: "Звёздные войны",
+  rootTypes: "Корневые типы",
+  description: "Описание",
+  back: "< Назад",
+  notProvided: "Не предоставлено",
 };

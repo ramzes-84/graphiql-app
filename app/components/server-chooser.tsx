@@ -1,21 +1,30 @@
-import { ChangeEvent, FormEvent, useContext, useRef } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useRef } from "react";
 import { Server, ServerContext } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
 import { INPUT, USUAL_BTN } from "../styles/uni-classes";
+import { getShortSchema } from "../utils/request";
 
 export const ServerChooser = () => {
   const dict = useDict();
-  const { endpoint, setEndpoint } = useContext(ServerContext);
+  const { endpoint, setEndpoint, setFullSchema } = useContext(ServerContext);
   const input = useRef<HTMLInputElement | null>(null);
   const fillInputIn = (event: ChangeEvent<HTMLSelectElement>) => {
-    event.preventDefault();
     input.current!.value = event.target.value;
   };
-  const handleServerSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleServerSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newEndpoint = input.current!.value;
+    const newSchema = await getShortSchema(endpoint);
+    setFullSchema(newSchema);
     setEndpoint(newEndpoint);
   };
+  useEffect(() => {
+    async function getData() {
+      const newSchema = await getShortSchema(endpoint);
+      setFullSchema(newSchema);
+    }
+    getData();
+  }, [endpoint, setFullSchema]);
 
   return (
     <section className="flex flex-col items-center">
@@ -31,6 +40,7 @@ export const ServerChooser = () => {
             defaultValue={endpoint}
             onChange={fillInputIn}
           >
+            <option value={Server.Swapi}>{dict.swapi}</option>
             <option value={Server.Countries}>{dict.countries}</option>
             <option value={Server.Rick}>{dict.rickAndMorty}</option>
             <option value={Server.Custom}>{dict.customServer}</option>
@@ -47,8 +57,8 @@ export const ServerChooser = () => {
         <input className={USUAL_BTN} type="submit" value={dict.setServer} />
       </form>
       <div className="flex md:flex-row flex-col items-baseline">
-        <div className={USUAL_BTN}>{dict.actualServer}</div>
-        <div className="px-2">{endpoint}</div>
+        <p className={USUAL_BTN}>{dict.actualServer}</p>
+        <p className="px-2">{endpoint}</p>
       </div>
     </section>
   );
