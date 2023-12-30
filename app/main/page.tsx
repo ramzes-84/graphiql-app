@@ -34,8 +34,9 @@ const Page = () => {
       <div className={H1}>{dict.mainPage}</div>
       <ServerChooser />
 
-      <div className="flex m-3 p-3 gap-5 min-h-screen bg-fuchsia-50 rounded md:flex-row flex-col">
+      <div className="grid m-3 p-3 w-full gap-5 min-h-screen bg-fuchsia-50 rounded md:grid-cols-2  grid-flow-col">
         <Editor callback={(resp) => setResponse(resp)} />
+
         <Viewer response={response} />
       </div>
     </>

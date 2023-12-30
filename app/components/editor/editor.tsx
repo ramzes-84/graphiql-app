@@ -8,6 +8,9 @@ import dynamic from "next/dynamic";
 import { formatCode } from "@/app/utils/formateCode";
 import { IResponse, sendRequest } from "@/app/utils/request";
 import { ServerContext } from "@/app/context/contexts";
+import { IoIosArrowDropdown } from "react-icons/io";
+import { Variables } from "../variables";
+import { Headers } from "../headers";
 
 const Codemirror = dynamic(() => import("./Codemirror"), { ssr: false });
 
@@ -19,6 +22,7 @@ const Editor = ({ callback }: EditorProps) => {
   const { endpoint } = useContext(ServerContext);
   const dict = useDict();
   const [text, setText] = useState(dict.defaultTextEditor);
+  const [lowerPanel, setLowerPanel] = useState("");
 
   useEffect(() => {
     setText(dict.defaultTextEditor);
@@ -43,8 +47,60 @@ const Editor = ({ callback }: EditorProps) => {
   };
 
   return (
-    <>
-      <Codemirror value={text} onChange={handleChange} />
+    <div className="flex gap-2">
+      <div className=" w-full flex flex-col justify-between min-h-screen">
+        <Codemirror value={text} onChange={handleChange} />
+        <div className=" flex justify-between p-3 shadow-md my-1">
+          <div className="flex">
+            <button
+              onClick={() => setLowerPanel("variables")}
+              className={
+                lowerPanel === "variables"
+                  ? "text-[#f6009c]  shadow-slate-900 shadow-sm mx-2 rounded-sm px-2"
+                  : " mx-2 text-[#f6009c] shadow-none"
+              }
+            >
+              Variables
+            </button>
+            <button
+              onClick={() => setLowerPanel("headers")}
+              className={
+                lowerPanel === "headers"
+                  ? "text-[#f6009c]  shadow-slate-900 shadow-sm mx-2 rounded-sm px-2"
+                  : " mx-2 text-[#f6009c] shadow-none"
+              }
+            >
+              Headers
+            </button>
+          </div>
+          <button
+            onClick={() =>
+              lowerPanel.length > 0
+                ? setLowerPanel("")
+                : setLowerPanel("variables")
+            }
+          >
+            <IoIosArrowDropdown
+              style={
+                lowerPanel.length > 0
+                  ? {
+                      color: "#f6009c",
+                      width: "100%",
+                      height: "100%",
+                      transform: "rotate(0.5turn)",
+                    }
+                  : { color: "#f6009c", width: "100%", height: "100%" }
+              }
+            />
+          </button>
+        </div>
+        {lowerPanel.length > 0 && (
+          <div className="h-40 shadow-md w-full transition-all">
+            {lowerPanel === "variables" ? <Variables /> : <Headers />}
+          </div>
+        )}
+      </div>
+
       <div className="flex flex-col">
         <div className="w-10 h-10">
           <button
@@ -71,7 +127,7 @@ const Editor = ({ callback }: EditorProps) => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
