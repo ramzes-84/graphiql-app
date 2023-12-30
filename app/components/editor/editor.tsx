@@ -24,6 +24,7 @@ const Editor = ({ callback }: EditorProps) => {
   const [text, setText] = useState(dict.defaultTextEditor);
   const [lowerPanel, setLowerPanel] = useState("");
   const [variables, setVariables] = useState("");
+  const [format, setFormat] = useState(false);
 
   useEffect(() => {
     setText(dict.defaultTextEditor);
@@ -37,6 +38,10 @@ const Editor = ({ callback }: EditorProps) => {
     if (event && text) {
       const correctQuery = formatCode(text);
       setText(correctQuery);
+      setFormat(true);
+      setTimeout(() => {
+        setFormat(false);
+      }, 1000);
     }
   };
 
@@ -98,7 +103,10 @@ const Editor = ({ callback }: EditorProps) => {
         {lowerPanel.length > 0 && (
           <div className="h-40 shadow-md w-full transition-all">
             {lowerPanel === "variables" ? (
-              <Variables callback={(text: string) => setVariables(text)} />
+              <Variables
+                callback={(text: string) => setVariables(text)}
+                format={format}
+              />
             ) : (
               <Headers />
             )}
