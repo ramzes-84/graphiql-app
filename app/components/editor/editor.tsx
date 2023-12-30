@@ -23,6 +23,7 @@ const Editor = ({ callback }: EditorProps) => {
   const dict = useDict();
   const [text, setText] = useState(dict.defaultTextEditor);
   const [lowerPanel, setLowerPanel] = useState("");
+  const [variables, setVariables] = useState("");
 
   useEffect(() => {
     setText(dict.defaultTextEditor);
@@ -41,7 +42,7 @@ const Editor = ({ callback }: EditorProps) => {
 
   const handleRequest = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
-      const response = await sendRequest(text, endpoint);
+      const response = await sendRequest(text, endpoint, variables);
       callback(response);
     }
   };
@@ -60,7 +61,7 @@ const Editor = ({ callback }: EditorProps) => {
                   : " mx-2 text-[#f6009c] shadow-none"
               }
             >
-              Variables
+              {dict.variables}
             </button>
             <button
               onClick={() => setLowerPanel("headers")}
@@ -70,7 +71,7 @@ const Editor = ({ callback }: EditorProps) => {
                   : " mx-2 text-[#f6009c] shadow-none"
               }
             >
-              Headers
+              {dict.headers}
             </button>
           </div>
           <button
@@ -96,7 +97,11 @@ const Editor = ({ callback }: EditorProps) => {
         </div>
         {lowerPanel.length > 0 && (
           <div className="h-40 shadow-md w-full transition-all">
-            {lowerPanel === "variables" ? <Variables /> : <Headers />}
+            {lowerPanel === "variables" ? (
+              <Variables callback={(text: string) => setVariables(text)} />
+            ) : (
+              <Headers />
+            )}
           </div>
         )}
       </div>

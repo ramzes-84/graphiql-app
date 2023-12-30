@@ -5,8 +5,12 @@ import dynamic from "next/dynamic";
 
 const Codemirror = dynamic(() => import("./editor/Codemirror"), { ssr: false });
 
-export const Variables = () => {
-  const [text, setText] = useState("{}");
+export const Variables = ({
+  callback,
+}: {
+  callback: (text: string) => void;
+}) => {
+  const [text, setText] = useState("");
 
   useEffect(() => {
     setText(text);
@@ -14,6 +18,7 @@ export const Variables = () => {
 
   const handleChange = useCallback((newText: string) => {
     setText(newText);
+    callback(newText);
   }, []);
 
   return (

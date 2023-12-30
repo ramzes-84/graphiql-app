@@ -27,7 +27,7 @@ const Page = () => {
     <>
       <div className="text-[#f6009c] flex justify-end mt-2 mr-2">
         {sessionData?.user.token_expiry &&
-          `Access open until: ${new Date(sessionData?.user.token_expiry)
+          `${dict.tokenValid} ${new Date(sessionData?.user.token_expiry)
             .toLocaleTimeString()
             .slice(0, -3)}`}
       </div>
