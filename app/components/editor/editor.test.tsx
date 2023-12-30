@@ -1,31 +1,8 @@
 import "@testing-library/jest-dom";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import Editor from "./editor";
-import { formatCode } from "../../utils/formateCode";
-import { sendRequest } from "@/app/utils/request";
-
-jest.mock("../../utils/formateCode");
-jest.mock("../../utils/request");
 
 describe("Editor", () => {
-  it("should format code on correct button click", () => {
-    render(<Editor />);
-
-    const correctBtn = screen.getByTitle("Prettify query");
-
-    expect(correctBtn).toBeInTheDocument();
-    fireEvent.click(correctBtn);
-    expect(formatCode).toHaveBeenCalled();
-  });
-  it("should call function", () => {
-    render(<Editor />);
-
-    const makeQueryBtn = screen.getByTitle("Execute query");
-    expect(makeQueryBtn).toBeInTheDocument();
-
-    fireEvent.click(makeQueryBtn);
-    expect(sendRequest).toHaveBeenCalled();
-  });
   it("shows variables panel", async () => {
     render(<Editor />);
 

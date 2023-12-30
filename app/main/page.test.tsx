@@ -1,6 +1,11 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
+import { formatCode } from "../utils/formateCode";
+import { sendRequest } from "@/app/utils/request";
+
+jest.mock("../utils/formateCode");
+jest.mock("../utils/request");
 
 jest.mock("../components/editor/editor", () => {
   return jest.fn().mockReturnValue(<div>Test Editor</div>);
@@ -41,5 +46,19 @@ describe("Page", () => {
       expect(serverChooserDefaultSelector).toBeVisible();
       expect(serverChooserSelector).toBeInTheDocument();
     });
+  });
+  it("should format code on correct button click", () => {
+    const correctBtn = screen.getByTitle("Prettify query");
+
+    expect(correctBtn).toBeInTheDocument();
+    fireEvent.click(correctBtn);
+    expect(formatCode).toHaveBeenCalled();
+  });
+  it("should call function", () => {
+    const makeQueryBtn = screen.getByTitle("Execute query");
+    expect(makeQueryBtn).toBeInTheDocument();
+
+    fireEvent.click(makeQueryBtn);
+    expect(sendRequest).toHaveBeenCalled();
   });
 });
