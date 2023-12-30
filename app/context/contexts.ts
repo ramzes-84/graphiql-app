@@ -21,12 +21,20 @@ export const LangContext = createContext<LangContext>({
   setLang() {},
 });
 
-export type ServerContext = {
+export type ServerRequestContext = {
   endpoint: string;
   setEndpoint: React.Dispatch<React.SetStateAction<string>>;
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+  variables: string;
+  setVariables: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export const ServerContext = createContext<ServerContext>({
+export const ServerRequestContext = createContext<ServerRequestContext>({
   endpoint: Server.Countries,
   setEndpoint() {},
+  query: "",
+  setQuery() {},
+  variables: "",
+  setVariables() {},
 });

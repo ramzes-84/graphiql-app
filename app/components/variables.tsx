@@ -1,27 +1,22 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { formatCode } from "../utils/formateCode";
+import { ServerRequestContext } from "../context/contexts";
 
 const Codemirror = dynamic(() => import("./editor/Codemirror"), { ssr: false });
 
-export const Variables = ({
-  callback,
-  format,
-}: {
-  format: boolean;
-  callback: (text: string) => void;
-}) => {
-  const [text, setText] = useState("");
+export const Variables = () => {
+  const { variables, setVariables } = useContext(ServerRequestContext);
+  const [text, setText] = useState(variables);
 
   useEffect(() => {
-    if (format) setText(formatCode(text));
-  }, [format]);
+    setText(variables);
+  }, [variables]);
 
   const handleChange = useCallback((newText: string) => {
     setText(newText);
-    callback(newText);
+    setVariables(newText);
   }, []);
 
   return (

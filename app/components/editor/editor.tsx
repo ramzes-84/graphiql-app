@@ -1,56 +1,31 @@
 "use client";
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { GiComb } from "react-icons/gi";
-import { BsPlayCircle } from "react-icons/bs";
+
 import { useDict } from "@/app/utils/useDictHook";
 import dynamic from "next/dynamic";
-import { formatCode } from "@/app/utils/formateCode";
-import { IResponse, sendRequest } from "@/app/utils/request";
-import { ServerContext } from "@/app/context/contexts";
+import { ServerRequestContext } from "@/app/context/contexts";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { Variables } from "../variables";
 import { Headers } from "../headers";
 
 const Codemirror = dynamic(() => import("./Codemirror"), { ssr: false });
 
-type EditorProps = {
-  callback: (response: IResponse) => void;
-};
-
-const Editor = ({ callback }: EditorProps) => {
-  const { endpoint } = useContext(ServerContext);
+const Editor = () => {
+  const { setQuery, query } = useContext(ServerRequestContext);
   const dict = useDict();
-  const [text, setText] = useState(dict.defaultTextEditor);
+  const initialText = query.length > 0 ? query : dict.defaultTextEditor;
+  const [text, setText] = useState(initialText);
   const [lowerPanel, setLowerPanel] = useState("");
-  const [variables, setVariables] = useState("");
-  const [format, setFormat] = useState(false);
 
   useEffect(() => {
-    setText(dict.defaultTextEditor);
-  }, [dict.defaultTextEditor]);
+    setText(initialText);
+  }, [initialText]);
 
   const handleChange = useCallback((newText: string) => {
     setText(newText);
+    setQuery(newText);
   }, []);
-
-  const handleCorrectBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (event && text) {
-      const correctQuery = formatCode(text);
-      setText(correctQuery);
-      setFormat(true);
-      setTimeout(() => {
-        setFormat(false);
-      }, 1000);
-    }
-  };
-
-  const handleRequest = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (event) {
-      const response = await sendRequest(text, endpoint, variables);
-      callback(response);
-    }
-  };
 
   return (
     <div className="flex gap-2">
@@ -103,43 +78,9 @@ const Editor = ({ callback }: EditorProps) => {
         </div>
         {lowerPanel.length > 0 && (
           <div className="h-40 shadow-md w-full transition-all">
-            {lowerPanel === "variables" ? (
-              <Variables
-                callback={(text: string) => setVariables(text)}
-                format={format}
-              />
-            ) : (
-              <Headers />
-            )}
+            {lowerPanel === "variables" ? <Variables /> : <Headers />}
           </div>
         )}
-      </div>
-
-      <div className="flex flex-col">
-        <div className="w-10 h-10">
-          <button
-            type="button"
-            className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
-            onClick={handleRequest}
-            title="Execute query"
-          >
-            <BsPlayCircle
-              style={{ color: "#f6009c", width: "100%", height: "100%" }}
-            />
-          </button>
-        </div>
-        <div className="w-10 h-10">
-          <button
-            type="button"
-            className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
-            onClick={handleCorrectBtn}
-            title="Prettify query"
-          >
-            <GiComb
-              style={{ color: "#f6009c", width: "100%", height: "100%" }}
-            />
-          </button>
-        </div>
       </div>
     </div>
   );

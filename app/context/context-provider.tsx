@@ -1,12 +1,19 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { LangContext, Languages, Server, ServerContext } from "./contexts";
+import {
+  LangContext,
+  Languages,
+  Server,
+  ServerRequestContext,
+} from "./contexts";
 import Loading from "../loading";
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [lang, setLang] = useState(Languages.En);
   const [endpoint, setEndpoint] = useState<string>(Server.Countries);
+  const [query, setQuery] = useState("");
+  const [variables, setVariables] = useState("");
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const savedLang =
@@ -21,11 +28,20 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
       {loading ? (
         <Loading />
       ) : (
-        <ServerContext.Provider value={{ endpoint, setEndpoint }}>
+        <ServerRequestContext.Provider
+          value={{
+            endpoint,
+            setEndpoint,
+            query,
+            setQuery,
+            variables,
+            setVariables,
+          }}
+        >
           <LangContext.Provider value={{ lang, setLang }}>
             {children}
           </LangContext.Provider>
-        </ServerContext.Provider>
+        </ServerRequestContext.Provider>
       )}
     </>
   );

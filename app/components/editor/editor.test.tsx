@@ -6,11 +6,10 @@ import { sendRequest } from "@/app/utils/request";
 
 jest.mock("../../utils/formateCode");
 jest.mock("../../utils/request");
-const mockCallback = jest.fn();
 
 describe("Editor", () => {
   it("should format code on correct button click", () => {
-    render(<Editor callback={mockCallback} />);
+    render(<Editor />);
 
     const correctBtn = screen.getByTitle("Prettify query");
 
@@ -19,7 +18,7 @@ describe("Editor", () => {
     expect(formatCode).toHaveBeenCalled();
   });
   it("should call function", () => {
-    render(<Editor callback={mockCallback} />);
+    render(<Editor />);
 
     const makeQueryBtn = screen.getByTitle("Execute query");
     expect(makeQueryBtn).toBeInTheDocument();
@@ -28,7 +27,7 @@ describe("Editor", () => {
     expect(sendRequest).toHaveBeenCalled();
   });
   it("shows variables panel", async () => {
-    render(<Editor callback={mockCallback} />);
+    render(<Editor />);
 
     const btn = screen.getByText("Variables");
     fireEvent.click(btn);
@@ -38,7 +37,7 @@ describe("Editor", () => {
     });
   });
   it("shows headers panel", async () => {
-    render(<Editor callback={mockCallback} />);
+    render(<Editor />);
 
     const btn = screen.getByText("Headers");
     fireEvent.click(btn);
@@ -48,7 +47,7 @@ describe("Editor", () => {
     });
   });
   it("hides panel on arrow down", async () => {
-    render(<Editor callback={mockCallback} />);
+    render(<Editor />);
 
     const btn = screen.getByText("Headers");
     fireEvent.click(btn);

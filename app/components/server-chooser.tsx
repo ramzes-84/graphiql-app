@@ -1,11 +1,11 @@
 import { ChangeEvent, FormEvent, useContext, useRef } from "react";
-import { Server, ServerContext } from "../context/contexts";
+import { Server, ServerRequestContext } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
 import { INPUT, USUAL_BTN } from "../styles/uni-classes";
 
 export const ServerChooser = () => {
   const dict = useDict();
-  const { endpoint, setEndpoint } = useContext(ServerContext);
+  const { endpoint, setEndpoint } = useContext(ServerRequestContext);
   const input = useRef<HTMLInputElement | null>(null);
   const fillInputIn = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
