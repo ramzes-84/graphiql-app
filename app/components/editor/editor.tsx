@@ -87,6 +87,7 @@ const Editor = ({ callback }: EditorProps) => {
             }
           >
             <IoIosArrowDropdown
+              title="arrow-down"
               style={
                 lowerPanel.length > 0
                   ? {
