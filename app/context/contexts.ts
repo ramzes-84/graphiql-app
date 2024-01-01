@@ -46,7 +46,7 @@ export const reducer = (state: State, action: Action) => {
     case "setVariables":
       return { ...state, variables: action.payload };
     default:
-      throw new Error();
+      throw new Error("Wrong action");
   }
 };
 

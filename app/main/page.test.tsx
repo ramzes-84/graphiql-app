@@ -3,10 +3,10 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
 import { formatCode } from "../utils/formateCode";
 import { sendRequest } from "@/app/utils/request";
+import { Server } from "../context/contexts";
 
 jest.mock("../utils/formateCode");
 jest.mock("../utils/request");
-
 jest.mock("../components/editor/editor", () => {
   return jest.fn().mockReturnValue(<div>Test Editor</div>);
 });
@@ -25,6 +25,34 @@ jest.mock("next-auth/react", () => ({
     return { data: mockSession, status: "authenticated" };
   }),
   signOut: () => mockSignOut,
+}));
+
+const mockQuery = `query Query() {
+  country(code: "BR") {
+    name
+    native
+    capital
+    emoji
+    currency
+    languages {
+      code
+      name
+    }
+  }
+}`;
+
+jest.mock("../context/contexts", () => ({
+  ...jest.requireActual("../context/contexts"),
+  useServerRequestContext: jest.fn(() => {
+    return {
+      state: {
+        query: mockQuery,
+        endpoint: Server.Countries,
+        variables: `{"code": "BR"}`,
+      },
+      dispatch: jest.fn(),
+    };
+  }),
 }));
 
 describe("Page", () => {

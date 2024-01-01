@@ -26,7 +26,6 @@ const Page = () => {
   }, [sessionData, status, tokenExpiry]);
 
   const dict = useDict();
-
   const [response, setResponse] = useState<IResponse>({});
   const { state, dispatch } = useServerRequestContext();
   const [loading, setLoading] = useState(false);
