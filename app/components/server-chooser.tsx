@@ -1,11 +1,11 @@
-import { ChangeEvent, FormEvent, useContext, useRef } from "react";
-import { Server, ServerRequestContext } from "../context/contexts";
+import { ChangeEvent, FormEvent, useRef } from "react";
+import { Server, useServerRequestContext } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
 import { INPUT, USUAL_BTN } from "../styles/uni-classes";
 
 export const ServerChooser = () => {
   const dict = useDict();
-  const { endpoint, setEndpoint } = useContext(ServerRequestContext);
+  const { state, dispatch } = useServerRequestContext();
   const input = useRef<HTMLInputElement | null>(null);
   const fillInputIn = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
@@ -14,7 +14,7 @@ export const ServerChooser = () => {
   const handleServerSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newEndpoint = input.current!.value;
-    setEndpoint(newEndpoint);
+    dispatch({ type: "setEndpoint", payload: newEndpoint });
   };
 
   return (
@@ -28,7 +28,7 @@ export const ServerChooser = () => {
           <select
             className={INPUT}
             name="serverSelector"
-            defaultValue={endpoint}
+            defaultValue={state.endpoint}
             onChange={fillInputIn}
           >
             <option value={Server.Countries}>{dict.countries}</option>
@@ -41,7 +41,7 @@ export const ServerChooser = () => {
           type="url"
           name="serverInput"
           className={INPUT}
-          defaultValue={endpoint}
+          defaultValue={state.endpoint}
           required
         />
         <input className={USUAL_BTN} type="submit" value={dict.setServer} />
@@ -50,7 +50,7 @@ export const ServerChooser = () => {
         <span className="text-[#f6009c] font-bold my-2">
           {dict.actualServer}
         </span>
-        <p className="px-0 md:px-2 mb-2 font-">{endpoint}</p>
+        <p className="px-0 md:px-2 mb-2 font-">{state.endpoint}</p>
       </div>
     </section>
   );

@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useDict } from "@/app/utils/useDictHook";
 import dynamic from "next/dynamic";
-import { ServerRequestContext } from "@/app/context/contexts";
+import { useServerRequestContext } from "@/app/context/contexts";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { Variables } from "../variables";
 import { Headers } from "../headers";
@@ -12,9 +12,10 @@ import { Headers } from "../headers";
 const Codemirror = dynamic(() => import("./Codemirror"), { ssr: false });
 
 const Editor = () => {
-  const { setQuery, query } = useContext(ServerRequestContext);
+  const { state, dispatch } = useServerRequestContext();
   const dict = useDict();
-  const initialText = query.length > 0 ? query : dict.defaultTextEditor;
+  const initialText =
+    state.query.length > 0 ? state.query : dict.defaultTextEditor;
   const [text, setText] = useState(initialText);
   const [lowerPanel, setLowerPanel] = useState("");
 
@@ -22,14 +23,17 @@ const Editor = () => {
     setText(initialText);
   }, [initialText]);
 
-  const handleChange = useCallback((newText: string) => {
-    setText(newText);
-    setQuery(newText);
-  }, []);
+  const handleChange = useCallback(
+    (newText: string) => {
+      setText(newText);
+      dispatch({ type: "setQuery", payload: newText });
+    },
+    [dispatch]
+  );
 
   return (
-    <div className="flex gap-2">
-      <div className=" w-full flex flex-col justify-between min-h-screen">
+    <div className="flex w-full">
+      <div className="  flex flex-grow flex-col justify-between min-h-screen">
         <Codemirror value={text} onChange={handleChange} />
         <div className=" flex justify-between p-3 shadow-md my-1">
           <div className="flex">
@@ -77,7 +81,7 @@ const Editor = () => {
           </button>
         </div>
         {lowerPanel.length > 0 && (
-          <div className="h-40 shadow-md w-full transition-all">
+          <div className="h-40 shadow-md  transition-all">
             {lowerPanel === "variables" ? <Variables /> : <Headers />}
           </div>
         )}

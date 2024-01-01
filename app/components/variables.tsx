@@ -1,23 +1,27 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { ServerRequestContext } from "../context/contexts";
+import { useServerRequestContext } from "../context/contexts";
 
 const Codemirror = dynamic(() => import("./editor/Codemirror"), { ssr: false });
 
 export const Variables = () => {
-  const { variables, setVariables } = useContext(ServerRequestContext);
-  const [text, setText] = useState(variables);
+  const { state, dispatch } = useServerRequestContext();
+  const initValue = state.variables ? state.variables : "";
+  const [text, setText] = useState(initValue);
 
   useEffect(() => {
-    setText(variables);
-  }, [variables]);
+    setText(initValue);
+  }, [initValue]);
 
-  const handleChange = useCallback((newText: string) => {
-    setText(newText);
-    setVariables(newText);
-  }, []);
+  const handleChange = useCallback(
+    (newText: string) => {
+      setText(newText);
+      dispatch({ type: "setVariables", payload: newText });
+    },
+    [dispatch]
+  );
 
   return (
     <div className=" w-full flex h-full" title="variables">

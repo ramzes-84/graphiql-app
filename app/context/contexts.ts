@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 export enum Server {
   Countries = "https://countries.trevorblades.com/graphql",
@@ -21,20 +21,43 @@ export const LangContext = createContext<LangContext>({
   setLang() {},
 });
 
-export type ServerRequestContext = {
+type State = {
   endpoint: string;
-  setEndpoint: React.Dispatch<React.SetStateAction<string>>;
   query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-  variables: string;
-  setVariables: React.Dispatch<React.SetStateAction<string>>;
+  variables?: string;
 };
 
-export const ServerRequestContext = createContext<ServerRequestContext>({
+type Action = {
+  type: string;
+  payload: string;
+};
+
+export const InitialState: State = {
   endpoint: Server.Countries,
-  setEndpoint() {},
   query: "",
-  setQuery() {},
-  variables: "",
-  setVariables() {},
+};
+
+export const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case "setEndpoint":
+      return { ...state, endpoint: action.payload };
+    case "setQuery":
+      return { ...state, query: action.payload };
+    case "setVariables":
+      return { ...state, variables: action.payload };
+    default:
+      throw new Error();
+  }
+};
+
+export const ServerRequestContext = createContext<{
+  state: State;
+  dispatch: React.Dispatch<Action>;
+}>({
+  state: InitialState,
+  dispatch: () => null,
 });
+
+export const useServerRequestContext = () => {
+  return useContext(ServerRequestContext);
+};
