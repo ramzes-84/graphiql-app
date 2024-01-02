@@ -40,7 +40,7 @@ describe("Sign up page", () => {
       const password = screen.getByRole("textbox", { name: /password/i });
       const submit = screen.getByText("Sign Up");
       fireEvent.change(email, { target: { value: "fail" } });
-      fireEvent.change(password, { target: { value: "Pass111)" } });
+      fireEvent.change(password, { target: { value: "weak" } });
       expect(submit).toBeDisabled();
       expect(screen.getByText("Incorrect email address")).toBeInTheDocument();
     });

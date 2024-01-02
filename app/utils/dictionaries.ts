@@ -122,6 +122,9 @@ export const EN = {
   setServer: "Set",
   actualServer: "Your endpoint:",
   customServer: "Custom",
+  variables: "Variables",
+  headers: "Headers",
+  tokenValid: "Access open until:",
 };
 
 export const RU: typeof EN = {
@@ -249,4 +252,7 @@ export const RU: typeof EN = {
   setServer: "Задать",
   actualServer: "Сейчас работаем с:",
   customServer: "Задать свой",
+  variables: "Переменные",
+  headers: "Хедеры",
+  tokenValid: "Доступ открыт до:",
 };

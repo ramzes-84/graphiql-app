@@ -19,7 +19,10 @@ describe("sendRequest", () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({
+        query: query,
+        variables: {},
+      }),
     });
     expect(result).toEqual(mockData);
   });
