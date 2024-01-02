@@ -72,7 +72,7 @@ const Page = () => {
           className=" rounded gap-2 p-5 bg-fuchsia-50"
           style={{ display: "grid", gridTemplateColumns: "1fr 50px 1fr" }}
         >
-          <div className=" flex flex-col h-screen">
+          <div className=" flex flex-col h-screen overflow-auto">
             <Editor />
           </div>
 
@@ -108,7 +108,7 @@ const Page = () => {
               <Loader size={50} />
             </div>
           ) : (
-            <div className="  ">
+            <div className=" overflow-auto ">
               <Viewer response={response} />
             </div>
           )}
