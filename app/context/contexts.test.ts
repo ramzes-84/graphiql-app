@@ -55,9 +55,9 @@ describe("Reducer", () => {
     expect(state2.query).toBe(mockQuery);
     const state3 = reducer(InitialState, {
       type: "setHeaders",
-      payload: "{'authorization': 'Bearer MY_Token'}",
+      payload: ' {"Authorization": "Bearer My_Token" }',
     });
-    expect(state3.headers).toBe("{'authorization': 'Bearer MY_Token'}");
+    expect(state3.headers).toBe(' {"Authorization": "Bearer My_Token" }');
     const state4 = reducer(InitialState, {
       type: "setVariables",
       payload: `{"name": "Morty"}`,
