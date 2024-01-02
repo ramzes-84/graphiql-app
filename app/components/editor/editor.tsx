@@ -32,61 +32,59 @@ const Editor = () => {
   );
 
   return (
-    <div className="flex w-full">
-      <div className="  flex flex-grow flex-col justify-between min-h-screen">
-        <Codemirror value={text} onChange={handleChange} />
-        <div className=" flex justify-between p-3 shadow-md my-1">
-          <div className="flex">
-            <button
-              onClick={() => setLowerPanel("variables")}
-              className={
-                lowerPanel === "variables"
-                  ? "text-[#f6009c]  shadow-slate-900 shadow-sm mx-2 rounded-sm px-2"
-                  : " mx-2 text-[#f6009c] shadow-none"
-              }
-            >
-              {dict.variables}
-            </button>
-            <button
-              onClick={() => setLowerPanel("headers")}
-              className={
-                lowerPanel === "headers"
-                  ? "text-[#f6009c]  shadow-slate-900 shadow-sm mx-2 rounded-sm px-2"
-                  : " mx-2 text-[#f6009c] shadow-none"
-              }
-            >
-              {dict.headers}
-            </button>
-          </div>
+    <>
+      <Codemirror value={text} onChange={handleChange} />
+      <div className=" flex  justify-between p-3 shadow-md my-1">
+        <div className="flex">
           <button
-            onClick={() =>
-              lowerPanel.length > 0
-                ? setLowerPanel("")
-                : setLowerPanel("variables")
+            onClick={() => setLowerPanel("variables")}
+            className={
+              lowerPanel === "variables"
+                ? "text-[#f6009c]  shadow-slate-900 shadow-sm mx-2 rounded-sm px-2"
+                : " mx-2 text-[#f6009c] shadow-none"
             }
           >
-            <IoIosArrowDropdown
-              title="arrow-down"
-              style={
-                lowerPanel.length > 0
-                  ? {
-                      color: "#f6009c",
-                      width: "100%",
-                      height: "100%",
-                      transform: "rotate(0.5turn)",
-                    }
-                  : { color: "#f6009c", width: "100%", height: "100%" }
-              }
-            />
+            {dict.variables}
+          </button>
+          <button
+            onClick={() => setLowerPanel("headers")}
+            className={
+              lowerPanel === "headers"
+                ? "text-[#f6009c]  shadow-slate-900 shadow-sm mx-2 rounded-sm px-2"
+                : " mx-2 text-[#f6009c] shadow-none"
+            }
+          >
+            {dict.headers}
           </button>
         </div>
-        {lowerPanel.length > 0 && (
-          <div className="h-40 shadow-md  transition-all">
-            {lowerPanel === "variables" ? <Variables /> : <Headers />}
-          </div>
-        )}
+        <button
+          onClick={() =>
+            lowerPanel.length > 0
+              ? setLowerPanel("")
+              : setLowerPanel("variables")
+          }
+        >
+          <IoIosArrowDropdown
+            title="arrow-down"
+            style={
+              lowerPanel.length > 0
+                ? {
+                    color: "#f6009c",
+                    width: "100%",
+                    height: "100%",
+                    transform: "rotate(0.5turn)",
+                  }
+                : { color: "#f6009c", width: "100%", height: "100%" }
+            }
+          />
+        </button>
       </div>
-    </div>
+      {lowerPanel.length > 0 && (
+        <div className="h-40 shadow-md  transition-all">
+          {lowerPanel === "variables" ? <Variables /> : <Headers />}
+        </div>
+      )}
+    </>
   );
 };
 

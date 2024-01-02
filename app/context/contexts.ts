@@ -25,6 +25,7 @@ type State = {
   endpoint: string;
   query: string;
   variables?: string;
+  headers?: string;
 };
 
 type Action = {
@@ -45,6 +46,8 @@ export const reducer = (state: State, action: Action) => {
       return { ...state, query: action.payload };
     case "setVariables":
       return { ...state, variables: action.payload };
+    case "setHeaders":
+      return { ...state, headers: action.payload };
     default:
       throw new Error("Wrong action");
   }

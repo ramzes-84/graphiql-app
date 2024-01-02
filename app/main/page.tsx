@@ -37,6 +37,10 @@ const Page = () => {
         const correctVars = formatCode(state.variables);
         dispatch({ type: "setVariables", payload: correctVars });
       }
+      if (state.headers) {
+        const correctHeaders = formatCode(state.headers);
+        dispatch({ type: "setHeaders", payload: correctHeaders });
+      }
     }
   };
 
@@ -46,7 +50,8 @@ const Page = () => {
       const res = await sendRequest(
         state.query,
         state.endpoint,
-        state.variables
+        state.variables,
+        state.headers
       );
       setResponse(res);
       setLoading(false);
@@ -63,34 +68,38 @@ const Page = () => {
       <div className={H1}>{dict.mainPage}</div>
       <ServerChooser />
       <div className="p-3 w-full min-h-screen   ">
-        <section className="grid rounded grid-cols-2 gap-2 p-5 bg-fuchsia-50">
-          <div className="flex shadow-sm">
+        <section
+          className=" rounded gap-2 p-5 bg-fuchsia-50"
+          style={{ display: "grid", gridTemplateColumns: "1fr 50px 1fr" }}
+        >
+          <div className=" flex flex-col h-screen">
             <Editor />
-            <div className="flex flex-col mx-2">
-              <div className="w-10 h-10">
-                <button
-                  type="button"
-                  className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
-                  onClick={handleRequest}
-                  title="Execute query"
-                >
-                  <BsPlayCircle
-                    style={{ color: "#f6009c", width: "100%", height: "100%" }}
-                  />
-                </button>
-              </div>
-              <div className="w-10 h-10">
-                <button
-                  type="button"
-                  className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
-                  onClick={handleCorrectBtn}
-                  title="Prettify query"
-                >
-                  <GiComb
-                    style={{ color: "#f6009c", width: "100%", height: "100%" }}
-                  />
-                </button>
-              </div>
+          </div>
+
+          <div className="flex flex-col w-14 items-center">
+            <div className="w-10 h-10">
+              <button
+                type="button"
+                className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
+                onClick={handleRequest}
+                title="Execute query"
+              >
+                <BsPlayCircle
+                  style={{ color: "#f6009c", width: "100%", height: "100%" }}
+                />
+              </button>
+            </div>
+            <div className="w-10 h-10">
+              <button
+                type="button"
+                className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
+                onClick={handleCorrectBtn}
+                title="Prettify query"
+              >
+                <GiComb
+                  style={{ color: "#f6009c", width: "100%", height: "100%" }}
+                />
+              </button>
             </div>
           </div>
 
@@ -99,7 +108,9 @@ const Page = () => {
               <Loader size={50} />
             </div>
           ) : (
-            <Viewer response={response} />
+            <div className="  ">
+              <Viewer response={response} />
+            </div>
           )}
         </section>
       </div>
