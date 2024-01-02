@@ -13,6 +13,7 @@ import { GiComb } from "react-icons/gi";
 import { BsPlayCircle } from "react-icons/bs";
 import { useServerRequestContext } from "../context/contexts";
 import Loader from "../components/loader";
+import { MdErrorOutline } from "react-icons/md";
 
 const Page = () => {
   const { status, data: sessionData } = useSession();
@@ -29,6 +30,7 @@ const Page = () => {
   const [response, setResponse] = useState<IResponse>({});
   const { state, dispatch } = useServerRequestContext();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const handleCorrectBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
       const correctQuery = formatCode(state.query);
@@ -43,12 +45,22 @@ const Page = () => {
   const handleRequest = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
       setLoading(true);
-      const res = await sendRequest(
-        state.query,
-        state.endpoint,
-        state.variables
-      );
-      setResponse(res);
+      setError("");
+      sendRequest(state.query, state.endpoint, state.variables)
+        .then((res) => res.json())
+        .then(({ data, errors }) => {
+          if (errors) {
+            setResponse(errors);
+            setError(errors[0].message);
+          } else {
+            setResponse(data);
+          }
+        })
+        .catch((e) => {
+          setError(e.message);
+          setResponse({});
+        });
+
       setLoading(false);
     }
   };
@@ -99,7 +111,14 @@ const Page = () => {
               <Loader size={50} />
             </div>
           ) : (
-            <Viewer response={response} />
+            <div className="flex flex-col">
+              {error.length > 0 && (
+                <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
+                  <MdErrorOutline /> <span>{error}</span> <MdErrorOutline />
+                </div>
+              )}
+              <Viewer response={response} />
+            </div>
           )}
         </section>
       </div>

@@ -6,7 +6,7 @@ export const sendRequest = async (
   query: string,
   url: string,
   variables?: string
-): Promise<IResponse> => {
+) => {
   const res = await fetch(url, {
     method: "POST",
     headers: {
@@ -17,5 +17,5 @@ export const sendRequest = async (
       variables: variables ? JSON.parse(variables) : {},
     }),
   });
-  return res.json().then(({ data }) => data);
+  return res;
 };
