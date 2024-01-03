@@ -5,13 +5,16 @@ export interface IResponse {
 export const sendRequest = async (
   query: string,
   url: string,
-  variables?: string
+  variables?: string,
+  headers?: string
 ): Promise<IResponse> => {
   const res = await fetch(url, {
     method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
+    headers: headers
+      ? JSON.parse(headers)
+      : {
+          "Content-type": "application/json",
+        },
     body: JSON.stringify({
       query: query,
       variables: variables ? JSON.parse(variables) : {},
