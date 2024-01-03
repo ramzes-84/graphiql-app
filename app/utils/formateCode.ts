@@ -6,36 +6,46 @@ export const formatCode = (text: string, indent = 0): string | undefined => {
   let result = "";
   let openBracketsCount = 0;
 
+  let sumLines = "";
+
   for (const line of lines) {
     if (line.trim() === "" || line.trim().startsWith("#")) {
       result += line + "\n";
     } else {
-      const trimmedLine = line.replace(/\s+/g, " ");
-      for (let i = 0; i < trimmedLine.length; i += 1) {
-        const char = trimmedLine[i];
-        if (char === "{") {
-          result += " {\n" + " ".repeat(indent + 1);
-          indent += 1;
-          openBracketsCount += 1;
-        } else if (char === "}") {
-          indent -= 1;
-          openBracketsCount -= 1;
-          result += "\n" + " ".repeat(indent) + "}";
+      sumLines += line;
+    }
+  }
+  const trimmedLine = sumLines
+    .replace(/\s*([{}():])\s*/g, "$1")
+    .replace(/(?<=\w)\s+(?=\w)/g, " ");
+  for (let i = 0; i < trimmedLine.length; i += 1) {
+    const char = trimmedLine[i];
+    const nextChar = trimmedLine[i + 1];
+    const prevChar = trimmedLine[i - 1];
+    if (char === "{") {
+      result += " {\n" + " ".repeat(indent + 1);
+      indent += 1;
+      openBracketsCount += 1;
+    } else if (char === "}") {
+      indent -= 1;
+      openBracketsCount -= 1;
+      result += "\n" + " ".repeat(indent) + "}";
 
-          if (
-            i < trimmedLine.length - 1 &&
-            trimmedLine[i + 1].match(/[a-zA-Z]/)
-          ) {
-            result += "\n" + " ".repeat(indent);
-          }
-        } else if (char === ":") {
-          result += ": ";
-        } else if (char === " ") {
-          result += "\n" + " ".repeat(indent);
-        } else {
-          result += char;
-        }
+      if (i < trimmedLine.length - 1 && trimmedLine[i + 1].match(/[a-zA-Z]/)) {
+        result += "\n" + " ".repeat(indent);
       }
+    } else if (char === ":") {
+      result += ": ";
+    } else if (
+      char === " " &&
+      nextChar &&
+      nextChar.match(/[a-zA-Z]/) &&
+      prevChar &&
+      prevChar.match(/[a-zA-Z]/)
+    ) {
+      result += "\n" + " ".repeat(indent);
+    } else {
+      result += char;
     }
   }
 
