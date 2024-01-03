@@ -12,31 +12,65 @@ export interface Data {
 
 export interface QueryType {
   name: string;
-  kind: "OBJECT";
+  kind: "OBJECT" | "SCALAR" | "ENUM" | "INPUT_OBJECT" | "NON_NULL" | "LIST";
   description: string;
   fields: Field[] | null;
+  enumValues: EnumValue[] | null;
+  inputFields: InputField[];
+}
+
+export interface InputField {
+  name: string;
+  type: InputFieldType;
+  description: string;
+  defaultValue: string;
+}
+
+export interface InputFieldType {
+  name: string;
+  description: string;
 }
 
 export interface Field {
   name: string;
-  description: string;
+  description: string | null;
   args: Arg[];
   type: FieldType;
 }
 
-export interface Arg {
+export interface EnumValue {
   name: string;
 }
 
+export interface Arg {
+  name: string;
+  description: string | null;
+  type: ArgType;
+}
+
+export interface ArgType {
+  name: string | null;
+  kind: string | "NON_NULL";
+  ofType: OfType | null;
+}
+
+export interface OfType {
+  name: string;
+  kind: "OBJECT" | "SCALAR" | "ENUM" | "INPUT_OBJECT" | "NON_NULL" | "LIST";
+  ofType: OfType;
+}
+
 export interface FieldType {
-  name?: string;
+  name: string | null;
+  kind: "OBJECT" | "SCALAR" | "ENUM" | "INPUT_OBJECT" | "NON_NULL" | "LIST";
+  ofType: OfType;
 }
 
 export type FullSchema = {
   queryType: QueryType | null;
   mutationType: QueryType | null;
   subscriptionType: QueryType | null;
-  types?: QueryType[];
+  types: QueryType[];
 };
 
 export const sendRequest = async (
@@ -53,151 +87,20 @@ export const sendRequest = async (
   return res.json().then(({ data }) => data);
 };
 
-// export async function getFullSchema(endpoint: string): Promise<FullSchema> {
-//   return Promise.resolve(RESPONSE.data.__schema as unknown as FullSchema);
-
-//   const query = `query IntrospectionQuery {
-//     __schema {
-//       queryType {
-//         name
-//         description
-//         fields {
-//           name
-//           description
-//         }
-//       }
-//       mutationType {
-//         name
-//         description
-//         fields {
-//           name
-//           description
-//         }
-//       }
-//       subscriptionType {
-//         name
-//         description
-//         fields {
-//           name
-//           description
-//         }
-//       }
-//       types {
-//         ...FullType
-//       }
-//       directives {
-//         name
-//         description
-//         locations
-//         args {
-//           ...InputValue
-//         }
-//       }
-//     }
-//   }
-
-//   fragment FullType on __Type {
-//     kind
-//     name
-//     description
-//     fields(includeDeprecated: true) {
-//       name
-//       description
-//       args {
-//         ...InputValue
-//       }
-//       type {
-//         ...TypeRef
-//       }
-//       isDeprecated
-//       deprecationReason
-//     }
-//     inputFields {
-//       ...InputValue
-//     }
-//     interfaces {
-//       ...TypeRef
-//     }
-//     enumValues(includeDeprecated: true) {
-//       name
-//       description
-//       isDeprecated
-//       deprecationReason
-//     }
-//     possibleTypes {
-//       ...TypeRef
-//     }
-//   }
-
-//   fragment InputValue on __InputValue {
-//     name
-//     description
-//     type {
-//       ...TypeRef
-//     }
-//     defaultValue
-//   }
-
-//   fragment TypeRef on __Type {
-//     kind
-//     name
-//     ofType {
-//       kind
-//       name
-//       ofType {
-//         kind
-//         name
-//         ofType {
-//           kind
-//           name
-//           ofType {
-//             kind
-//             name
-//             ofType {
-//               kind
-//               name
-//               ofType {
-//                 kind
-//                 name
-//                 ofType {
-//                   kind
-//                   name
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }`;
-//   const res = await fetch(endpoint, {
-//     method: "POST",
-//     headers: {
-//       "Content-type": "application/json",
-//     },
-//     body: JSON.stringify({ query }),
-//   });
-//   const response = await res.json();
-//   return response.data.__schema;
-// }
-
 export async function getShortSchema(endpoint: string): Promise<FullSchema> {
   const query = `query IntrospectionQuery {
     __schema {
       queryType {
         name
-        description
-        kind
       }
       mutationType {
         name
-        description
-        kind
       }
       subscriptionType {
         name
-        description
-        kind
+      }
+      types {
+        name
       }
     }
   }`;
@@ -212,7 +115,7 @@ export async function getShortSchema(endpoint: string): Promise<FullSchema> {
   return response.data.__schema;
 }
 
-export async function getInfoAboutType(endpoint: string, query: string) {
+export async function getGQLInfoByName(endpoint: string, query: string) {
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -223,3 +126,15 @@ export async function getInfoAboutType(endpoint: string, query: string) {
   const response: ObjectDescResponse = await res.json();
   return response.data;
 }
+
+// export async function getInfoAboutType(endpoint: string, query: string) {
+//   const res = await fetch(endpoint, {
+//     method: "POST",
+//     headers: {
+//       "Content-type": "application/json",
+//     },
+//     body: JSON.stringify({ query }),
+//   });
+//   const response: ObjectDescResponse = await res.json();
+//   return response.data;
+// }

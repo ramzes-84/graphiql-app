@@ -127,7 +127,13 @@ export const EN = {
   rootTypes: "Root Types",
   description: "Description",
   back: "< Back",
-  notProvided: "Not provided",
+  notProvided: "not provided",
+  fields: "Fields",
+  type: "Type",
+  types: "All Types",
+  kind: "Kind",
+  enums: "Enum values",
+  createPopupTooltipError: "I can not describe this entity",
 };
 
 export const RU: typeof EN = {
@@ -260,5 +266,11 @@ export const RU: typeof EN = {
   rootTypes: "Корневые типы",
   description: "Описание",
   back: "< Назад",
-  notProvided: "Не предоставлено",
+  notProvided: "не предоставлено",
+  fields: "Поля",
+  type: "Тип",
+  types: "Все типы",
+  kind: "Вид",
+  enums: "Значения ENUM",
+  createPopupTooltipError: "Не могу описать данную сущность",
 };

@@ -31,7 +31,7 @@ export type ServerContext = {
 };
 
 export const ServerContext = createContext<ServerContext>({
-  endpoint: Server.Swapi,
+  endpoint: Server.Rick,
   setEndpoint() {},
   fullSchema: {
     types: [],

@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useContext, useEffect, useRef } from "react";
-import { Server, ServerContext } from "../context/contexts";
+import { HelpContext, Server, ServerContext } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
 import { INPUT, USUAL_BTN } from "../styles/uni-classes";
 import { getShortSchema } from "../utils/request";
@@ -7,6 +7,8 @@ import { getShortSchema } from "../utils/request";
 export const ServerChooser = () => {
   const dict = useDict();
   const { endpoint, setEndpoint, setFullSchema } = useContext(ServerContext);
+  const { setTooltipsList } = useContext(HelpContext);
+
   const input = useRef<HTMLInputElement | null>(null);
   const fillInputIn = (event: ChangeEvent<HTMLSelectElement>) => {
     input.current!.value = event.target.value;
@@ -17,6 +19,7 @@ export const ServerChooser = () => {
     const newSchema = await getShortSchema(endpoint);
     setFullSchema(newSchema);
     setEndpoint(newEndpoint);
+    setTooltipsList([]);
   };
   useEffect(() => {
     async function getData() {

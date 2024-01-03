@@ -12,7 +12,7 @@ export const HelpSection = () => {
       <details open>
         <summary>{dict.docHeader}</summary>
         <div className="h-[300px] max-h-[300px] overflow-y-auto	p-2 relative">
-          {tooltipsList as ReactNode}
+          {tooltipsList[tooltipsList.length - 1] as ReactNode}
           {tooltipsList.length > 0 && (
             <a
               className="absolute cursor-pointer text-blue-900"
@@ -24,29 +24,9 @@ export const HelpSection = () => {
               {dict.back}
             </a>
           )}
-          <RootTypesDesc />
+          {tooltipsList.length === 0 && <RootTypesDesc />}
         </div>
       </details>
     </section>
   );
 };
-
-// const TypesDesc = ({ types }: TypesDescProps) => {
-//   const nonSystemTypes = types.filter(
-//     (type: Type) => !type.name.startsWith("_")
-//   );
-//   const typesList = nonSystemTypes.map((type: Type) => {
-//     return (
-//       <div className="flex flex-row gap-1 items-center" key={type.name}>
-//         <span>{type.name}</span>
-//         <span>({type.kind})</span>
-//       </div>
-//     );
-//   });
-//   return (
-//     <div>
-//       <h2 className={H2}>Endpoint Types</h2>
-//       {typesList}
-//     </div>
-//   );
-// };

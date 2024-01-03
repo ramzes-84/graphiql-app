@@ -13,7 +13,7 @@ import { FullSchema } from "../utils/request";
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [lang, setLang] = useState(Languages.En);
-  const [endpoint, setEndpoint] = useState<string>(Server.Countries);
+  const [endpoint, setEndpoint] = useState<string>(Server.Rick);
   const [loading, setLoading] = useState(true);
   const [fullSchema, setFullSchema] = useState<FullSchema | null>(null);
   const [tooltipsList, setTooltipsList] = useState<(Element | ReactNode)[]>([]);
