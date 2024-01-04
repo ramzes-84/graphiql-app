@@ -47,17 +47,21 @@ const Page = () => {
       setLoading(true);
       setError("");
       sendRequest(state.query, state.endpoint, state.variables)
-        .then((res) => res.json())
-        .then(({ data, errors }) => {
-          if (errors) {
-            setResponse(errors);
-            setError(errors[0].message);
-          } else {
-            setResponse(data);
-          }
+        .then((res) => {
+          if (res.status === 401) setError(dict.unauthorized);
+          if (res.status === 400) setError(dict.invalidQuery);
+          if (res.status >= 500) setError(dict.serverError);
+          return res.json();
         })
-        .catch((e) => {
-          setError(e.message);
+        .then(({ data, errors, message }) => {
+          if (errors || message) {
+            setResponse(errors || message);
+          } else if (data) {
+            setResponse(data);
+          } else setResponse({});
+        })
+        .catch(() => {
+          setError(dict.failedToFetch);
           setResponse({});
         });
 
@@ -112,7 +116,7 @@ const Page = () => {
             </div>
           ) : (
             <div className="flex flex-col">
-              {error.length > 0 && (
+              {error && (
                 <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
                   <MdErrorOutline /> <span>{error}</span> <MdErrorOutline />
                 </div>
