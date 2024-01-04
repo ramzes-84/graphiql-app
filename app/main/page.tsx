@@ -120,7 +120,7 @@ const Page = () => {
               <Loader size={50} />
             </div>
           ) : (
-            <div className="flex flex-col">
+            <div className="flex flex-col overflow-auto ">
               {error && (
                 <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
                   <MdErrorOutline /> <span>{error}</span> <MdErrorOutline />
