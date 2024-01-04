@@ -2,11 +2,11 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
 import { formatCode } from "../utils/formateCode";
-import { sendRequest } from "@/app/utils/request";
+
 import { Server } from "../context/contexts";
 
 jest.mock("../utils/formateCode");
-jest.mock("../utils/request");
+
 jest.mock("../components/editor/editor", () => {
   return jest.fn().mockReturnValue(<div>Test Editor</div>);
 });
@@ -25,6 +25,19 @@ jest.mock("next-auth/react", () => ({
     return { data: mockSession, status: "authenticated" };
   }),
   signOut: () => mockSignOut,
+}));
+
+const data = { errors: ["Mock errors"] };
+let resp = {
+  json: jest.fn().mockImplementation(() => Promise.resolve(data)),
+  status: 400,
+};
+let mockSendRequest = jest
+  .fn()
+  .mockImplementationOnce(() => Promise.resolve(resp));
+
+jest.mock("../utils/request", () => ({
+  sendRequest: () => mockSendRequest(),
 }));
 
 const mockQuery = `query Query() {
@@ -82,11 +95,67 @@ describe("Page", () => {
     fireEvent.click(correctBtn);
     expect(formatCode).toHaveBeenCalled();
   });
-  it("should call function", () => {
-    const makeQueryBtn = screen.getByTitle("Execute query");
-    expect(makeQueryBtn).toBeInTheDocument();
+  it("should call function and show mock errors responce", async () => {
+    await waitFor(() => {
+      const makeQueryBtn = screen.getByTitle("Execute query");
+      expect(makeQueryBtn).toBeInTheDocument();
 
-    fireEvent.click(makeQueryBtn);
-    expect(sendRequest).toHaveBeenCalled();
+      fireEvent.click(makeQueryBtn);
+      expect(mockSendRequest).toHaveBeenCalled();
+    });
+    await waitFor(() => {
+      expect(screen.getByText('"Mock errors"')).toBeInTheDocument();
+    });
+  });
+  it("should show failed to fetch", async () => {
+    mockSendRequest = jest.fn().mockImplementationOnce(() => Promise.reject());
+    await waitFor(() => {
+      const makeQueryBtn = screen.getByTitle("Execute query");
+      fireEvent.click(makeQueryBtn);
+      expect(mockSendRequest).toHaveBeenCalled();
+    });
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "Failed to fetch. Please check your network connection and URL address"
+        )
+      ).toBeInTheDocument();
+    });
+  });
+  it("should show mock data", async () => {
+    const data1 = { data: { mockField: "Mock data" } };
+    resp = {
+      json: jest.fn().mockImplementation(() => Promise.resolve(data1)),
+      status: 200,
+    };
+    mockSendRequest = jest
+      .fn()
+      .mockImplementationOnce(() => Promise.resolve(resp));
+    await waitFor(() => {
+      const makeQueryBtn = screen.getByTitle("Execute query");
+      fireEvent.click(makeQueryBtn);
+      expect(mockSendRequest).toHaveBeenCalled();
+    });
+    await waitFor(() => {
+      expect(screen.getByText('"mockField": "Mock data"')).toBeInTheDocument();
+    });
+  });
+  it("should show empty brackets if no data", async () => {
+    resp = {
+      json: jest.fn().mockImplementation(() => Promise.resolve({})),
+      status: 400,
+    };
+    mockSendRequest = jest
+      .fn()
+      .mockImplementationOnce(() => Promise.resolve(resp));
+    await waitFor(() => {
+      const makeQueryBtn = screen.getByTitle("Execute query");
+      fireEvent.click(makeQueryBtn);
+      expect(mockSendRequest).toHaveBeenCalled();
+    });
+    await waitFor(() => {
+      expect(screen.getByText("Invalid query")).toBeInTheDocument();
+      expect(screen.getByText("{}")).toBeInTheDocument();
+    });
   });
 });

@@ -46,7 +46,7 @@ const Page = () => {
     if (event) {
       setLoading(true);
       setError("");
-      sendRequest(state.query, state.endpoint, state.variables)
+      sendRequest(state.query, state.endpoint, state.variables, state.headers)
         .then((res) => {
           if (res.status === 401) setError(dict.unauthorized);
           if (res.status === 400) setError(dict.invalidQuery);
