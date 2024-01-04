@@ -10,9 +10,18 @@ export interface Data {
   __type: QueryType;
 }
 
+enum Kinds {
+  OBJECT = "OBJECT",
+  SCALAR = "SCALAR",
+  ENUM = "ENUM",
+  INPUT_OBJECT = "INPUT_OBJECT",
+  NON_NULL = "NON_NULL",
+  LIST = "LIST",
+}
+
 export interface QueryType {
   name: string;
-  kind: "OBJECT" | "SCALAR" | "ENUM" | "INPUT_OBJECT" | "NON_NULL" | "LIST";
+  kind: Kinds;
   description: string;
   fields: Field[] | null;
   enumValues: EnumValue[] | null;
@@ -56,13 +65,13 @@ export interface ArgType {
 
 export interface OfType {
   name: string;
-  kind: "OBJECT" | "SCALAR" | "ENUM" | "INPUT_OBJECT" | "NON_NULL" | "LIST";
+  kind: Kinds;
   ofType: OfType;
 }
 
 export interface FieldType {
   name: string | null;
-  kind: "OBJECT" | "SCALAR" | "ENUM" | "INPUT_OBJECT" | "NON_NULL" | "LIST";
+  kind: Kinds;
   ofType: OfType;
 }
 
@@ -87,20 +96,103 @@ export const sendRequest = async (
   return res.json().then(({ data }) => data);
 };
 
-export async function getShortSchema(endpoint: string): Promise<FullSchema> {
+export async function getSchema(endpoint: string): Promise<FullSchema> {
   const query = `query IntrospectionQuery {
     __schema {
-      queryType {
-        name
-      }
-      mutationType {
-        name
-      }
-      subscriptionType {
-        name
-      }
+      queryType { name description kind}
+      mutationType { name description kind }
+      subscriptionType { name description kind }
       types {
         name
+        kind
+        description
+        ...FullType
+      }
+      directives {
+        name
+        description
+        locations
+        args {
+          ...InputValue
+        }
+      }
+    }
+  }
+
+  fragment FullType on __Type {
+    fields(includeDeprecated: true) {
+      name
+      description
+      args {
+        ...InputValue
+      }
+      type {
+        ...TypeRef
+      }
+      isDeprecated
+      deprecationReason
+    }
+    inputFields {
+      ...InputValue
+    }
+    interfaces {
+      ...TypeRef
+    }
+    enumValues(includeDeprecated: true) {
+      name
+      description
+      isDeprecated
+      deprecationReason
+    }
+    possibleTypes {
+      ...TypeRef
+    }
+  }
+
+  fragment InputValue on __InputValue {
+    name
+    description
+    type { ...TypeRef }
+    defaultValue
+  }
+
+  fragment TypeRef on __Type {
+    kind
+    name
+    description
+    ofType {
+      kind
+      name
+      description
+      ofType {
+        kind
+        name
+        description
+        ofType {
+          kind
+          name
+          description
+          ofType {
+            kind
+            name
+            description
+            ofType {
+              kind
+              name
+              description
+              ofType {
+                kind
+                name
+                description
+                ofType {
+                  kind
+                  name
+                  description
+                }
+              }
+            }
+          }
+        }
       }
     }
   }`;
@@ -126,15 +218,3 @@ export async function getGQLInfoByName(endpoint: string, query: string) {
   const response: ObjectDescResponse = await res.json();
   return response.data;
 }
-
-// export async function getInfoAboutType(endpoint: string, query: string) {
-//   const res = await fetch(endpoint, {
-//     method: "POST",
-//     headers: {
-//       "Content-type": "application/json",
-//     },
-//     body: JSON.stringify({ query }),
-//   });
-//   const response: ObjectDescResponse = await res.json();
-//   return response.data;
-// }

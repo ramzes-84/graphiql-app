@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useRef } from "react";
 import { HelpContext, Server, ServerContext } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
 import { INPUT, USUAL_BTN } from "../styles/uni-classes";
-import { getShortSchema } from "../utils/request";
+import { getSchema } from "../utils/request";
 
 export const ServerChooser = () => {
   const dict = useDict();
@@ -16,14 +16,14 @@ export const ServerChooser = () => {
   const handleServerSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newEndpoint = input.current!.value;
-    const newSchema = await getShortSchema(endpoint);
+    const newSchema = await getSchema(endpoint);
     setFullSchema(newSchema);
     setEndpoint(newEndpoint);
     setTooltipsList([]);
   };
   useEffect(() => {
     async function getData() {
-      const newSchema = await getShortSchema(endpoint);
+      const newSchema = await getSchema(endpoint);
       setFullSchema(newSchema);
     }
     getData();
