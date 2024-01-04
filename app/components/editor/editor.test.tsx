@@ -19,7 +19,7 @@ describe("Editor", () => {
     const btn = screen.getByText("Headers");
     fireEvent.click(btn);
     await waitFor(() => {
-      const headers = screen.getByText("headers");
+      const headers = screen.getByTitle("headers");
       expect(headers).toBeInTheDocument();
     });
   });
@@ -29,7 +29,7 @@ describe("Editor", () => {
     const btn = screen.getByText("Headers");
     fireEvent.click(btn);
 
-    const headers = screen.getByText("headers");
+    const headers = screen.getByTitle("headers");
     expect(headers).toBeInTheDocument();
     await waitFor(() => {
       const arrow = screen.getByTitle("arrow-down");
