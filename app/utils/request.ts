@@ -20,5 +20,5 @@ export const sendRequest = async (
       variables: variables ? JSON.parse(variables) : {},
     }),
   });
-  return res.json().then(({ data }) => data);
+  return res;
 };
