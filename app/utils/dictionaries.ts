@@ -125,6 +125,11 @@ export const EN = {
   variables: "Variables",
   headers: "Headers",
   tokenValid: "Access open until:",
+  unauthorized: "Unauthorized",
+  invalidQuery: "Invalid query",
+  serverError: "Server error",
+  failedToFetch:
+    "Failed to fetch. Please check your network connection and URL address",
 };
 
 export const RU: typeof EN = {
@@ -255,4 +260,9 @@ export const RU: typeof EN = {
   variables: "Переменные",
   headers: "Хедеры",
   tokenValid: "Доступ открыт до:",
+  unauthorized: "Требуется авторизация",
+  invalidQuery: "Ошибка запроса",
+  serverError: "Ошибка сервера",
+  failedToFetch:
+    "Запрос не может быть выполнен. Проверьте интернет соединение и URL адрес",
 };
