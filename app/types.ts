@@ -2,7 +2,7 @@ export interface Data {
   __type: QueryType;
 }
 
-enum Kinds {
+export enum Kinds {
   OBJECT = "OBJECT",
   SCALAR = "SCALAR",
   ENUM = "ENUM",
