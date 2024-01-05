@@ -55,7 +55,7 @@ const Page = () => {
           if (res.status === 401) setError(dict.unauthorized);
           if (res.status === 400) setError(dict.invalidQuery);
           if (res.status >= 500) setError(dict.serverError);
-          return res.json();
+          return res.data;
         })
         .then(({ data, errors, message }) => {
           if (errors || message) {
