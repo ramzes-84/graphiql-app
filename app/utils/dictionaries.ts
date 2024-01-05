@@ -137,6 +137,11 @@ export const EN = {
   kind: "Kind",
   enums: "Enum values",
   createPopupTooltipError: "I can not describe this entity",
+  unauthorized: "Unauthorized",
+  invalidQuery: "Invalid query",
+  serverError: "Server error",
+  failedToFetch:
+    "Failed to fetch. Please check your network connection and URL address",
 };
 
 export const RU: typeof EN = {
@@ -279,4 +284,9 @@ export const RU: typeof EN = {
   kind: "Вид",
   enums: "Значения ENUM",
   createPopupTooltipError: "Не могу описать данную сущность",
+  unauthorized: "Требуется авторизация",
+  invalidQuery: "Ошибка запроса",
+  serverError: "Ошибка сервера",
+  failedToFetch:
+    "Запрос не может быть выполнен. Проверьте интернет соединение и URL адрес",
 };

@@ -9,7 +9,7 @@ export const sendRequest = async (
   url: string,
   variables?: string,
   headers?: string
-): Promise<IResponse> => {
+) => {
   const res = await fetch(url, {
     method: "POST",
     headers: headers
@@ -22,7 +22,7 @@ export const sendRequest = async (
       variables: variables ? JSON.parse(variables) : {},
     }),
   });
-  return res.json().then(({ data }) => data);
+  return res;
 };
 
 export async function getSchema(endpoint: string): Promise<FullSchema> {

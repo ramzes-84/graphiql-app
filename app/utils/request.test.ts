@@ -9,11 +9,11 @@ const mockResponse = {
 global.fetch = jest.fn().mockResolvedValue(mockResponse);
 
 describe("sendRequest", () => {
-  it("should send a request and return the response data", async () => {
+  it("should send a request", async () => {
     const query = "query";
     const url = "url";
 
-    const result = await sendRequest(query, url);
+    await sendRequest(query, url);
 
     expect(fetch).toHaveBeenCalledWith(url, {
       method: "POST",
@@ -25,7 +25,6 @@ describe("sendRequest", () => {
         variables: {},
       }),
     });
-    expect(result).toEqual(mockData);
   });
   it("should send a request with headers and variables", async () => {
     const query = "query";
