@@ -14,11 +14,10 @@ export const ServerChooser = () => {
   };
   const handleServerSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newEndpoint = input.current!.value;
-    const newSchema = await getSchema(state.endpoint);
-    dispatch({ type: "setEndpoint", payload: newEndpoint });
-    dispatch({ type: "setFullSchema", payload: newSchema });
+    dispatch({ type: "setFullSchema", payload: null });
     dispatch({ type: "setTipsList", payload: [] });
+    const newEndpoint = input.current!.value;
+    dispatch({ type: "setEndpoint", payload: newEndpoint });
   };
   useEffect(() => {
     async function getData() {
@@ -42,9 +41,9 @@ export const ServerChooser = () => {
             defaultValue={state.endpoint}
             onChange={fillInputIn}
           >
-            <option value={Server.Swapi}>{dict.swapi}</option>
             <option value={Server.Countries}>{dict.countries}</option>
             <option value={Server.Rick}>{dict.rickAndMorty}</option>
+            <option value={Server.Swapi}>{dict.swapi}</option>
             <option value={Server.Custom}>{dict.customServer}</option>
           </select>
         </label>

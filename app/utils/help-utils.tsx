@@ -45,9 +45,7 @@ export const createPopupTooltip = (entity: QueryType, dict: typeof EN) => {
         </div>
       );
     }
-    case "OBJECT": {
-      return <ObjectTooltip entity={entity} key={entity.name} />;
-    }
+    case "OBJECT":
     case "INPUT_OBJECT": {
       return <ObjectTooltip entity={entity} key={entity.name} />;
     }

@@ -34,7 +34,7 @@ type State = {
 
 type Action = {
   type: string;
-  payload: string | FullSchema | (Element | ReactNode)[];
+  payload: string | FullSchema | (Element | ReactNode)[] | null;
 };
 
 export const InitialState: State = {

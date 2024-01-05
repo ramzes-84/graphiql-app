@@ -28,8 +28,10 @@ export interface InputField {
 }
 
 interface InputFieldType {
-  name: string;
-  description: string;
+  name: string | null;
+  kind: Kinds;
+  description: string | null;
+  ofType: OfType | null;
 }
 
 export interface Field {

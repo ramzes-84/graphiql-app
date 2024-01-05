@@ -108,22 +108,11 @@ const ReturnValueParser = ({ field }: { field: Field }) => {
 };
 
 const InputFieldsParser = ({ fields }: { fields: InputField[] }) => {
-  const tipsCreator = useTipsCreator();
   return fields.map((field) => {
     return (
       <div className="flex flex-row gap-1 items-center" key={field.name}>
         <span className={H3}>{field.name}</span>
-        {field.type.name && (
-          <>
-            :
-            <button
-              className={TYPE_BTN}
-              onClick={() => tipsCreator(field.type.name)}
-            >
-              {field.type.name}
-            </button>
-          </>
-        )}
+        <OfTypeParser entity={field.type} />
       </div>
     );
   });
