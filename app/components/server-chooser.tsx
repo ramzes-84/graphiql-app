@@ -12,7 +12,7 @@ export const ServerChooser = () => {
     event.preventDefault();
     input.current!.value = event.target.value;
   };
-  const handleServerSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleServerSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch({ type: "setFullSchema", payload: null });
     dispatch({ type: "setTipsList", payload: [] });
