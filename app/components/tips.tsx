@@ -90,7 +90,7 @@ export const ObjectTooltip = ({ entity }: { entity: QueryType }) => {
   );
 };
 
-const FieldsParser = ({ fields }: { fields: Field[] }) => {
+export const FieldsParser = ({ fields }: { fields: Field[] }) => {
   return fields.map((field) => {
     return (
       <div className="flex flex-row gap-1 items-center" key={field.name}>
@@ -103,11 +103,11 @@ const FieldsParser = ({ fields }: { fields: Field[] }) => {
   });
 };
 
-const ReturnValueParser = ({ field }: { field: Field }) => {
+export const ReturnValueParser = ({ field }: { field: Field }) => {
   return <OfTypeParser entity={field.type} />;
 };
 
-const InputFieldsParser = ({ fields }: { fields: InputField[] }) => {
+export const InputFieldsParser = ({ fields }: { fields: InputField[] }) => {
   return fields.map((field) => {
     return (
       <div className="flex flex-row gap-1 items-center" key={field.name}>
@@ -118,7 +118,7 @@ const InputFieldsParser = ({ fields }: { fields: InputField[] }) => {
   });
 };
 
-const ArgsParser = ({ field }: { field: Field }) => {
+export const ArgsParser = ({ field }: { field: Field }) => {
   if (field.args.length === 0) return null;
   return field.args.map((arg) => {
     return (
@@ -129,7 +129,7 @@ const ArgsParser = ({ field }: { field: Field }) => {
   });
 };
 
-const OfTypeParser = ({ entity }: { entity: OfType }) => {
+export const OfTypeParser = ({ entity }: { entity: OfType }) => {
   const tipsCreator = useTipsCreator();
   switch (entity.kind) {
     case "NON_NULL":

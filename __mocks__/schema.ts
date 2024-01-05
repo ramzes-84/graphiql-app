@@ -28,7 +28,20 @@ export const testSchema = {
             {
               name: "code",
               description: null,
-              args: [],
+              args: [
+                {
+                  name: "lang",
+                  description: null,
+                  type: {
+                    kind: "SCALAR",
+                    name: "String",
+                    description:
+                      "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+                    ofType: null,
+                  },
+                  defaultValue: null,
+                },
+              ],
               type: {
                 kind: "NON_NULL",
                 name: null,
