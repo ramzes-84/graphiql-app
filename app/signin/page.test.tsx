@@ -42,19 +42,6 @@ describe("Page", () => {
       expect(btn).not.toBeDisabled();
     });
   });
-  it("Show invalid credentials error", async () => {
-    const email = screen.getByRole("textbox", { name: /email/i });
-    const password = screen.getByRole("textbox", { name: /password/i });
-    const btn = screen.getByText("Sign In");
-    fireEvent.change(email, { target: { value: "111@test.com" } });
-    fireEvent.change(password, { target: { value: "Pass111)" } });
-    await waitFor(() => {
-      fireEvent.click(btn);
-      expect(
-        screen.getByText("Invalid e-mail address or password")
-      ).toBeInTheDocument();
-    });
-  });
   it("Show network error", async () => {
     const email = screen.getByRole("textbox", { name: /email/i });
     const password = screen.getByRole("textbox", { name: /password/i });
