@@ -13,6 +13,7 @@ import { GiComb } from "react-icons/gi";
 import { BsPlayCircle } from "react-icons/bs";
 import { useServerRequestContext } from "../context/contexts";
 import Loader from "../components/loader";
+import { HelpSection } from "../components/help-section";
 import { MdErrorOutline } from "react-icons/md";
 
 const Page = () => {
@@ -74,7 +75,7 @@ const Page = () => {
     }
   };
   return (
-    <>
+    <main className="p-3">
       <div className="text-[#f6009c] flex justify-end mt-2 mr-2">
         {sessionData?.user.token_expiry &&
           `${dict.tokenValid} ${new Date(sessionData?.user.token_expiry)
@@ -83,6 +84,7 @@ const Page = () => {
       </div>
       <div className={H1}>{dict.mainPage}</div>
       <ServerChooser />
+      {state.fullSchema && <HelpSection />}
       <div className="p-3 w-full min-h-screen   ">
         <section className=" rounded gap-2 p-5 bg-fuchsia-50 grid grid-cols-[1fr,50px,1fr]">
           <div className=" flex flex-col h-screen overflow-auto">
@@ -131,7 +133,7 @@ const Page = () => {
           )}
         </section>
       </div>
-    </>
+    </main>
   );
 };
 

@@ -1,4 +1,4 @@
-import { sendRequest, IResponse } from "./request";
+import { sendRequest, IResponse, getSchema } from "./request";
 
 const mockData: IResponse = {
   countries: { country: [{ name: "Andorra" }] },
@@ -46,5 +46,12 @@ describe("sendRequest", () => {
         },
       }),
     });
+  });
+});
+
+describe("getSchema func", () => {
+  it("should call fetch", () => {
+    getSchema("endpoint");
+    expect(fetch).toHaveBeenCalled();
   });
 });

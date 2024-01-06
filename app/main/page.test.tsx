@@ -6,6 +6,12 @@ import { formatCode } from "../utils/formateCode";
 import { Server } from "../context/contexts";
 
 jest.mock("../utils/formateCode");
+jest.mock("../components/help-section");
+jest.mock("../components/server-chooser", () => {
+  return {
+    ServerChooser: jest.fn().mockReturnValue(<div>Server component</div>),
+  };
+});
 
 jest.mock("../components/editor/editor", () => {
   return jest.fn().mockReturnValue(<div>Test Editor</div>);
@@ -77,15 +83,11 @@ describe("Page", () => {
     await waitFor(() => {
       const text = screen.getByText("Main Page");
       const editorComponent = screen.getByText("Test Editor");
-      const serverChooserLabel = screen.getByText("Please choose the server:");
-      const serverChooserDefaultSelector = screen.getByText("Countries");
-      const serverChooserSelector = screen.getByText("Rick And Morty");
+      const serverChooserLabel = screen.getByText("Server component");
 
       expect(text).toBeInTheDocument();
       expect(editorComponent).toBeInTheDocument();
       expect(serverChooserLabel).toBeInTheDocument();
-      expect(serverChooserDefaultSelector).toBeVisible();
-      expect(serverChooserSelector).toBeInTheDocument();
     });
   });
   it("should format code on correct button click", () => {

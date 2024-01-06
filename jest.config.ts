@@ -23,6 +23,7 @@ const config: Config = {
   collectCoverageFrom: [
     "**/*.{ts,tsx}",
     "**/app/**",
+    "!**/app/types.ts",
     "!**/.next/**",
     "!**/jest.config.ts",
     "!**/jest.setup.ts",
