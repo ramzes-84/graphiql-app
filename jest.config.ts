@@ -30,6 +30,7 @@ const config: Config = {
     "!**/tailwind.config.ts",
     "!**/api/**",
     "!**/firebase.ts",
+    "!**/middleware.ts",
   ],
   testPathIgnorePatterns: ["/node_modules/"],
   moduleNameMapper: {

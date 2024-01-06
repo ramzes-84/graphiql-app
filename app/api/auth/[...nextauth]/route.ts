@@ -17,6 +17,9 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: "/login",
   },
+  session: {
+    maxAge: 600,
+  },
   callbacks: {
     async session({ session, token }) {
       session.user = token;
