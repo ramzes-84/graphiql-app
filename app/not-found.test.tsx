@@ -16,15 +16,4 @@ describe("404 page", () => {
     expect(toMainBtn).toBeInTheDocument();
     expect(notFoundImg).toBeInTheDocument();
   });
-
-  // it("redirects to main", async () => {
-  //   render(<NotFound />);
-  //   const toMainBtn = await screen.getByText("Main Page");
-
-  //   expect(toMainBtn).toBeInstanceOf(HTMLButtonElement);
-
-  //   fireEvent.click(toMainBtn);
-
-  //   expect(screen.getByText("GraphiQL App")).toBeInTheDocument();
-  // });
 });

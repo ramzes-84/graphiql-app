@@ -1,7 +1,8 @@
-import { ChangeEvent, FormEvent, useRef } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { Server, useServerRequestContext } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
-import { INPUT, USUAL_BTN } from "../styles/uni-classes";
+import { H3, INPUT, USUAL_BTN } from "../styles/uni-classes";
+import { getSchema } from "../utils/request";
 
 export const ServerChooser = () => {
   const dict = useDict();
@@ -13,9 +14,18 @@ export const ServerChooser = () => {
   };
   const handleServerSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch({ type: "setFullSchema", payload: null });
+    dispatch({ type: "setTipsList", payload: [] });
     const newEndpoint = input.current!.value;
     dispatch({ type: "setEndpoint", payload: newEndpoint });
   };
+  useEffect(() => {
+    async function getData() {
+      const newSchema = await getSchema(state.endpoint);
+      dispatch({ type: "setFullSchema", payload: newSchema });
+    }
+    getData();
+  }, [dispatch, state.endpoint]);
 
   return (
     <section className="flex flex-col items-center">
@@ -24,7 +34,7 @@ export const ServerChooser = () => {
         className="flex flex-col md:flex-row justify-center items-center gap-2"
       >
         <label>
-          {dict.serverChooserLabel}
+          <span className={H3}>{dict.serverChooserLabel}</span>
           <select
             className={INPUT}
             name="serverSelector"
@@ -33,6 +43,7 @@ export const ServerChooser = () => {
           >
             <option value={Server.Countries}>{dict.countries}</option>
             <option value={Server.Rick}>{dict.rickAndMorty}</option>
+            <option value={Server.Swapi}>{dict.swapi}</option>
             <option value={Server.Custom}>{dict.customServer}</option>
           </select>
         </label>
@@ -47,9 +58,7 @@ export const ServerChooser = () => {
         <input className={USUAL_BTN} type="submit" value={dict.setServer} />
       </form>
       <div className="flex md:flex-row flex-col items-baseline">
-        <span className="text-[#f6009c] font-bold my-2">
-          {dict.actualServer}
-        </span>
+        <span className={H3}>{dict.actualServer}</span>
         <p className="px-0 md:px-2 mb-2 font-">{state.endpoint}</p>
       </div>
     </section>
