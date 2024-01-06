@@ -6,7 +6,6 @@ import { H1 } from "../styles/uni-classes";
 import { useDict } from "../utils/useDictHook";
 import { IResponse, sendRequest } from "../utils/request";
 import { signOut, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { ServerChooser } from "../components/server-chooser";
 import { formatCode } from "../utils/formateCode";
 import { GiComb } from "react-icons/gi";
@@ -18,7 +17,6 @@ import { MdErrorOutline } from "react-icons/md";
 
 const Page = () => {
   const { status, data: sessionData } = useSession();
-  if (status === "unauthenticated") redirect("/");
   const tokenExpiry = sessionData?.user.token_expiry;
   useEffect(() => {
     const isTokenExpired = tokenExpiry && new Date(tokenExpiry) < new Date();
