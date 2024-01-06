@@ -4,6 +4,7 @@ import Page from "./page";
 import { formatCode } from "../utils/formateCode";
 
 import { Server } from "../context/contexts";
+import { IResponse } from "../utils/request";
 
 jest.mock("../utils/formateCode");
 jest.mock("../components/help-section");
@@ -33,9 +34,14 @@ jest.mock("next-auth/react", () => ({
   signOut: () => mockSignOut,
 }));
 
-const data = { errors: ["Mock errors"] };
+type MockData = {
+  data?: IResponse;
+  errors?: string[];
+};
+
+const data: MockData = { errors: ["Mock errors"] };
 let resp = {
-  json: jest.fn().mockImplementation(() => Promise.resolve(data)),
+  data: Promise.resolve(data),
   status: 400,
 };
 let mockSendRequest = jest
@@ -125,9 +131,9 @@ describe("Page", () => {
     });
   });
   it("should show mock data", async () => {
-    const data1 = { data: { mockField: "Mock data" } };
+    const data1: MockData = { data: { mockField: "Mock data" } };
     resp = {
-      json: jest.fn().mockImplementation(() => Promise.resolve(data1)),
+      data: Promise.resolve(data1),
       status: 200,
     };
     mockSendRequest = jest
@@ -143,8 +149,8 @@ describe("Page", () => {
     });
   });
   it("should show empty brackets if no data", async () => {
-    resp = {
-      json: jest.fn().mockImplementation(() => Promise.resolve({})),
+    const resp = {
+      data: Promise.resolve({}),
       status: 400,
     };
     mockSendRequest = jest

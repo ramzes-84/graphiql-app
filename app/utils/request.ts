@@ -1,3 +1,5 @@
+"use server";
+
 import { FullSchema } from "../types";
 
 export interface IResponse {
@@ -10,19 +12,23 @@ export const sendRequest = async (
   variables?: string,
   headers?: string
 ) => {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: headers
-      ? JSON.parse(headers)
-      : {
-          "Content-type": "application/json",
-        },
-    body: JSON.stringify({
-      query: query,
-      variables: variables ? JSON.parse(variables) : {},
-    }),
-  });
-  return res;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: headers
+        ? JSON.parse(headers)
+        : {
+            "Content-type": "application/json",
+          },
+      body: JSON.stringify({
+        query: query,
+        variables: variables ? JSON.parse(variables) : {},
+      }),
+    });
+    return { data: res.json(), status: res.status };
+  } catch {
+    throw new Error("Failed to fetch");
+  }
 };
 
 export async function getSchema(endpoint: string): Promise<FullSchema> {
