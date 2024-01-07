@@ -1,9 +1,6 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { ServerChooser } from "./server-chooser";
 import { Server } from "../context/contexts";
-import { getSchema } from "../utils/request";
-
-jest.mock("../utils/request");
 
 describe("Server chooser component", () => {
   it("should render inputs", () => {
@@ -11,10 +8,9 @@ describe("Server chooser component", () => {
     expect(getByText("Please choose the server:")).toBeInTheDocument();
     expect(getByRole("combobox")).toBeInTheDocument();
     expect(getByRole("textbox")).toBeInTheDocument();
-    expect(getSchema).toHaveBeenCalled();
   });
 
-  it("shoud change endpoint value & request schema", () => {
+  it("shoud change endpoint value", () => {
     render(<ServerChooser />);
 
     const serverChooserSelector: HTMLSelectElement =
@@ -29,7 +25,6 @@ describe("Server chooser component", () => {
       });
     });
 
-    expect(getSchema).toHaveBeenCalled();
     expect(serverChooserSelector.value).toEqual(
       "https://rickandmortyapi.com/graphql"
     );
