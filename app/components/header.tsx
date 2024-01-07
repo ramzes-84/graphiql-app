@@ -66,8 +66,8 @@ export const Header = () => {
             href="/signin"
             className={
               status === "unauthenticated"
-                ? "w-10 h-10"
-                : "opacity-40 w-10 h-10 cursor-default"
+                ? "md:w-10 md:h-10 h-8 w-8"
+                : "opacity-40 md:w-10 md:h-10 h-8 w-8 cursor-default"
             }
             title="sign in"
           >
@@ -80,7 +80,7 @@ export const Header = () => {
             onClick={() => {
               signOut({ callbackUrl: "/", redirect: true });
             }}
-            className="w-10 h-10 disabled:opacity-40"
+            className="md:w-10 md:h-10 w-8 h-8 disabled:opacity-40"
             title="sign out"
           >
             <LiaSignOutAltSolid
