@@ -142,6 +142,9 @@ export const EN = {
   serverError: "Server error",
   failedToFetch:
     "Failed to fetch. Please check your network connection and URL address",
+  unauthorizedSchema:
+    "This endpoint requires authorization. Please set authorization headers down below",
+  failedToLoadSchema: "Failed to load documentation",
 };
 
 export const RU: typeof EN = {
@@ -289,4 +292,7 @@ export const RU: typeof EN = {
   serverError: "Ошибка сервера",
   failedToFetch:
     "Запрос не может быть выполнен. Проверьте интернет соединение и URL адрес",
+  unauthorizedSchema:
+    "Требуется авторизация. Введите заголовки авторизации ниже",
+  failedToLoadSchema: "Ошибка при загрузке документации",
 };

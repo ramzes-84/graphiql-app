@@ -2,7 +2,6 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
 import { formatCode } from "../utils/formateCode";
-
 import { Server } from "../context/contexts";
 import { IResponse } from "../utils/request";
 
@@ -48,10 +47,6 @@ let mockSendRequest = jest
   .fn()
   .mockImplementationOnce(() => Promise.resolve(resp));
 
-jest.mock("../utils/request", () => ({
-  sendRequest: () => mockSendRequest(),
-}));
-
 const mockQuery = `query Query() {
   country(code: "BR") {
     name
@@ -66,6 +61,8 @@ const mockQuery = `query Query() {
   }
 }`;
 
+const mockDispatch = () => "";
+
 jest.mock("../context/contexts", () => ({
   ...jest.requireActual("../context/contexts"),
   useServerRequestContext: jest.fn(() => {
@@ -75,14 +72,29 @@ jest.mock("../context/contexts", () => ({
         endpoint: Server.Countries,
         variables: `{"code": "BR"}`,
       },
-      dispatch: jest.fn(),
+      dispatch: mockDispatch,
     };
   }),
 }));
 
+const schemaRes = {
+  data: Promise.resolve(data),
+  status: 401,
+};
+const mockgetSchema = jest
+  .fn()
+  .mockImplementation(() => Promise.resolve(schemaRes));
+
+jest.mock("../utils/request", () => ({
+  sendRequest: () => mockSendRequest(),
+  getSchema: () => mockgetSchema(),
+}));
+
 describe("Page", () => {
   beforeEach(() => {
-    render(<Page />);
+    waitFor(() => {
+      render(<Page />);
+    });
   });
 
   it("renders content", async () => {
@@ -96,12 +108,14 @@ describe("Page", () => {
       expect(serverChooserLabel).toBeInTheDocument();
     });
   });
-  it("should format code on correct button click", () => {
-    const correctBtn = screen.getByTitle("Prettify query");
+  it("should format code on correct button click", async () => {
+    await waitFor(() => {
+      const correctBtn = screen.getByTitle("Prettify query");
 
-    expect(correctBtn).toBeInTheDocument();
-    fireEvent.click(correctBtn);
-    expect(formatCode).toHaveBeenCalled();
+      expect(correctBtn).toBeInTheDocument();
+      fireEvent.click(correctBtn);
+      expect(formatCode).toHaveBeenCalled();
+    });
   });
   it("should call function and show mock errors responce", async () => {
     await waitFor(() => {
@@ -144,6 +158,7 @@ describe("Page", () => {
       fireEvent.click(makeQueryBtn);
       expect(mockSendRequest).toHaveBeenCalled();
     });
+
     await waitFor(() => {
       expect(screen.getByText('"mockField": "Mock data"')).toBeInTheDocument();
     });

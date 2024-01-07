@@ -34,7 +34,7 @@ describe("Page", () => {
 
   it("Validate sign in form", async () => {
     const email = screen.getByRole("textbox", { name: /email/i });
-    const password = screen.getByRole("textbox", { name: /password/i });
+    const password = screen.getByLabelText("Password");
     const btn = screen.getByText("Sign In");
     fireEvent.change(email, { target: { value: "111@test.com" } });
     fireEvent.change(password, { target: { value: "Pass111)" } });
@@ -44,7 +44,7 @@ describe("Page", () => {
   });
   it("Show network error", async () => {
     const email = screen.getByRole("textbox", { name: /email/i });
-    const password = screen.getByRole("textbox", { name: /password/i });
+    const password = screen.getByLabelText("Password");
     const btn = screen.getByText("Sign In");
     fireEvent.change(email, { target: { value: "111@test.com" } });
     fireEvent.change(password, { target: { value: "Pass111)" } });

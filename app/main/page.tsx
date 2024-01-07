@@ -4,16 +4,16 @@ import Editor from "../components/editor/editor";
 import Viewer from "../components/viewer/viewer";
 import { H1 } from "../styles/uni-classes";
 import { useDict } from "../utils/useDictHook";
-import { IResponse, sendRequest } from "../utils/request";
+import { IResponse, getSchema, sendRequest } from "../utils/request";
 import { signOut, useSession } from "next-auth/react";
 import { ServerChooser } from "../components/server-chooser";
 import { formatCode } from "../utils/formateCode";
 import { GiComb } from "react-icons/gi";
 import { BsPlayCircle } from "react-icons/bs";
 import { useServerRequestContext } from "../context/contexts";
-import Loader from "../components/loader";
 import { HelpSection } from "../components/help-section";
 import { MdErrorOutline } from "react-icons/md";
+import Loader from "../components/loader";
 
 const Page = () => {
   const { status, data: sessionData } = useSession();
@@ -24,12 +24,34 @@ const Page = () => {
       signOut({ callbackUrl: "/", redirect: true });
     }
   }, [sessionData, status, tokenExpiry]);
-
   const dict = useDict();
   const [response, setResponse] = useState<IResponse>({});
   const { state, dispatch } = useServerRequestContext();
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [schemaErrors, setSchemaErrors] = useState("");
+  useEffect(() => {
+    async function getData() {
+      setSchemaErrors("");
+      getSchema(state.endpoint, state.headers)
+        .then((newSchema) =>
+          dispatch({ type: "setFullSchema", payload: newSchema })
+        )
+        .catch((e) => {
+          if (e.message === "Unauthorized") {
+            setSchemaErrors(dict.unauthorizedSchema);
+          } else setSchemaErrors(dict.failedToLoadSchema);
+        });
+      setResponse({});
+      setError("");
+    }
+    getData();
+  }, [
+    dispatch,
+    state.endpoint,
+    state.headers,
+    dict.unauthorizedSchema,
+    dict.failedToLoadSchema,
+  ]);
   const handleCorrectBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
       const correctQuery = formatCode(state.query);
@@ -47,7 +69,6 @@ const Page = () => {
 
   const handleRequest = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
-      setLoading(true);
       setError("");
       sendRequest(state.query, state.endpoint, state.variables, state.headers)
         .then((res) => {
@@ -68,8 +89,6 @@ const Page = () => {
           setError(dict.failedToFetch);
           setResponse({});
         });
-
-      setLoading(false);
     }
   };
   return (
@@ -82,17 +101,25 @@ const Page = () => {
       </div>
       <div className={H1}>{dict.mainPage}</div>
       <ServerChooser />
-      {state.fullSchema && <HelpSection />}
-      <div className="p-3 w-full min-h-screen   ">
-        <section className=" rounded gap-2 p-5 bg-fuchsia-50 grid grid-cols-[1fr,50px,1fr]">
+      {schemaErrors.length > 0 ? (
+        <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
+          <MdErrorOutline /> <span>{schemaErrors}</span> <MdErrorOutline />
+        </div>
+      ) : state.fullSchema ? (
+        <HelpSection />
+      ) : (
+        <Loader size={30} />
+      )}
+      <div className="sm:p-3 w-full min-h-screen  p-1 ">
+        <section className=" rounded md:gap-2 sm:p-5 p-2 bg-fuchsia-50 grid lg:grid-cols-[1fr,50px,1fr] grid-cols-[1fr,30px] ">
           <div className=" flex flex-col h-screen overflow-auto">
             <Editor />
           </div>
-          <div className="flex flex-col w-14 items-center">
-            <div className="w-10 h-10">
+          <div className="flex flex-col lg:w-14 w-10 items-center">
+            <div className="md:w-10 md:h-10 h-6 w-6">
               <button
                 type="button"
-                className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
+                className=" w-10/12 h-10/12 hover:w-full hover:h-full transition-all"
                 onClick={handleRequest}
                 title="Execute query"
               >
@@ -101,10 +128,10 @@ const Page = () => {
                 />
               </button>
             </div>
-            <div className="w-10 h-10">
+            <div className="md:w-10 md:h-10 h-6 w-6">
               <button
                 type="button"
-                className="w-8 h-8 hover:w-10 hover:h-10 transition-all"
+                className=" w-10/12 h-10/12 hover:w-full hover:h-full transition-all"
                 onClick={handleCorrectBtn}
                 title="Prettify query"
               >
@@ -114,21 +141,14 @@ const Page = () => {
               </button>
             </div>
           </div>
-
-          {loading ? (
-            <div className="w-full h-fit">
-              <Loader size={50} />
-            </div>
-          ) : (
-            <div className="flex flex-col overflow-auto ">
-              {error && (
-                <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
-                  <MdErrorOutline /> <span>{error}</span> <MdErrorOutline />
-                </div>
-              )}
-              <Viewer response={response} />
-            </div>
-          )}
+          <div className="flex flex-col overflow-auto h-screen">
+            {error && (
+              <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
+                <MdErrorOutline /> <span>{error}</span> <MdErrorOutline />
+              </div>
+            )}
+            <Viewer response={response} />
+          </div>
         </section>
       </div>
     </main>
