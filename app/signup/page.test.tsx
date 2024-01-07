@@ -37,7 +37,7 @@ describe("Sign up page", () => {
 
     await waitFor(async () => {
       const email = screen.getByRole("textbox", { name: /email/i });
-      const password = screen.getByRole("textbox", { name: /password/i });
+      const password = screen.getByLabelText("Password");
       const submit = screen.getByText("Sign Up");
       fireEvent.change(email, { target: { value: "fail" } });
       fireEvent.change(password, { target: { value: "weak" } });
@@ -51,7 +51,7 @@ describe("Sign up page", () => {
 
     await waitFor(async () => {
       const email = screen.getByRole("textbox", { name: /email/i });
-      const password = screen.getByRole("textbox", { name: /password/i });
+      const password = screen.getByLabelText("Password");
       const submit = screen.getByText("Sign Up");
       fireEvent.change(email, { target: { value: "john@test.com" } });
       fireEvent.change(password, { target: { value: "Pass111)" } });

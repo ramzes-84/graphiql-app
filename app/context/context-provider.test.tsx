@@ -56,50 +56,58 @@ export class LocalStorageMock {
 }
 
 global.localStorage = new LocalStorageMock();
+
 describe("Provide lang from local storage", () => {
   it("should render ru", () => {
     localStorage.setItem("language", "ru");
-    render(
-      <SessionProvider>
-        <GlobalProvider>
-          <Home />
-        </GlobalProvider>
-      </SessionProvider>
-    );
+    waitFor(() => {
+      render(
+        <SessionProvider>
+          <GlobalProvider>
+            <Home />
+          </GlobalProvider>
+        </SessionProvider>
+      );
+    });
+    waitFor(() => {
+      const title = screen.getByText("О нас");
 
-    const title = screen.getByText("О нас");
-
-    expect(title).toBeInTheDocument();
+      expect(title).toBeInTheDocument();
+    });
   });
   it("should save lang to localstorage ", async () => {
     localStorage.setItem("language", "en");
-    render(
-      <SessionProvider>
-        <GlobalProvider>
-          <Header />
-        </GlobalProvider>
-      </SessionProvider>
-    );
+    waitFor(() => {
+      render(
+        <SessionProvider>
+          <GlobalProvider>
+            <Header />
+          </GlobalProvider>
+        </SessionProvider>
+      );
+    });
 
-    const btn = screen.getByText("RU");
-    fireEvent.click(btn);
     await waitFor(() => {
+      const btn = screen.getByText("RU");
+      fireEvent.click(btn);
       expect(localStorage.getItem("language")).toBe("ru");
     });
   });
   it("should save lang to localstorage ", async () => {
     localStorage.setItem("language", "ru");
-    render(
-      <SessionProvider>
-        <GlobalProvider>
-          <Header />
-        </GlobalProvider>
-      </SessionProvider>
-    );
+    waitFor(() => {
+      render(
+        <SessionProvider>
+          <GlobalProvider>
+            <Header />
+          </GlobalProvider>
+        </SessionProvider>
+      );
+    });
 
-    const btn = screen.getByText("АНГ");
-    fireEvent.click(btn);
     await waitFor(() => {
+      const btn = screen.getByText("АНГ");
+      fireEvent.click(btn);
       expect(localStorage.getItem("language")).toBe("en");
     });
   });

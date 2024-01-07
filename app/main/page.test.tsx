@@ -92,7 +92,9 @@ jest.mock("../utils/request", () => ({
 
 describe("Page", () => {
   beforeEach(() => {
-    render(<Page />);
+    waitFor(() => {
+      render(<Page />);
+    });
   });
 
   it("renders content", async () => {
@@ -106,12 +108,14 @@ describe("Page", () => {
       expect(serverChooserLabel).toBeInTheDocument();
     });
   });
-  it("should format code on correct button click", () => {
-    const correctBtn = screen.getByTitle("Prettify query");
+  it("should format code on correct button click", async () => {
+    await waitFor(() => {
+      const correctBtn = screen.getByTitle("Prettify query");
 
-    expect(correctBtn).toBeInTheDocument();
-    fireEvent.click(correctBtn);
-    expect(formatCode).toHaveBeenCalled();
+      expect(correctBtn).toBeInTheDocument();
+      fireEvent.click(correctBtn);
+      expect(formatCode).toHaveBeenCalled();
+    });
   });
   it("should call function and show mock errors responce", async () => {
     await waitFor(() => {
@@ -149,10 +153,11 @@ describe("Page", () => {
     mockSendRequest = jest
       .fn()
       .mockImplementationOnce(() => Promise.resolve(resp));
-
-    const makeQueryBtn = screen.getByTitle("Execute query");
-    fireEvent.click(makeQueryBtn);
-    expect(mockSendRequest).toHaveBeenCalled();
+    await waitFor(() => {
+      const makeQueryBtn = screen.getByTitle("Execute query");
+      fireEvent.click(makeQueryBtn);
+      expect(mockSendRequest).toHaveBeenCalled();
+    });
 
     await waitFor(() => {
       expect(screen.getByText('"mockField": "Mock data"')).toBeInTheDocument();

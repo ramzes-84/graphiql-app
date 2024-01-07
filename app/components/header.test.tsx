@@ -32,15 +32,19 @@ beforeEach(() => {
   }));
 });
 describe("Header", () => {
+  beforeEach(() => {
+    waitFor(() => {
+      render(
+        <SessionProvider>
+          <GlobalProvider>
+            <Header />
+            <div>Children</div>
+          </GlobalProvider>
+        </SessionProvider>
+      );
+    });
+  });
   it("should take the default lang from Context", () => {
-    render(
-      <SessionProvider>
-        <GlobalProvider>
-          <Header />
-          <div>Children</div>
-        </GlobalProvider>
-      </SessionProvider>
-    );
     const enBtn = screen.getByText("EN");
     const ruBtn = screen.getByText("RU");
 
@@ -49,14 +53,6 @@ describe("Header", () => {
   });
 
   it("should change lang on btns click", () => {
-    render(
-      <SessionProvider>
-        <GlobalProvider>
-          <Header />
-          <div>Children</div>
-        </GlobalProvider>
-      </SessionProvider>
-    );
     const ruBtn = screen.getByText("RU");
     act(() => {
       fireEvent.click(ruBtn);
@@ -69,11 +65,13 @@ describe("Header", () => {
 
 describe("Header", () => {
   beforeEach(() => {
-    render(
-      <SessionProvider>
-        <Header />
-      </SessionProvider>
-    );
+    waitFor(() => {
+      render(
+        <SessionProvider>
+          <Header />
+        </SessionProvider>
+      );
+    });
   });
 
   it("renders content", () => {
