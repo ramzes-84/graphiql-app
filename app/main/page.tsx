@@ -4,7 +4,7 @@ import Editor from "../components/editor/editor";
 import Viewer from "../components/viewer/viewer";
 import { H1 } from "../styles/uni-classes";
 import { useDict } from "../utils/useDictHook";
-import { IResponse, sendRequest } from "../utils/request";
+import { IResponse, getSchema, sendRequest } from "../utils/request";
 import { signOut, useSession } from "next-auth/react";
 import { ServerChooser } from "../components/server-chooser";
 import { formatCode } from "../utils/formateCode";
@@ -24,12 +24,35 @@ const Page = () => {
       signOut({ callbackUrl: "/", redirect: true });
     }
   }, [sessionData, status, tokenExpiry]);
-
   const dict = useDict();
   const [response, setResponse] = useState<IResponse>({});
   const { state, dispatch } = useServerRequestContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [schemaErrors, setSchemaErrors] = useState("");
+  useEffect(() => {
+    async function getData() {
+      setSchemaErrors("");
+      getSchema(state.endpoint, state.headers)
+        .then((newSchema) =>
+          dispatch({ type: "setFullSchema", payload: newSchema })
+        )
+        .catch((e) => {
+          if (e.message === "Unauthorized") {
+            setSchemaErrors(dict.unauthorizedSchema);
+          } else setSchemaErrors(dict.failedToLoadSchema);
+        });
+      setResponse({});
+      setError("");
+    }
+    getData();
+  }, [
+    dispatch,
+    state.endpoint,
+    state.headers,
+    dict.unauthorizedSchema,
+    dict.failedToLoadSchema,
+  ]);
   const handleCorrectBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
       const correctQuery = formatCode(state.query);
@@ -82,7 +105,13 @@ const Page = () => {
       </div>
       <div className={H1}>{dict.mainPage}</div>
       <ServerChooser />
-      {state.fullSchema && <HelpSection />}
+      {schemaErrors.length > 0 ? (
+        <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
+          <MdErrorOutline /> <span>{schemaErrors}</span> <MdErrorOutline />
+        </div>
+      ) : (
+        <HelpSection />
+      )}
       <div className="p-3 w-full min-h-screen   ">
         <section className=" rounded gap-2 p-5 bg-fuchsia-50 grid grid-cols-[1fr,50px,1fr]">
           <div className=" flex flex-col h-screen overflow-auto">

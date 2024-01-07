@@ -1,8 +1,7 @@
-import { ChangeEvent, FormEvent, useEffect, useRef } from "react";
+import { ChangeEvent, FormEvent, useRef } from "react";
 import { Server, useServerRequestContext } from "../context/contexts";
 import { useDict } from "../utils/useDictHook";
 import { H3, INPUT, USUAL_BTN } from "../styles/uni-classes";
-import { getSchema } from "../utils/request";
 
 export const ServerChooser = () => {
   const dict = useDict();
@@ -18,14 +17,9 @@ export const ServerChooser = () => {
     dispatch({ type: "setTipsList", payload: [] });
     const newEndpoint = input.current!.value;
     dispatch({ type: "setEndpoint", payload: newEndpoint });
+    dispatch({ type: "setVariables", payload: "" });
+    dispatch({ type: "setHeaders", payload: "" });
   };
-  useEffect(() => {
-    async function getData() {
-      const newSchema = await getSchema(state.endpoint);
-      dispatch({ type: "setFullSchema", payload: newSchema });
-    }
-    getData();
-  }, [dispatch, state.endpoint]);
 
   return (
     <section className="flex flex-col items-center">
