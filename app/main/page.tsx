@@ -13,6 +13,7 @@ import { BsPlayCircle } from "react-icons/bs";
 import { useServerRequestContext } from "../context/contexts";
 import { HelpSection } from "../components/help-section";
 import { MdErrorOutline } from "react-icons/md";
+import Loader from "../components/loader";
 
 const Page = () => {
   const { status, data: sessionData } = useSession();
@@ -104,8 +105,10 @@ const Page = () => {
         <div className=" bg-fuchsia-200 w-full h-7 flex justify-center items-center gap-2">
           <MdErrorOutline /> <span>{schemaErrors}</span> <MdErrorOutline />
         </div>
-      ) : (
+      ) : state.fullSchema ? (
         <HelpSection />
+      ) : (
+        <Loader size={30} />
       )}
       <div className="sm:p-3 w-full min-h-screen  p-1 ">
         <section className=" rounded md:gap-2 sm:p-5 p-2 bg-fuchsia-50 grid lg:grid-cols-[1fr,50px,1fr] grid-cols-[1fr,30px] ">
