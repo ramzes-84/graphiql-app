@@ -100,7 +100,7 @@ export const Form = ({
                   id="password"
                   defaultValue=""
                   {...register("password")}
-                  type="text"
+                  type="password"
                   className={
                     errors.password
                       ? "block w-full border-purple-400 mx-0 leading-6 border-2 px-1 rounded focus:outline-none  focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
