@@ -9,23 +9,22 @@ import { SubmitHandler } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { MdErrorOutline } from "react-icons/md";
-import { auth } from "@/firebase";
 import Link from "next/link";
+import { auth } from "@/firebase";
 
 const Page = () => {
   const { status } = useSession();
   if (status === "authenticated") redirect("/main");
   const [error, setError] = useState("");
   const dict = useDict();
-  const signup: SubmitHandler<IFormInput> = async (data: {
+  const signup: SubmitHandler<IFormInput> = (data: {
     email: string;
     password: string;
   }) => {
     setError("");
     const email = data.email;
     const password = data.password;
-
-    await createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         signIn("credentials", { email, password, callbackUrl: "/main" });
       })

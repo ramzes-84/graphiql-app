@@ -1,21 +1,30 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Page from "./page";
-import fetchMock from "jest-fetch-mock";
 
 export const mockSession = {
   data: null,
   expires: new Date(Date.now() + 2 * 86400).toISOString(),
 };
-const mockSignUp = jest.fn();
 
-fetchMock.mockRejectOnce();
+const mockSignUp = jest
+  .fn()
+  .mockImplementation(() =>
+    Promise.reject(new Error("Firebase: Error (auth/network-request-failed)."))
+  );
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(() => {
     return { data: mockSession, status: "unauthenticated" };
   }),
-  signUp: () => mockSignUp,
+}));
+
+jest.mock("firebase/auth", () => ({
+  createUserWithEmailAndPassword: () => mockSignUp(),
+}));
+
+jest.mock("@/firebase", () => ({
+  auth: () => jest.fn(),
 }));
 
 describe("Sign up page", () => {

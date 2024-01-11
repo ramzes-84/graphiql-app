@@ -30,21 +30,18 @@ const Page = () => {
   const [error, setError] = useState("");
   const [schemaErrors, setSchemaErrors] = useState("");
   useEffect(() => {
-    async function getData() {
-      setSchemaErrors("");
-      getSchema(state.endpoint, state.headers)
-        .then((newSchema) =>
-          dispatch({ type: "setFullSchema", payload: newSchema })
-        )
-        .catch((e) => {
-          if (e.message === "Unauthorized") {
-            setSchemaErrors(dict.unauthorizedSchema);
-          } else setSchemaErrors(dict.failedToLoadSchema);
-        });
-      setResponse({});
-      setError("");
-    }
-    getData();
+    setSchemaErrors("");
+    getSchema(state.endpoint, state.headers)
+      .then((newSchema) =>
+        dispatch({ type: "setFullSchema", payload: newSchema })
+      )
+      .catch((e) => {
+        if (e.message === "Unauthorized") {
+          setSchemaErrors(dict.unauthorizedSchema);
+        } else setSchemaErrors(dict.failedToLoadSchema);
+      });
+    setResponse({});
+    setError("");
   }, [
     dispatch,
     state.endpoint,
