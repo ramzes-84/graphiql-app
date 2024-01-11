@@ -17,7 +17,7 @@ const Page = () => {
   if (status === "authenticated") redirect("/main");
   const [error, setError] = useState("");
   const dict = useDict();
-  const signup: SubmitHandler<IFormInput> = (data: {
+  const signup: SubmitHandler<IFormInput> = async (data: {
     email: string;
     password: string;
   }) => {
