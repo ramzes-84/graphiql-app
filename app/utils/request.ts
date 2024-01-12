@@ -14,7 +14,7 @@ export const sendRequest = async (
   headers?: string
 ) => {
   try {
-    const res = await fetch(url, {
+    const res = fetch(url, {
       method: "POST",
       headers: headers
         ? JSON.parse(headers)
@@ -25,8 +25,10 @@ export const sendRequest = async (
         query: query,
         variables: variables ? JSON.parse(variables) : {},
       }),
+    }).then((result) => {
+      return { data: result.json(), status: result.status };
     });
-    return { data: res.json(), status: res.status };
+    return res;
   } catch {
     throw new Error("Failed to fetch");
   }
@@ -37,7 +39,7 @@ export async function getSchema(
   headers?: string
 ): Promise<FullSchema> {
   try {
-    const res = await fetch(endpoint, {
+    const res = fetch(endpoint, {
       method: "POST",
       headers: headers
         ? JSON.parse(headers)
@@ -45,11 +47,13 @@ export async function getSchema(
             "Content-type": "application/json",
           },
       body: JSON.stringify({ query }),
-    }).then((response) => {
-      if (response.status === 401) throw new Error("Unauthorized");
-      return response.json();
-    });
-    return res.data.__schema;
+    })
+      .then((response) => {
+        if (response.status === 401) throw new Error("Unauthorized");
+        return response.json();
+      })
+      .then((data) => data.data.__schema);
+    return res;
   } catch (e) {
     const err = e as Error;
     throw new Error(err.message);
